@@ -1,4 +1,4 @@
 xc-custom
 =========
 
-Your custom roles &amp; Configuration
+![ninjabong](http://ereet.st/ninjastar_256px.png "ninjabong")
