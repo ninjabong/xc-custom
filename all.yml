@@ -18,12 +18,12 @@
     - path: ~/Downloads
       sort: datemodified
       view: grid
-  ##
+  ## git, i dunno user_name doesn't seem to work right?
   - role: git
     git_user_name: ninjabong
     git_user_email: ninja@ninjabong.com
-  - role: legit
-  - role: hub
+  ## my dotfiles, not yours - myne.
+  - role: dots
 
   # brew stuff... for the cli
   ## some old reliables
@@ -50,17 +50,50 @@
     package_name: whatmask
 
   # cask stuff... for the apps
-  ## Asepsis deals with .DS_Store file messes
+  ## Misc Stuff...
+  - role: cask_package
+    package_name: firefox
+  - role: cask_package
+    package_name: google-chrome
+  - role: cask_package
+    package_name: musicmanager
+  - role: cask_package
+    package_name: flip4mac
+  - role: cask_package
+    package_name: vlc
+  ## Misc Things...
   - role: cask_package
     package_name: asepsis
-  ## TotalTerminal
+  - role: cask_package
+    package_name: box-sync
+  - role: cask_package
+    package_name: flux
+  - role: cask_package
+    package_name: istat-menus
+  - role: cask_package
+    package_name: pacifist
   - role: cask_package
     package_name: totalterminal
-  ## TextMate
-  - role: cask_package
-    package_name: textmate
-  ## OSXFuse + sshFS
   - role: cask_package
     package_name: osxfuse
   - role: cask_package
     package_name: sshfs
+  ## Text Editors
+  - role: cask_package
+    package_name: atom
+  - role: cask_package
+    package_name: sublime-text
+  - role: cask_package
+    package_name: textmate
+  ## VM related stuff
+  - role: cask_package
+    package_name: virtualbox
+  - role: cask_package
+    package_name: vmware-fusion
+  - role: cask_package
+    package_name: vagrant
+  ## Panic, mmmmm panic
+  - role: cask_package
+    package_name: transmit
+  - role: cask_package
+    package_name: panic-unison
