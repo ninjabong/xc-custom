@@ -2,32 +2,10 @@
 - hosts: all
   roles:
 
-  # osx config
-  ## kill the dashboard
-  - role: dashboard
-    disabled: YES
-  ## fix up the dock
-  - role: dock
-    apps:
-    - /Applications/"System Preferences.app"
-    - /Applications/Utilities/Terminal.app
-    - /Applications/"Google Chrome.app"
-    - /Applications/"Sublime Text 2.app"
-    - /Applications/TextMate.app
-    - /Applications/Utilities/"Managed Software Update.app"
-    folders:
-    - path: ~/src/github.com
-    - path: ~/Downloads
-      sort: datemodified
-      view: grid
-  ## git, i dunno user_name doesn't seem to work right?
-  - role: git
-    git_user_name: ninjabong
-    git_user_email: ninja@ninjabong.com
   ## my dotfiles, not yours - myne.
   - role: dots
-
-  # brew stuff... for the cli
+  ## brew, then cask, then osx bits like the dock which need the cask to go first
+  # brew stuff
   ## some old reliables
   - role: brew_package
     package_name: tree
@@ -94,8 +72,27 @@
     package_name: vmware-fusion
   - role: cask_package
     package_name: vagrant
-  ## Panic, mmmmm panic
+  ## Panic, mmmmm Panic
   - role: cask_package
     package_name: transmit
   - role: cask_package
     package_name: panic-unison
+
+  # osx config
+  ## kill the dashboard
+  - role: dashboard
+    disabled: YES
+  ## fix up the dock
+  - role: dock
+    apps:
+    - /Applications/"System Preferences.app"
+    - /Applications/Utilities/Terminal.app
+    - /Applications/"Google\ Chrome.app"
+    - /Applications/"Sublime\ Text\ 2.app"
+    - /Applications/TextMate.app
+    - /Applications/Utilities/"Managed Software Update.app"
+    folders:
+    - path: ~/src/github.com
+    - path: ~/Downloads
+      sort: datemodified
+      view: grid

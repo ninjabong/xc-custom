@@ -1,54 +1,54 @@
 ---
-# git clone down, backup existing and then link my dotfiles!
+# git clone, backup existing and then copy in place my dotfiles!
 - name: git dat dots repo yo
   git: repo=ssh://tusk.ninjabong.com/home/juan/repo/dotfiles.git
        dest=~/src/repo/dotfiles
        accept_hostkey=yes
        ssh_opts="-o Port=42022"
 
-- name: backup dot bash
+- name: copy dot bash
   ignore_errors: True
-  command: mv ~/.bash_profile ~/.bash_profile-osxc_backup_`date '+%Y-%m-%d_%H-%M-%S'`
+  copy: src=~/src/repo/dotfiles/bash/osx_bash_profile
+        dest=~/.bash_profile
+        owner=juan
+        group=staff
+        mode=644
+        backup=yes
 
-- name: backup dot git
+- name: copy dot git
   ignore_errors: True
-  command: mv ~/.gitconfig ~/.gitconfig-osxc_backup_`date "+%Y-%m-%d_%H-%M-%S"`
+  copy: src=~/src/repo/dotfiles/git/osx_ninjabong_cfg
+        dest=~/.gitconfig
+        owner=juan
+        group=staff
+        mode=644
+        backup=yes
 
-- name: backup dot ssh
+- name: copy dot ssh config
   ignore_errors: True
-  command: mv ~/.ssh/ ~/.ssh-osxc_backup_`date "+%Y-%m-%d_%H-%M-%S"`
+  copy: src=~/src/repo/dotfiles/ssh/ssh_config
+        dest=~/.ssh/config
+        owner=juan
+        group=staff
+        mode=600
+        backup=yes
 
-- name: backup dot irssi
+- name: copy dot irssi stuffs
   ignore_errors: True
-  command: mv ~/.irssi/ ~/.irssi-osxc_backup_`date "+%Y-%m-%d_%H-%M-%S"`
+  copy: src=~/src/repo/dotfiles/irssi/
+        dest=~/.irssi
+        owner=juan
+        group=staff
+        directory_mode=700
+        mode=700
+        backup=yes
 
-- name: backup dot silc
+- name: copy dot irssi stuffs
   ignore_errors: True
-  command: mv ~/.silc/ ~/.silc-osxc_backup_`date "+%Y-%m-%d_%H-%M-%S"`
-
-- name: symlink dot bash
-  ignore_errors: True
-  file: state=link src=~/src/repo/dotfiles/bash/osx_bash_profile dest=~/.bash_profile
-
-- name: symlink dot git
-  ignore_errors: True
-  file: state=link src=~/src/repo/dotfiles/git/osx_ninjabong_cfg dest=~/.gitconfig
-
-- name: ensure dot ssh and link contents
-  ignore_errors: True
-  file: state=directory path=~/.ssh/
-  file: state=link src=~/src/repo/dotfiles/ssh/ssh_config dest=~/.ssh/config
-
-- name: ensure dot irssi and link contents
-  ignore_errors: True
-  file: state=directory path=~/.irssi/
-  file: state=link src=~/src/repo/dotfiles/irssi/config dest=~/.irssi/config
-  file: state=link src=~/src/repo/dotfiles/irssi/default.theme dest=~/.irssi/default.theme
-  file: state=link src=~/src/repo/dotfiles/irssi/visblast1.theme dest=~/.irssi/visblast1.theme
-
-- name: ensure dot silc and link contents
-  ignore_errors: True
-  file: state=directory path=~/.silc/
-  file: state=link src=~/src/repo/dotfiles/silc/private_key.prv dest=~/silc/private_key.prv
-  file: state=link src=~/src/repo/dotfiles/silc/public_key.pub dest=~/silc/public_key.pub
-  file: state=link src=~/src/repo/dotfiles/silc/silc.conf dest=~/silc/silc.conf
+  copy: src=~/src/repo/dotfiles/silc/
+        dest=~/.silc
+        owner=juan
+        group=staff
+        directory_mode=700
+        mode=700
+        backup=yes
