@@ -87,12 +87,13 @@
     apps:
     - /Applications/"System Preferences.app"
     - /Applications/Utilities/Terminal.app
-    - /Applications/"Google\ Chrome.app"
-    - /Applications/"Sublime\ Text\ 2.app"
-    - /Applications/TextMate.app
+    - /Users/juan/Applications/"Google Chrome.app"
+    - /Users/juan/Applications/"Sublime Text 2.app"
+    - /Users/juan/Applications/TextMate.app
     - /Applications/Utilities/"Managed Software Update.app"
     folders:
     - path: ~/src/github.com
+      view: grid
     - path: ~/Downloads
       sort: datemodified
       view: grid
