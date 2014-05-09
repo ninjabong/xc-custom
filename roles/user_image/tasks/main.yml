@@ -1,13 +1,15 @@
 ---
-# dump the current user image, because we're nice
+# dump the current user image, notify the user, and then remove it
 - name: Backing Up Current Image
   shell: "dscl . read /Users/{{ ansible_env.USER }} JPEGPhoto | tail +2 | xxd -r -p > /Users/{{ ansible_env.USER }}/Pictures/{{ ansible_env.USER}}_backup.jpg"
 
-# remove the current user image
+- name: Notify User of Backed Up Image
+  debug: "msg='Your existing User Image was backed up to: /Users/{{ ansible_env.USER }}/Pictures/{{ ansible_env.USER}}_backup.jpg'"
+
 - name: Deleting Existing Image
   command: "dscl . delete /Users/{{ ansible_env.USER }} JPEGPhoto"
 
-# prepare user_image.txt and jpg that we will then dsimport
+# prepare user_image.txt and jpg, then dsimport and show it off
 - name: Setup User Image Import File
   copy: "src=user_image.txt dest=/tmp/{{ ansible_env.USER }}.txt"
 

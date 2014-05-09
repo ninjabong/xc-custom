@@ -100,7 +100,5 @@
     - path: ~/Downloads
       sort: datemodified
       view: grid
-#### custom role to set user image, requires jpg
-  ## copy yours to roles/user_image/files/$image_name and then define image_name
   - role: user_image
     image_name: ninjastar.jpg
