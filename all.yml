@@ -9,18 +9,21 @@
   ## some old reliables
   - role: brew_package
     package_name: tree
+  - role: brew_package
+    package_name: htop-osx
+  - role: brew_package
+    package_name: homebrew/dupes/rsync
   ## wget
   - role: brew_package
     package_name: wget
   ## figlet!
   - role: brew_package
     package_name: figlet
-  ## irc!
+  ## irc and silc
   - role: brew_package
     package_name: irssi
-# broken 8/
-#  - role: brew_package
-#    package_name: silc-client
+  - role: brew_package
+    package_name: silc-client
   ## some networky stuffs
   - role: brew_package
     package_name: mtr
@@ -36,7 +39,7 @@
   - role: cask_package
     package_name: google-chrome
   - role: cask_package
-    package_name: musicmanager
+    package_name: music-manager
   - role: cask_package
     package_name: flip4mac
   - role: cask_package
@@ -66,12 +69,12 @@
   - role: cask_package
     package_name: textmate
   ## VM related stuff
-  - role: cask_package
-    package_name: virtualbox
-  - role: cask_package
-    package_name: vmware-fusion
-  - role: cask_package
-    package_name: vagrant
+#  - role: cask_package
+#    package_name: virtualbox
+#  - role: cask_package
+#    package_name: vmware-fusion
+#  - role: cask_package
+#    package_name: vagrant
   ## Panic, mmmmm Panic
   - role: cask_package
     package_name: transmit
@@ -97,3 +100,7 @@
     - path: ~/Downloads
       sort: datemodified
       view: grid
+#### custom role to set user image, requires jpg
+  ## copy yours to roles/user_image/files/$image_name and then define image_name
+  - role: user_image
+    image_name: ninjastar.jpg

@@ -1,0 +1,24 @@
+---
+# dump the current user image, because we're nice
+- name: Backing Up Current Image
+  shell: "dscl . read /Users/{{ ansible_env.USER }} JPEGPhoto | tail +2 | xxd -r -p > /Users/{{ ansible_env.USER }}/Pictures/{{ ansible_env.USER}}_backup.jpg"
+
+# remove the current user image
+#- name: Deleting Existing Image
+#  command: "dscl . delete /Users/{{ ansible_env.USER }} JPEGPhoto"
+
+# prepare user_image.txt and jpg that we will then dsimport
+- name: Setup User Image Import File
+  copy: "src=user_image.txt dest=/tmp/{{ ansible_env.USER }}.txt"
+
+- name: Copy User Image for Import
+  copy: "src={{ image_name }} dest=/tmp/{{ image_name }}"
+
+- name: Adding User Image to Import File
+  lineinfile: "dest=/tmp/{{ ansible_env.USER }}.txt state=present regexp=''^replaceme'' line='{{ ansible_env.USER }}:/tmp/{{ image_name }}'"
+
+- name: Importing User Image via Import File
+  command: "dsimport /tmp/{{ ansible_env.USER }}.txt /Local/Default M"
+
+- name: "Opening Users & Group System Pref"
+  command: open /System/Library/PreferencePanes/Accounts.prefpane

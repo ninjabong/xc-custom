@@ -43,7 +43,7 @@
         mode=700
         backup=yes
 
-- name: copy dot irssi stuffs
+- name: copy dot silc stuffs
   ignore_errors: True
   copy: src=~/src/repo/dotfiles/silc/
         dest=~/.silc
