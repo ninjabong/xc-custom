@@ -2,8 +2,8 @@
 - hosts: all
   roles:
 
-#### custom role to set user image, requires jpg
-  ## copy yours to roles/user_image/files/$image_name and then define image_name
+#### custom role to set user's account image
+  ## copy yours to the root of your xc-custom/ and then define image_name
+  ## jpeg should be symetrical, ie: 256x256, tested up to 512x512, and 75dpi
   - role: user_image
     image_name: ninjastar.jpg
-####

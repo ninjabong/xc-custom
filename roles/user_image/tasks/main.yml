@@ -11,11 +11,8 @@
 - name: Setup User Image Import File
   copy: "src=user_image.txt dest=/tmp/{{ ansible_env.USER }}.txt"
 
-- name: Copy User Image for Import
-  copy: "src={{ image_name }} dest=/tmp/{{ image_name }}"
-
 - name: Adding User Image to Import File
-  lineinfile: "dest=/tmp/{{ ansible_env.USER }}.txt state=present regexp=''^replaceme'' line='{{ ansible_env.USER }}:/tmp/{{ image_name }}'"
+  lineinfile: "dest=/tmp/{{ ansible_env.USER }}.txt state=present regexp=''^replaceme'' line='{{ ansible_env.USER }}:{{ ansible_env.PWD }}/{{ image_name }}'"
 
 - name: Importing User Image via Import File
   command: "dsimport /tmp/{{ ansible_env.USER }}.txt /Local/Default M"
