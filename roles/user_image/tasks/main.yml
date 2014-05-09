@@ -4,8 +4,8 @@
   shell: "dscl . read /Users/{{ ansible_env.USER }} JPEGPhoto | tail +2 | xxd -r -p > /Users/{{ ansible_env.USER }}/Pictures/{{ ansible_env.USER}}_backup.jpg"
 
 # remove the current user image
-#- name: Deleting Existing Image
-#  command: "dscl . delete /Users/{{ ansible_env.USER }} JPEGPhoto"
+- name: Deleting Existing Image
+  command: "dscl . delete /Users/{{ ansible_env.USER }} JPEGPhoto"
 
 # prepare user_image.txt and jpg that we will then dsimport
 - name: Setup User Image Import File

@@ -11,8 +11,8 @@
     package_name: tree
   - role: brew_package
     package_name: htop-osx
-  - role: brew_package
-    package_name: homebrew/dupes/rsync
+#  - role: brew_package
+#    package_name: homebrew/dupes/rsync
   ## wget
   - role: brew_package
     package_name: wget
