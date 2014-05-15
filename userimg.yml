@@ -7,3 +7,6 @@
   ## jpeg should be symetrical, ie: 256x256, tested up to 512x512, and 75dpi
   - role: user_image
     image_name: ninjastar.jpg
+
+  ## my dotfiles, not yours - myne.
+#  - role: dots
