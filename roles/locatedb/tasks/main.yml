@@ -1,5 +1,5 @@
 ---
-# enable locatedb
+# loads or unloads locatedb via launchctl
 # requires ansible-playbook -K for sudo
 # playbook use:
 #  - role: locatedb

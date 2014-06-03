@@ -17,7 +17,7 @@
     sidebar: on
     sidebar_width: 190
     sidebar_devices: on
-    sidebar_places: on
+    sidebar_favorites: on
     sidebar_shared: on
     sidebar_tags: off
 # fourth page
