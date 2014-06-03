@@ -1,0 +1,266 @@
+---
+# Finder preferences
+# playbook use:
+#  - role: finder_prefs
+# - First Page
+#    show_internal: [on|off]
+#    show_extensions: [on|off]
+#    show_external: [on|off]
+#    show_removeable: [on|off]
+#    show_servers: [on|off]
+#    new_window: [machine|bootdisk|home|desktop|documents|allfiles|custom]
+#    new_window_path: "path relative to /" *only needed when new_window = custom
+#    always_new: [on|off]
+#    spring_loaded_folders: [on|off]
+#    spring_loaded_delay: "#.#"
+# - Third Page
+#    sidebar: [on|off]
+#    sidebar_width: "##"
+#    sidebar_devices: [on|off]
+#    sidebar_places: [on|off]
+#    sidebar_shared: [on|off]
+#    sidebar_tags: [on|off]
+# - Fourth Page
+#    show_extensions: [on|off]
+#    extension_warning: [on|off]
+#    trash_warning: [on|off]
+#    trash_securely: [on|off]
+#    search_default: [mac|current|previous]
+# - Menubar View Settings
+#    window_style: [column|list|icon|coverflow]
+#    column_width: ##
+#    tab_bar: [on|off]
+#    status_bar: [on|off]
+#    path_bar: [on|off]
+#    show_posix: [on|off]
+# - Misc
+#    quicklook_text_selection: [on|off]
+#    menubar_transparency: [on|off]
+#    icloud_as_default: [on|off]
+# - Not Ready
+#    desktop_icon_size: ##
+
+# before we do anything, backup existing Finder preferences
+- name: back up existing Finder prefs
+  copy: src=~/Library/Preferences/com.apple.finder.plist dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600
+
+# set Finder's Preferences that are normally exposed
+# First tab - General "GNRL"
+# Show these items on the desktop:
+- name: "set Hard disks visibility to {{ show_internal }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowHardDrivesOnDesktop -bool {{ show_internal }}"
+
+- name: "set External disks visibility to {{ show_external }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool {{ show_external }}"
+
+- name: "set CDs, DVDs, and iPods visibility to {{ show_removeable }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool {{ show_removeable }}"
+
+- name: "set Connected servers visibility to {{ show_servers }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowMountedServersOnDesktop -bool {{ show_servers }}"
+
+# New Finder windows show:
+- name: "set default Finder window to {{ ansible_nodename }}"
+  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfCm
+  when: new_window == "machine"
+
+- name: "set default Finder window path to {{ ansible_nodename }}"
+  command: "/usr/bin/defaults delete com.apple.finder NewWindowTargetPath"
+  when: new_window == "machine"
+
+- name: set default Finder window to /
+  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfVo
+  when: new_window == "bootdisk"
+
+- name: set default Finder window path to /
+  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/"
+  when: new_window == "bootdisk"
+
+- name: set default Finder window to ~/
+  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfHm
+  when: new_window == "home"
+
+- name: set default Finder window path to ~/
+  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/"
+  when: new_window == "home"
+
+- name: set default Finder window to ~/
+  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfDe
+  when: new_window == "desktop"
+
+- name: set default Finder window path to ~/
+  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/Desktop/"
+  when: new_window == "desktop"
+
+- name: set default Finder window to ~/
+  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfDo
+  when: new_window == "documents"
+
+- name: set default Finder window path to ~/
+  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/Documents/"
+  when: new_window == "documents"
+
+- name: set default Finder window to All Files
+  command: /usr/bin/defaults/write com.apple.finder NewWindowTarget -string PfAF
+  when: new_window == "allfiles"
+
+- name: set default Finder window path to All Files
+  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/System/Library/CoreServices/Finder.app/Contents/Resources/MyLibraries/myDocuments.cannedSearch"
+  when: new_window == "allfiles"
+
+- name: set default Finder window to Other
+  command: /usr/bin/defaults/write com.apple.finder NewWindowTarget -string PfLo
+  when: new_window == "custom"
+
+- name: set default Finder window path to All Files
+  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/{{ new_window_path }}/"
+  when: new_window == "custom"
+
+
+
+
+
+
+# Always opens folders in a new window (10.8)
+- name: "set Always opens folders in a new window to {{ always_new }}"
+  command: "/usr/bin/defaults write com.apple.finder FinderSpawnWindow -bool {{ always_new }}"
+  when: "ansible_distribution_version | version_compare('10.8', '>=') and ansible_distribution_version | version_compare('10.9', '<=')"
+
+# Open folders in tabs instead of new window (10.9)
+- name: "set Open folders in tabs instead of new windows to {{ always_new }}"
+  command: "/usr/bin/defaults write com.apple.finder FinderSpawnTab -bool {{ always_new }}"
+  when: "ansible_distribution_version | version_compare('10.9', '>=')"
+
+# Spring-loaded folders
+- name: "setting Spring-loaded folders to {{ spring_loaded_folders }}"
+  command: "/usr/bin/defaults write NSGlobalDomain com.apple.springing.enabled -bool {{ spring_loaded_folders }}"
+
+# short = 0 / medium = 0.5 / long = 1.0
+- name: "setting Spring-loaded folders and windows delay time to {{ spring_loaded_delay }}"
+  command: "/usr/bin/defaults write NSGlobalDomain com.apple.springing.delay -int {{ spring_loaded_delay }}"
+  when: spring_loaded_folders == True
+
+
+
+# Second tab - Labels "LBLS" in 10.8.x / "TAGS" in 10.9.x
+# nothing to set here... move along, move along
+
+
+# Third tab - Sidebar "SDBR"
+# show Sidebar is a View menu setting, not from preferences
+# Finder: show Sidebar
+- name: "setting show Sidebar to {{ sidebar }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowSidebar -bool {{ sidebar }}"
+
+- name: "setting Sidebar width to {{ sidebar_width }}"
+  command: "/usr/bin/defaults write com.apple.finder SidebarWidth -int {{ sidebar_width }}"
+
+# Finder: Sidebar options
+- name: "setting Devices in Sidebar to {{ sidebar_devices }}"
+  command: "/usr/bin/defaults write com.apple.finder SidebarDevicesSectionDisclosedState -bool {{ sidebar_devices }}"
+
+- name: "setting Favorites in Sidebar to {{ sidebar_places }}"
+  command: "/usr/bin/defaults write com.apple.finder SidebarPlacesSectionDisclosedState -bool {{ sidebar_places }}"
+
+- name: "setting Shared in Sidebar to {{ sidebar_shared }}"
+  command: "/usr/bin/defaults write com.apple.finder SidebarSharedSectionDisclosedState -bool {{ sidebar_shared }}"
+
+- name: "setting Recent Tags in Sidebar to {{ sidebar_tags }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowRecentTags -bool {{ sidebar_tags }}"
+  when: "ansible_distribution_version | version_compare('10.9', '>=')"
+
+
+# Fourth tab - Advanced "ADVD"
+# show all filename extensions
+- name: "setting Show all filename extensions to {{ show_extensions }}"
+  command: "/usr/bin/defaults write NSGlobalDomain AppleShowAllExtensions -bool {{ show_extensions }}"
+
+# disable warning when changing a file's extension
+- name: "setting Show warning before changing an extension to {{ extension_warning }}"
+  command: "/usr/bin/defaults write com.apple.finder FXEnableExtensionChangeWarning -bool {{ extension_warning }}"
+
+# Trash related options
+- name: "setting Show warning before emptying the Trash to {{ trash_warning }}"
+  command: "/usr/bin/defaults write com.apple.finder WarnOnEmptyTrash -bool {{ trash_warning }}"
+
+- name: "setting Empty Trash securely to {{ trash_securely }}"
+  command: "/usr/bin/defaults write com.apple.finder EmptyTrashSecurely -bool {{ trash_securely }}"
+
+# When performing a search:
+# absent by default, auto uses SCev until set to SCcf of SCsp, then sets it if/when chosen later
+- name: set "When performing a search" to "Search This Mac"
+  command: "/usr/bin/defaults write com.apple.finder FXDefaultSearchScope -string SCev"
+  when: search_default == "mac"
+
+- name: set "When performing a search" to "Search the Current Folder"
+  command: "/usr/bin/defaults write com.apple.finder FXDefaultSearchScope -string SCcf"
+  when: search_default == "current"
+
+- name: set "When performing a search" to "Use the Previous Search Scope"
+  command: "/usr/bin/defaults write com.apple.finder FXDefaultSearchScope -string SCsp"
+  when: search_default == "previous"
+
+
+
+
+# set preferences for Finder windows
+# these are mostly setting via the Finder's View menu
+#
+# default window view style
+- name: set default Finder window view to column
+  command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string clmv
+  when: window_style == "column"
+
+# window of columns in column view
+- name: set column width
+  command: "/usr/bin/defaults write com.apple.finder NSNavBrowserPreferedColumnContentWidth -int {{ column_width }}"
+  when: window_style == "column"
+
+- name: set default Finder window view to list
+  command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string Nlsv
+  when: window_style == "list"
+
+- name: set default Finder window view to icon
+  command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string icnv
+  when: window_style == "icon"
+
+- name: set default Finder window view to coverflow
+  command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string Flwv
+  when: window_style == "coverflow"
+
+# show Tabs bar (10.9)
+- name: "set Tabs bar visibility to {{ tab_bar }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowTabView -bool {{ tab_bar }}"
+  when: "ansible_distribution_version | version_compare('10.9', '>=')"
+
+# show Status bar
+- name: "set Status bar visibility to {{ status_bar }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowStatusBar -bool {{ status_bar }}"
+
+- name: "set Path bar visibility to {{ path_bar }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowPathbar -bool {{ path_bar }}"
+
+# show POSIX path as Finder window title
+- name: "set POSIX path as window title to {{ show_posix }}"
+  command: "/usr/bin/defaults write com.apple.finder _FXShowPosixPathInTitle -bool {{ show_posix }}"
+
+
+
+# some misc things
+- name: text selection in Quick Look
+  command: "/usr/bin/defaults write com.apple.finder QLEnableTextSelection -bool {{ quicklook_text_selection }}"
+
+- name: menubar transparency
+  command: "/usr/bin/defaults write NSGlobalDomain AppleEnableMenuBarTransparency -bool {{ menubar_transparency }}"
+
+- name: iCloud as default save location
+  command: "/usr/bin/defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool {{ icloud_as_default }}"
+
+# DesktopViewSettings.IconViewSettings.iconSize, needs plistbuddy mebbe?
+- name: desktop icon size
+  command: "/usr/bin/defaults write com.apple.finder DesktopViewSettings.IconViewSettings.iconSize -int {{ desktop_icon_size }}"
+
+# changes made, now let's make them active
+- name: killing and restarting Finder
+  command: "/usr/bin/killall Finder > /dev/null 2>&1"
+ 

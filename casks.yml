@@ -1,0 +1,6 @@
+---
+- hosts: all
+  roles:
+
+  - role: cask_package
+    package_name: textmate

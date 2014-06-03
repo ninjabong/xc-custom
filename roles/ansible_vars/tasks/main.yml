@@ -1,0 +1,12 @@
+---
+# determining osx version from ansible's variables
+#- name: info_dump
+#  debug: "var=hostvars[inventory_hostname]"
+
+- name: hurrr
+  debug: msg="you have 10.9+"
+  when: "ansible_distribution_version | version_compare('10.9', '>=')"
+
+- name: durrr
+  debug: msg="you have 10.8+"
+  when: "ansible_distribution_version | version_compare('10.8', '>=') and ansible_distribution_version | version_compare('10.9', '<=')"

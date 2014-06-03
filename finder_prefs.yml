@@ -1,0 +1,40 @@
+---
+- hosts: all
+  roles:
+
+  - role: finder_prefs
+ # first page
+    show_internal: on
+    show_external: on
+    show_removeable: on
+    show_servers: on
+    new_window: home
+#    new_window_path: /Users/juan/src
+    always_new: on
+    spring_loaded_folders: on
+    spring_loaded_delay: "0.33"
+# third page
+    sidebar: on
+    sidebar_width: "190"
+    sidebar_devices: on
+    sidebar_places: on
+    sidebar_shared: on
+    sidebar_tags: off
+# fourth page
+    show_extensions: on
+    extension_warning: off
+    trash_warning: off
+    trash_securely: off
+    search_default: mac
+# menubar View settings
+    window_style: column
+    column_width: "200"
+    tab_bar: on
+    status_bar: on
+    path_bar: on
+    show_posix: on
+# misc
+    quicklook_text_selection: on
+    menubar_transparency: off
+    icloud_as_default: off
+    desktop_icon_size: "64"

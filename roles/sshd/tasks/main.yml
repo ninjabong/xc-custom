@@ -1,0 +1,9 @@
+---
+# enable/disable sshd
+# requires ansible-playbook -K for sudo
+# playbook use:
+#  - role: sshd
+#    sshd: "[on|off]" (explicitly quoted)
+- name: "turning sshd {{ sshd }}"
+  sudo: True
+  command: "/usr/sbin/systemsetup -f setremotelogin {{ sshd }}"

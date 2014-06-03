@@ -1,0 +1,12 @@
+---
+- hosts: all
+  roles:
+
+  - role: ansible_vars
+  - role: gatekeeper
+    gatekeeper: disable
+  - role: locatedb
+    locatedb: enable
+  - role: sshd
+    sshd: "on"
+  - role: unhide_library
