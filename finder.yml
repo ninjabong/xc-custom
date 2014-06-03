@@ -9,13 +9,13 @@
     show_removeable: on
     show_servers: on
     new_window: home
-#    new_window_path: /Users/juan/src
+#    new_window_path: /path/to/foo
     always_new: on
     spring_loaded_folders: on
-    spring_loaded_delay: "0.33"
+    spring_loaded_delay: 0.33
 # third page
     sidebar: on
-    sidebar_width: "190"
+    sidebar_width: 190
     sidebar_devices: on
     sidebar_places: on
     sidebar_shared: on
@@ -26,9 +26,12 @@
     trash_warning: off
     trash_securely: off
     search_default: mac
+
+
 # menubar View settings
+  - role: finder_window_opts
     window_style: column
-    column_width: "200"
+    column_width: 200
     tab_bar: on
     status_bar: on
     path_bar: on
@@ -37,4 +40,17 @@
     quicklook_text_selection: on
     menubar_transparency: off
     icloud_as_default: off
-    desktop_icon_size: "64"
+    desktop_icon_size: 64
+
+
+# Desktop View Options
+# these are kinda broken right now.
+# and by kinda, I mean totally.
+  - role: desktop_view_opts
+    arrange_by: none
+    grid_spacing: 0
+    desktop_icon_size: 96
+    label_on_bottom: on
+    show_preview: on
+    show_info: on
+    text_size: 12

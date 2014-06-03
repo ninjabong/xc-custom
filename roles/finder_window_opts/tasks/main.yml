@@ -1,0 +1,80 @@
+---
+# Finder Window options
+# playbook use:
+#  - role: finder_window_opts
+# - Menubar View Settings
+#    window_style: [column|list|icon|coverflow]
+#    column_width: ##
+#    tab_bar: [on|off]
+#    status_bar: [on|off]
+#    path_bar: [on|off]
+#    show_posix: [on|off]
+# - Misc
+#    quicklook_text_selection: [on|off]
+#    menubar_transparency: [on|off]
+#    icloud_as_default: [on|off]
+
+
+# before we do anything, backup existing Finder preferences
+- name: back up existing Finder prefs
+  copy: src=~/Library/Preferences/com.apple.finder.plist dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600
+
+
+# these are mostly setting via the Finder's menu > View
+#
+# default window view style
+- name: set default Finder window view to column
+  command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string clmv
+  when: window_style == "column"
+
+# width of columns in column view
+- name: set column width
+  command: "/usr/bin/defaults write com.apple.finder NSNavBrowserPreferedColumnContentWidth -int {{ column_width }}"
+  when: window_style == "column"
+
+- name: set default Finder window view to list
+  command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string Nlsv
+  when: window_style == "list"
+
+- name: set default Finder window view to icon
+  command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string icnv
+  when: window_style == "icon"
+
+- name: set default Finder window view to coverflow
+  command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string Flwv
+  when: window_style == "coverflow"
+
+# show Tabs bar (10.9)
+- name: "set Tabs bar visibility to {{ tab_bar }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowTabView -bool {{ tab_bar }}"
+  when: "ansible_distribution_version | version_compare('10.9', '>=')"
+
+# show Status bar
+- name: "set Status bar visibility to {{ status_bar }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowStatusBar -bool {{ status_bar }}"
+
+- name: "set Path bar visibility to {{ path_bar }}"
+  command: "/usr/bin/defaults write com.apple.finder ShowPathbar -bool {{ path_bar }}"
+
+# show POSIX path as Finder window title
+- name: "set POSIX path as window title to {{ show_posix }}"
+  command: "/usr/bin/defaults write com.apple.finder _FXShowPosixPathInTitle -bool {{ show_posix }}"
+
+
+
+# some misc things
+- name: text selection in Quick Look
+  command: "/usr/bin/defaults write com.apple.finder QLEnableTextSelection -bool {{ quicklook_text_selection }}"
+
+- name: menubar transparency
+  command: "/usr/bin/defaults write NSGlobalDomain AppleEnableMenuBarTransparency -bool {{ menubar_transparency }}"
+
+- name: iCloud as default save location
+  command: "/usr/bin/defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool {{ icloud_as_default }}"
+
+
+
+# changes made, now let's make them active
+- name: killing and restarting Finder
+  command: "/usr/bin/killall Finder > /dev/null 2>&1"
+ 

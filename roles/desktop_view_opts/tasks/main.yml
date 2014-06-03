@@ -1,0 +1,65 @@
+---
+# Desktop's View Options, normally set via cmd-j in Finder
+# playbook use:
+#  - role: desktop_view_opts
+#    arrange_by:
+# [none|grid|name|kind|dateModified|dateCreated|dateLastOpened|dateAdded|size|label*]
+# * 'label' is for 'Labels' in 10.8 and also 'Tags' in 10.9
+#    grid_spacing: [0-100]
+#    desktop_icon_size: [16-128]
+#    label_on_bottom: [on|off]
+#    show_preview: [on|off]
+#    show_info: [on|off]
+#    text_size: [10-16]
+
+# before we do anything, backup existing Finder preferences
+- name: back up existing Finder prefs
+  copy: src=~/Library/Preferences/com.apple.finder.plist dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600
+
+
+# Change some things
+- name: "set Desktop Sort by to {{ arrange_by }}"
+  command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:arrangeBy string {{ arrange_by }}' ~/Library/Preferences/com.apple.finder.plist"
+# 0-100
+- name: "set Desktop Grid spacing to {{ grid_spacing }}"
+  command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:gridSpacing integer {{ grid_spacing }}' ~/Library/Preferences/com.apple.finder.plist"
+# 16-128
+- name: "set Desktop Icon size to {{ icon_size }}"
+  command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:iconSize integer {{ desktop_icon_size }}' ~/Library/Preferences/com.apple.finder.plist"
+
+# 0 = right, 1 = bottom
+- name: "set Desktop Label position to Bottom"
+  command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:labelOnBottom bool true' ~/Library/Preferences/com.apple.finder.plist"
+  when: label_on_bottom == "on"
+
+- name: "set Desktop Label position to Right"
+  command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:labelOnBottom bool false' ~/Library/Preferences/com.apple.finder.plist"
+  when: label_on_bottom == "off"
+
+- name: "set Desktop Show Preview to {{ show_preview }}"
+  command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:showIconPreview bool {{ show_preview }}' ~/Library/Preferences/com.apple.finder.plist"
+
+- name: "set Desktop Item info to {{ show_info }}"
+  command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:showItemInfo bool {{ show_info }}' ~/Library/Preferences/com.apple.finder.plist"
+
+- name: "set Desktop Text size to {{ text_size }}"
+  command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:textSize integer {{ text_size }}' ~/Library/Preferences/com.apple.finder.plist"
+
+# 1 = icon & text | 2 = icon only | 3 = text only
+- name: Finder window Toolbar Display Mode
+  command: /usr/libexec/PlistBuddy -c "Set :\"NSToolbar Configuration Browser\":\"TB Display Mode\" integer 2" ~/Library/Preferences/com.apple.finder.plist
+# 
+- name: Finder window Toolbar Icon Size
+  command: /usr/libexec/PlistBuddy -c "Set :\"NSToolbar Configuration Browser\":\"TB Icon Size Mode\" integer 1" ~/Library/Preferences/com.apple.finder.plist
+# 0 = off, also hides tabs bar and sidebar | 1 = on
+- name: Finder window Toolbar visibility
+  command: /usr/libexec/PlistBuddy -c "Set :\"NSToolbar Configuration Browser\":\"TB Is Shown\" integer 1" ~/Library/Preferences/com.apple.finder.plist
+#- name: Finder window toolbar size
+#  command: /usr/libexec/PlistBuddy -c "Set :\"NSToolbar Configuration Browser\":\"TB Size Mode\" integer 1 ~/Library/Preferences/com.apple.finder.plist"
+
+
+
+# changes made, now let's make them active
+- name: killing and restarting Finder
+  command: "/usr/bin/killall Finder > /dev/null 2>&1"
+ 
