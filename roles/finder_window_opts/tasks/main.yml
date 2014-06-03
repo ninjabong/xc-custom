@@ -27,8 +27,7 @@
   command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string clmv
   when: window_style == "column"
 
-# width of columns in column view
-- name: set column width
+- name: set width of columns
   command: "/usr/bin/defaults write com.apple.finder NSNavBrowserPreferedColumnContentWidth -int {{ column_width }}"
   when: window_style == "column"
 
@@ -44,7 +43,7 @@
   command: /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string Flwv
   when: window_style == "coverflow"
 
-# show Tabs bar (10.9)
+# show Tabs bar, which only exists in 10.9+
 - name: "set Tabs bar visibility to {{ tab_bar }}"
   command: "/usr/bin/defaults write com.apple.finder ShowTabView -bool {{ tab_bar }}"
   when: "ansible_distribution_version | version_compare('10.9', '>=')"
@@ -53,13 +52,13 @@
 - name: "set Status bar visibility to {{ status_bar }}"
   command: "/usr/bin/defaults write com.apple.finder ShowStatusBar -bool {{ status_bar }}"
 
+# show Path bar
 - name: "set Path bar visibility to {{ path_bar }}"
   command: "/usr/bin/defaults write com.apple.finder ShowPathbar -bool {{ path_bar }}"
 
 # show POSIX path as Finder window title
 - name: "set POSIX path as window title to {{ show_posix }}"
   command: "/usr/bin/defaults write com.apple.finder _FXShowPosixPathInTitle -bool {{ show_posix }}"
-
 
 
 # some misc things
@@ -71,7 +70,6 @@
 
 - name: iCloud as default save location
   command: "/usr/bin/defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool {{ icloud_as_default }}"
-
 
 
 # changes made, now let's make them active

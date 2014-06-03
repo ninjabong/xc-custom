@@ -3,13 +3,7 @@
 # requires ansible-playbook -K for sudo
 # playbook use:
 #  - role: locatedb
-#    locatedb: [enable|disable]
+#    locatedb: [load|unload]
 - name: turning locatedb on
   sudo: True
-  command: /bin/launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
-  when: locatedb == "enable"
-
-- name: turning locatedb off
-  sudo: True
-  command: /bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.locate.plist
-  when: locatedb == "disable"
+  command: "/bin/launchctl {{ locatedb }} -w /System/Library/LaunchDaemons/com.apple.locate.plist"

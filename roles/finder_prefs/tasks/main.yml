@@ -17,7 +17,7 @@
 #    sidebar: [on|off]
 #    sidebar_width: []##]
 #    sidebar_devices: [on|off]
-#    sidebar_places: [on|off]
+#    sidebar_favorites: [on|off]
 #    sidebar_shared: [on|off]
 #    sidebar_tags: [on|off]
 # - Fourth Page
@@ -31,7 +31,7 @@
 - name: back up existing Finder prefs
   copy: src=~/Library/Preferences/com.apple.finder.plist dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600
 
-# set Finder's Preferences that are normally exposed
+
 # First tab - General "GNRL"
 # Show these items on the desktop:
 - name: "set Hard disks visibility to {{ show_internal }}"
@@ -104,7 +104,6 @@
   when: new_window == "custom"
 
 
-
 # Always opens folders in a new window (10.8)
 - name: "set Always opens folders in a new window to {{ always_new }}"
   command: "/usr/bin/defaults write com.apple.finder FinderSpawnWindow -bool {{ always_new }}"
@@ -115,24 +114,22 @@
   command: "/usr/bin/defaults write com.apple.finder FinderSpawnTab -bool {{ always_new }}"
   when: "ansible_distribution_version | version_compare('10.9', '>=')"
 
+
 # Spring-loaded folders
 - name: "setting Spring-loaded folders to {{ spring_loaded_folders }}"
   command: "/usr/bin/defaults write NSGlobalDomain com.apple.springing.enabled -bool {{ spring_loaded_folders }}"
 
-# short = 0.0 / medium = 0.5 / long = 1.0
 - name: "setting Spring-loaded folders and windows delay time to {{ spring_loaded_delay }}"
   command: "/usr/bin/defaults write NSGlobalDomain com.apple.springing.delay -float {{ spring_loaded_delay }}"
   when: spring_loaded_folders == True
 
 
-
 # Second tab - Labels "LBLS" in 10.8.x / "TAGS" in 10.9.x
-# nothing to set here... move along, move along
-
+# its complex enough to warrant its own seperate role
 
 
 # Third tab - Sidebar "SDBR"
-# show Sidebar is a View menu setting, not from preferences
+# show Sidebar is a View menu setting, not from prefs, but fits here logically
 # Finder: show Sidebar
 - name: "setting show Sidebar to {{ sidebar }}"
   command: "/usr/bin/defaults write com.apple.finder ShowSidebar -bool {{ sidebar }}"
@@ -144,8 +141,8 @@
 - name: "setting Devices in Sidebar to {{ sidebar_devices }}"
   command: "/usr/bin/defaults write com.apple.finder SidebarDevicesSectionDisclosedState -bool {{ sidebar_devices }}"
 
-- name: "setting Favorites in Sidebar to {{ sidebar_places }}"
-  command: "/usr/bin/defaults write com.apple.finder SidebarPlacesSectionDisclosedState -bool {{ sidebar_places }}"
+- name: "setting Favorites in Sidebar to {{ sidebar_favorites }}"
+  command: "/usr/bin/defaults write com.apple.finder SidebarPlacesSectionDisclosedState -bool {{ sidebar_favorites }}"
 
 - name: "setting Shared in Sidebar to {{ sidebar_shared }}"
   command: "/usr/bin/defaults write com.apple.finder SidebarSharedSectionDisclosedState -bool {{ sidebar_shared }}"
@@ -155,13 +152,11 @@
   when: "ansible_distribution_version | version_compare('10.9', '>=')"
 
 
-
 # Fourth tab - Advanced "ADVD"
-# show all filename extensions
+# filename extensions related options
 - name: "setting Show all filename extensions to {{ show_extensions }}"
   command: "/usr/bin/defaults write NSGlobalDomain AppleShowAllExtensions -bool {{ show_extensions }}"
 
-# disable warning when changing a file's extension
 - name: "setting Show warning before changing an extension to {{ extension_warning }}"
   command: "/usr/bin/defaults write com.apple.finder FXEnableExtensionChangeWarning -bool {{ extension_warning }}"
 
@@ -173,7 +168,7 @@
   command: "/usr/bin/defaults write com.apple.finder EmptyTrashSecurely -bool {{ trash_securely }}"
 
 # When performing a search:
-# absent by default, auto uses SCev until set to SCcf of SCsp, then sets it if/when chosen later
+# absent by default, auto uses SCev until set to SCcf of SCsp, then sets SCev if/when chosen later
 - name: set "When performing a search" to "Search This Mac"
   command: "/usr/bin/defaults write com.apple.finder FXDefaultSearchScope -string SCev"
   when: search_default == "mac"
@@ -185,7 +180,6 @@
 - name: set "When performing a search" to "Use the Previous Search Scope"
   command: "/usr/bin/defaults write com.apple.finder FXDefaultSearchScope -string SCsp"
   when: search_default == "previous"
-
 
 
 # changes made, now let's make them active

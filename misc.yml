@@ -4,9 +4,9 @@
 
   - role: ansible_vars
   - role: gatekeeper
-    gatekeeper: disable
+    gatekeeper: enable
   - role: locatedb
-    locatedb: enable
+    locatedb: unload
   - role: sshd
-    sshd: "on"
+    sshd: "off"
   - role: unhide_library
