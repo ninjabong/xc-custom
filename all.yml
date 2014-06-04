@@ -84,7 +84,7 @@
   # osx config
   ## kill the dashboard
   - role: dashboard
-    disabled: YES
+    disabled: NO
   ## fix up the dock
   - role: dock
     apps:
@@ -153,10 +153,9 @@
     desktop_icon_size: 64
 
   # Desktop View Options
-  # these are a lot less broken right now.
-  # and by a lot, I mean they all work, but not all ported from PlistBuddy to defaults
+  # these are actually not broken now.
+  # woowooo cfprefsd happy
   - role: desktop_view_opts
-  ## these are still cfprefsd unhappy using PlistBuddy
     arrange_by: none
     grid_spacing: 0
     desktop_icon_size: 96
@@ -164,6 +163,5 @@
     show_info: on
     show_preview: on
     text_size: 11
-  # these 2 are cfprefsd happy using defaults
     toolbar_mode: 2
     toolbar_shown: 1

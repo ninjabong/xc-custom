@@ -8,8 +8,8 @@
 #    grid_spacing: [0-100]
 #    desktop_icon_size: [16-128]
 #    label_on_bottom: [on|off]
-#    show_info: [on|off]
-#    show_preview: [on|off]
+#    show_icon_preview: [on|off]
+#    show_item_info: [on|off]
 #    text_size: [10-16]
 #    toolbar_mode: [1-3]
 #    toolbar_shown: [0|1]
@@ -19,38 +19,43 @@
   copy: "src={{ finder_plist }} dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600 backup=yes"
 
 
-
-# Change some things
+# explicity rewrite the array's dictionary:{
+#    IconViewSettings =     {
+#        arrangeBy = [none|grid|name|kind|dateModified|dateCreated|dateLastOpened|dateAdded|size|label];
+#        backgroundColorBlue = 1;
+#        backgroundColorGreen = 1;
+#        backgroundColorRed = 1;
+#        backgroundType = 0;
+#        gridOffsetX = 0;
+#        gridOffsetY = 0;
+#        gridSpacing = [0-100];
+#        iconSize = [16-128];
+#        labelOnBottom = [0|1];
+#        showIconPreview = [0|1];
+#        showItemInfo = [0|1];
+#        textSize = [10-16];
+#        viewOptionsVersion = [0|1]; (only ever seen 1, once)
+#    };
+#}
 - name: set Desktop Sort by to {{ arrange_by }}
-  command: "{{ plistbuddy_exec }} 'Set :DesktopViewSettings:IconViewSettings:arrangeBy string {{ arrange_by }}' {{ finder_plist }}"
-# 0-100
-- name: set Desktop Grid spacing to {{ grid_spacing }}
-  command: "{{ plistbuddy_exec }} 'Set :DesktopViewSettings:IconViewSettings:gridSpacing integer {{ grid_spacing }}' {{ finder_plist }}"
-# 16-128
-- name: set Desktop Icon size to {{ icon_size }}
-  command: "{{ plistbuddy_exec }} 'Set :DesktopViewSettings:IconViewSettings:iconSize integer {{ desktop_icon_size }}' {{ finder_plist }}"
-
-# 0 = right, 1 = bottom
-- name: set Desktop Label position to Bottom
-  command: "{{ plistbuddy_exec }} 'Set :DesktopViewSettings:IconViewSettings:labelOnBottom bool true' {{ finder_plist }}"
-  when: label_on_bottom == "on"
-
-- name: set Desktop Label position to Right
-  command: "{{ plistbuddy_exec }} 'Set :DesktopViewSettings:IconViewSettings:labelOnBottom bool false' {{ finder_plist }}"
-  when: label_on_bottom == "off"
-
-- name: set Desktop Item info to {{ show_info }}
-  command: "{{ plistbuddy_exec }} 'Set :DesktopViewSettings:IconViewSettings:showItemInfo bool {{ show_info }}' {{ finder_plist }}"
-
-- name: set Desktop Show Preview to {{ show_preview }}
-  command: "{{ plistbuddy_exec }} 'Set :DesktopViewSettings:IconViewSettings:showIconPreview bool {{ show_preview }}' {{ finder_plist }}"
-
-- name: set Desktop Text size to {{ text_size }}
-  command: "{{ plistbuddy_exec }} 'Set :DesktopViewSettings:IconViewSettings:textSize integer {{ text_size }}' {{ finder_plist }}"
+  command: {{ defaults_finder_write }} DesktopViewSettings IconViewSettings -dict
+    "arrangeBy" "{{ arrange_by }}"
+    "backgroundColorBlue" "1"
+    "backgroundColorGreen" "1"
+    "backgroundColorRed" "1"
+    "backgroundType" "0"
+    "gridOffsetX" "0"
+    "gridOffsetY" "0"
+    "gridSpacing" "{{ grid_spacing }}"
+    "iconSize" "{{ icon_size }}"
+    "labelOnBottom" "{{ label_on_bottom }}"
+    "showIconPreview" "{{ show_icon_preview }}"
+    "showItemInfo" "{{ show_item_info }}"
+    "textSize" "{{ text_size }}"
+    "viewOptionsVersion" "0"
 
 
-
-# explicitly rewrites the array's dictionary
+# explicitly rewrites the array's dictionary:
 #     "NSToolbar Configuration Browser" =     {
 #         "TB Display Mode" = [1|2|3];
 #         "TB Icon Size Mode" = 1;

@@ -1,26 +1,26 @@
----
-- hosts: all
-  roles:
+    ---
+    - hosts: all
+    roles:
 
-  - role: finder_prefs
- # first page
+    - role: finder_prefs
+    # first page
     show_internal: on
     show_external: on
     show_removeable: on
     show_servers: on
     new_window: home
-#    new_window_path: /path/to/foo
+    #    new_window_path: /path/to/foo
     always_new: on
     spring_loaded_folders: on
     spring_loaded_delay: 0.33
-# third page
+    # third page
     sidebar: on
     sidebar_width: 190
     sidebar_devices: on
     sidebar_favorites: on
     sidebar_shared: on
     sidebar_tags: off
-# fourth page
+    # fourth page
     show_extensions: on
     extension_warning: off
     trash_warning: off
@@ -28,29 +28,32 @@
     search_default: mac
 
 
-# menubar View settings
-  - role: finder_window_opts
+    # menubar View settings
+    - role: finder_window_opts
     window_style: column
     column_width: 200
     tab_bar: on
     status_bar: on
     path_bar: on
     show_posix: on
-# misc
+    # misc
     quicklook_text_selection: on
     menubar_transparency: off
     icloud_as_default: off
     desktop_icon_size: 64
 
 
-# Desktop View Options
-# these are kinda broken right now.
-# and by kinda, I mean totally.
-  - role: desktop_view_opts
+    # Desktop View Options
+    # these are kinda broken right now.
+    # and by kinda, I mean totally.
+    - role: desktop_view_opts
     arrange_by: none
     grid_spacing: 0
     desktop_icon_size: 96
     label_on_bottom: on
-    show_preview: on
-    show_info: on
+    show_item_info: on
+    show_icon_preview: on
     text_size: 12
+    #
+    toolbar_mode: 2
+    toolbar_shown: 1

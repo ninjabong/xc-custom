@@ -1,5 +1,4 @@
 ---
 defaults_exec: /usr/bin/defaults
 defaults_finder_write: /usr/bin/defaults write com.apple.finder
-plistbuddy_exec: /usr/libexec/PlistBuddy -c
 finder_plist: ~/Library/Preferences/com.apple.finder.plist

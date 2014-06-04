@@ -11,8 +11,8 @@
     grid_spacing: 0
     desktop_icon_size: 96
     label_on_bottom: on
-    show_info: on
-    show_preview: on
+    show_icon_preview: on
+    show_item_info: on
     text_size: 11
 #
     toolbar_mode: 2
