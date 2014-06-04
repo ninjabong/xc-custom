@@ -29,156 +29,157 @@
 
 # before we do anything, backup existing Finder preferences
 - name: back up existing Finder prefs
-  copy: src=~/Library/Preferences/com.apple.finder.plist dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600
-
+  copy: src={{ finder_plist }} dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600 backup=yes
 
 # First tab - General "GNRL"
 # Show these items on the desktop:
-- name: "set Hard disks visibility to {{ show_internal }}"
-  command: "/usr/bin/defaults write com.apple.finder ShowHardDrivesOnDesktop -bool {{ show_internal }}"
+- name: set Hard disks visibility to {{ show_internal }}
+  command: "{{ defaults_finder_write }} ShowHardDrivesOnDesktop -bool {{ show_internal }}"
 
-- name: "set External disks visibility to {{ show_external }}"
-  command: "/usr/bin/defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool {{ show_external }}"
+- name: set External disks visibility to {{ show_external }}
+  command: "{{ defaults_finder_write }} ShowExternalHardDrivesOnDesktop -bool {{ show_external }}"
 
-- name: "set CDs, DVDs, and iPods visibility to {{ show_removeable }}"
-  command: "/usr/bin/defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool {{ show_removeable }}"
+- name: set CDs, DVDs, and iPods visibility to {{ show_removeable }}
+  command: "{{ defaults_finder_write }} ShowRemovableMediaOnDesktop -bool {{ show_removeable }}"
 
-- name: "set Connected servers visibility to {{ show_servers }}"
-  command: "/usr/bin/defaults write com.apple.finder ShowMountedServersOnDesktop -bool {{ show_servers }}"
+- name: set Connected servers visibility to {{ show_servers }}
+  command: "{{ defaults_finder_write }} ShowMountedServersOnDesktop -bool {{ show_servers }}"
 
 # New Finder windows show:
-- name: "set default Finder window to {{ ansible_nodename }}"
-  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfCm
+- name: set default Finder window to {{ ansible_nodename }}
+  command: "{{ defaults_finder_write }} NewWindowTarget -string PfCm"
   when: new_window == "machine"
 
-- name: "set default Finder window path to {{ ansible_nodename }}"
-  command: "/usr/bin/defaults delete com.apple.finder NewWindowTargetPath"
+- name: set default Finder window path to {{ ansible_nodename }}
+  command: "{{ defaults_finder_del }} com.apple.finder NewWindowTargetPath"
   when: new_window == "machine"
 
 - name: set default Finder window to /
-  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfVo
+  command: "{{ defaults_finder_write }} NewWindowTarget -string PfVo"
   when: new_window == "bootdisk"
 
 - name: set default Finder window path to /
-  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/"
+  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/"
   when: new_window == "bootdisk"
 
 - name: set default Finder window to ~/
-  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfHm
+  command: "{{ defaults_finder_write }} NewWindowTarget -string PfHm"
   when: new_window == "home"
 
 - name: set default Finder window path to ~/
-  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/"
+  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/"
   when: new_window == "home"
 
 - name: set default Finder window to ~/Desktop
-  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfDe
+  command: "{{ defaults_finder_write }} NewWindowTarget -string PfDe"
   when: new_window == "desktop"
 
 - name: set default Finder window path to ~/Desktop
-  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/Desktop/"
+  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/Desktop/"
   when: new_window == "desktop"
 
 - name: set default Finder window to ~/Documents
-  command: /usr/bin/defaults write com.apple.finder NewWindowTarget -string PfDo
+  command: "{{ defaults_finder_write }} NewWindowTarget -string PfDo"
   when: new_window == "documents"
 
 - name: set default Finder window path to ~/Documents
-  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/Documents/"
+  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/Documents/"
   when: new_window == "documents"
 
 - name: set default Finder window to All Files
-  command: /usr/bin/defaults/write com.apple.finder NewWindowTarget -string PfAF
+  command: "{{ defaults_finder_write }} NewWindowTarget -string PfAF"
   when: new_window == "allfiles"
 
 - name: set default Finder window path to All Files
-  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/System/Library/CoreServices/Finder.app/Contents/Resources/MyLibraries/myDocuments.cannedSearch"
+  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/System/Library/CoreServices/Finder.app/Contents/Resources/MyLibraries/myDocuments.cannedSearch"
   when: new_window == "allfiles"
 
 - name: set default Finder window to Other
-  command: /usr/bin/defaults/write com.apple.finder NewWindowTarget -string PfLo
+  command: "{{ defaults_finder_write }} NewWindowTarget -string PfLo"
   when: new_window == "custom"
 
 - name: set default Finder window path to All Files
-  command: "/usr/bin/defaults write com.apple.finder NewWindowTargetPath -string file://localhost/{{ new_window_path }}/"
+  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/{{ new_window_path }}/"
   when: new_window == "custom"
 
 
 # Always opens folders in a new window (10.8)
-- name: "set Always opens folders in a new window to {{ always_new }}"
-  command: "/usr/bin/defaults write com.apple.finder FinderSpawnWindow -bool {{ always_new }}"
-  when: "ansible_distribution_version | version_compare('10.8', '>=') and ansible_distribution_version | version_compare('10.9', '<')"
+- name: set Always opens folders in a new window to {{ always_new }}
+  command: "{{ defaults_finder_write }} FinderSpawnWindow -bool {{ always_new }}"
+  when: "ansible_distribution_version | search('10.8')"
 
 # Open folders in tabs instead of new window (10.9)
-- name: "set Open folders in tabs instead of new windows to {{ always_new }}"
-  command: "/usr/bin/defaults write com.apple.finder FinderSpawnTab -bool {{ always_new }}"
-  when: "ansible_distribution_version | version_compare('10.9', '>=')"
+- name: set Open folders in tabs instead of new windows to {{ always_new }}
+  command: "{{ defaults_finder_write }} FinderSpawnTab -bool {{ always_new }}"
+  when: "ansible_distribution_version | search('10.9')"
 
 
 # Spring-loaded folders
-- name: "setting Spring-loaded folders to {{ spring_loaded_folders }}"
-  command: "/usr/bin/defaults write NSGlobalDomain com.apple.springing.enabled -bool {{ spring_loaded_folders }}"
+- name: setting Spring-loaded folders to {{ spring_loaded_folders }}
+  command: "{{ defaults_global_write }} com.apple.springing.enabled -bool {{ spring_loaded_folders }}"
 
-- name: "setting Spring-loaded folders and windows delay time to {{ spring_loaded_delay }}"
-  command: "/usr/bin/defaults write NSGlobalDomain com.apple.springing.delay -float {{ spring_loaded_delay }}"
+- name: setting Spring-loaded folders and windows delay time to {{ spring_loaded_delay }}
+  command: "{{ defaults_global_write }} com.apple.springing.delay -float {{ spring_loaded_delay }}"
   when: spring_loaded_folders == True
 
 
 # Second tab - Labels "LBLS" in 10.8.x / "TAGS" in 10.9.x
 # its complex enough to warrant its own seperate role
+# see http://rdr.to/0tZ
 
 
 # Third tab - Sidebar "SDBR"
 # show Sidebar is a View menu setting, not from prefs, but fits here logically
 # Finder: show Sidebar
-- name: "setting show Sidebar to {{ sidebar }}"
-  command: "/usr/bin/defaults write com.apple.finder ShowSidebar -bool {{ sidebar }}"
+- name: setting show Sidebar to {{ sidebar }}
+  command: "{{ defaults_finder_write }} ShowSidebar -bool {{ sidebar }}"
 
-- name: "setting Sidebar width to {{ sidebar_width }}"
-  command: "/usr/bin/defaults write com.apple.finder SidebarWidth -int {{ sidebar_width }}"
+- name: setting Sidebar width to {{ sidebar_width }}
+  command: "{{ defaults_finder_write }} SidebarWidth -int {{ sidebar_width }}"
 
 # Finder: Sidebar options
-- name: "setting Devices in Sidebar to {{ sidebar_devices }}"
-  command: "/usr/bin/defaults write com.apple.finder SidebarDevicesSectionDisclosedState -bool {{ sidebar_devices }}"
+- name: setting Devices in Sidebar to {{ sidebar_devices }}
+  command: "{{ defaults_finder_write }} SidebarDevicesSectionDisclosedState -bool {{ sidebar_devices }}"
 
-- name: "setting Favorites in Sidebar to {{ sidebar_favorites }}"
-  command: "/usr/bin/defaults write com.apple.finder SidebarPlacesSectionDisclosedState -bool {{ sidebar_favorites }}"
+- name: setting Favorites in Sidebar to {{ sidebar_favorites }}
+  command: "{{ defaults_finder_write }} SidebarPlacesSectionDisclosedState -bool {{ sidebar_favorites }}"
 
-- name: "setting Shared in Sidebar to {{ sidebar_shared }}"
-  command: "/usr/bin/defaults write com.apple.finder SidebarSharedSectionDisclosedState -bool {{ sidebar_shared }}"
+- name: setting Shared in Sidebar to {{ sidebar_shared }}
+  command: "{{ defaults_finder_write }} SidebarSharedSectionDisclosedState -bool {{ sidebar_shared }}"
 
-- name: "setting Recent Tags in Sidebar to {{ sidebar_tags }}"
-  command: "/usr/bin/defaults write com.apple.finder ShowRecentTags -bool {{ sidebar_tags }}"
-  when: "ansible_distribution_version | version_compare('10.9', '>=')"
+# Tags are 10.9 only
+- name: setting Recent Tags in Sidebar to {{ sidebar_tags }}
+  command: "{{ defaults_finder_write }} ShowRecentTags -bool {{ sidebar_tags }}"
+  when: "ansible_distribution_version | search('10.9')"
 
 
 # Fourth tab - Advanced "ADVD"
 # filename extensions related options
-- name: "setting Show all filename extensions to {{ show_extensions }}"
-  command: "/usr/bin/defaults write NSGlobalDomain AppleShowAllExtensions -bool {{ show_extensions }}"
+- name: setting Show all filename extensions to {{ show_extensions }}
+  command: "{{ defaults_global_write }} AppleShowAllExtensions -bool {{ show_extensions }}"
 
-- name: "setting Show warning before changing an extension to {{ extension_warning }}"
-  command: "/usr/bin/defaults write com.apple.finder FXEnableExtensionChangeWarning -bool {{ extension_warning }}"
+- name: setting Show warning before changing an extension to {{ extension_warning }}
+  command: "{{ defaults_finder_write }} FXEnableExtensionChangeWarning -bool {{ extension_warning }}"
 
 # Trash related options
-- name: "setting Show warning before emptying the Trash to {{ trash_warning }}"
-  command: "/usr/bin/defaults write com.apple.finder WarnOnEmptyTrash -bool {{ trash_warning }}"
+- name: setting Show warning before emptying the Trash to {{ trash_warning }}
+  command: "{{ defaults_finder_write }} WarnOnEmptyTrash -bool {{ trash_warning }}"
 
-- name: "setting Empty Trash securely to {{ trash_securely }}"
-  command: "/usr/bin/defaults write com.apple.finder EmptyTrashSecurely -bool {{ trash_securely }}"
+- name: setting Empty Trash securely to {{ trash_securely }}
+  command: "{{ defaults_finder_write }} EmptyTrashSecurely -bool {{ trash_securely }}"
 
 # When performing a search:
 # absent by default, auto uses SCev until set to SCcf of SCsp, then sets SCev if/when chosen later
 - name: set "When performing a search" to "Search This Mac"
-  command: "/usr/bin/defaults write com.apple.finder FXDefaultSearchScope -string SCev"
+  command: "{{ defaults_finder_write }} FXDefaultSearchScope -string SCev"
   when: search_default == "mac"
 
 - name: set "When performing a search" to "Search the Current Folder"
-  command: "/usr/bin/defaults write com.apple.finder FXDefaultSearchScope -string SCcf"
+  command: "{{ defaults_finder_write }} FXDefaultSearchScope -string SCcf"
   when: search_default == "current"
 
 - name: set "When performing a search" to "Use the Previous Search Scope"
-  command: "/usr/bin/defaults write com.apple.finder FXDefaultSearchScope -string SCsp"
+  command: "{{ defaults_finder_write }} FXDefaultSearchScope -string SCsp"
   when: search_default == "previous"
 
 
