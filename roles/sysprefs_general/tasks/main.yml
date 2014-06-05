@@ -1,0 +1,69 @@
+---
+# System Preferences - General
+# playbook use:
+#  - role: sysprefs_general
+#    system_appearance: [blue|graphite]
+#    highlight_color: (R G B) / RGB = [0.0-1.0]
+#    sidebar_icon_size: [small|medium|large]
+#    system_scroll: [Automatic|WhenScrolling|Always]
+#    scroll_behavior: [page|clicked]
+#    close_confirms_changes: [0|1]
+#    quit_keeps_windows: [0|1]
+
+
+# These are normally set through System Preferences - General
+# note: they're stored as string not number values.
+# 1 = Blue (default) / 6 = Graphite
+- name: "set Appearance (For Buttons, Menus, and Windows) to Blue"
+  command: "{{ defaults_global_write }} AppleAquaColorVariant 1"
+  when: system_appearance == "blue"
+
+- name: "set Appearance (For Buttons, Menus, and Windows) to Graphite"
+  command: "{{ defaults_global_write }} AppleAquaColorVariant 6"
+  when: system_appearance == "graphite"
+
+# (R G B) values as string [0.0-1.0]
+- name: set Finder Highlight color
+  ignore_errors: yes
+  command: "{{ defaults_global_write }} AppleHighlightColor {{ highlight_color }}"
+
+# Sidebar icon size:
+#	1 = Small
+#	2 = Medium (default)
+#	3 = Large
+- name: set Finder Sidebar icon size to Small
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode 1"
+  when: sidebar_icon_size == "small"
+
+- name: set Finder Sidebar icon size to Medium
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode 2"
+  when: sidebar_icon_size == "medium"
+
+- name: set Finder Sidebar icon size to Large
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode 3"
+  when: sidebar_icon_size == "large"
+
+# [Automatic|WhenScrolling|Always]
+- name: set Show scroll bars to {{ system_scroll }}
+  command: "{{ defaults_global_write }} AppleShowScrollBars {{ system_scroll }}"
+
+# [page|spot]
+- name: set Show scroll bars to Jump to the next page
+  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior 0"
+  when: scroll_behavior == "page"
+
+- name: set Show scroll bars to Jump to the spot that's clicked
+  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior 1"
+  when: scroll_behavior == "spot"
+
+# Ask to keep changes when closing documents
+#	0 = No / Unchecked
+#	1 = Yes / Checked
+- name: set Ask to keep changes when closing documents to {{ close_confirms_changes }}
+  command: "{{ defaults_global_write }} NSCloseAlwaysConfirmsChanges {{ close_confirms_changes }}"
+
+# Close windows when quitting an application
+#	0 = Yes / Checked (do NOT restore windows)
+#	1 = No / Unchecked (DO restore windows)
+- name: set Close windows when quitting an application to {{ quit_keeps_windows }}
+  command: "{{ defaults_global_write }} NSQuitAlwaysKeepsWindows {{ quit_keeps_windows }}"

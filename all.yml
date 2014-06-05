@@ -153,8 +153,8 @@
     desktop_icon_size: 64
 
   # Desktop View Options
-  # these are actually not broken now.
-  # woowooo cfprefsd happy
+  # these are actually still broken now.
+  # woowooo cfprefsd unhappy
   - role: desktop_view_opts
     arrange_by: none
     grid_spacing: 0
@@ -163,5 +163,6 @@
     show_info: on
     show_preview: on
     text_size: 11
+  # these actually work, kinda
     toolbar_mode: 2
     toolbar_shown: 1

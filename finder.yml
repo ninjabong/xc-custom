@@ -2,18 +2,12 @@
 - hosts: all
   roles:
 
-
-# Desktop View Options
-# these are kinda broken right now.
-# and by kinda, I mean totally.
-  - role: desktop_view_opts
-    arrange_by: kind
-    grid_spacing: 0
-    desktop_icon_size: 96
-    label_on_bottom: on
-    show_icon_preview: on
-    show_item_info: on
-    text_size: 11
-#
-    toolbar_mode: 2
-    toolbar_shown: 1
+  - role: sysprefs_general
+    system_appearance: blue
+    highlight_color: "(1.000000 0.823500 0.505900)"
+    sidebar_icon_size: small
+    scroll_behavior: page
+    system_scroll: Always
+    scroll_behavior: page
+    close_confirms_changes: no
+    quit_keeps_windows: no

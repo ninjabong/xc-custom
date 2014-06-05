@@ -13,6 +13,8 @@
 #    quicklook_text_selection: [on|off]
 #    menubar_transparency: [on|off]
 #    icloud_as_default: [on|off]
+#    toolbar_mode: 2
+
 
 
 # before we do anything, backup existing Finder preferences
@@ -59,6 +61,21 @@
 # show POSIX path as Finder window title
 - name: "set POSIX path as window title to {{ show_posix }}"
   command: "{{ defaults_finder_write }} _FXShowPosixPathInTitle -bool {{ show_posix }}"
+
+# How to display the Finder Window Toolbar
+# TB Display Mode = [1 = icon & text | 2 = icon only | 3 = text only]
+# TB Icon Size Mode = [1] / I *think* this is legacy from when it had a big and small mode (<=10.7)
+# TB Is Shown = [0|1] / whether the Finder windows Toolbar is shown or not, shameignored
+# TB Size Mode = [1] / I *think* this is legacy from when it had a big and small mode (<=10.7)
+#
+# note: these are written as strings not numbers and "Is Shown" behaves as it pleases
+#
+- name: set Finder Toolbar prefs array via defaults
+  command: '{{ defaults_finder_write }} "NSToolbar Configuration Browser" -dict
+    "TB Display Mode" "{{ toolbar_mode }}"
+    "TB Icon Size Mode" "1"
+    "TB Is Shown" "1"
+    "TB Size Mode" "1"'
 
 
 # some misc things

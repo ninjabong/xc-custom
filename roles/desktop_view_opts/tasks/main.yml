@@ -1,5 +1,5 @@
 ---
-# Desktop's View Options, normally set via cmd-j in Finder
+# Desktop View Options, normally set via cmd-j in Finder
 # playbook use:
 #  - role: desktop_view_opts
 #    arrange_by:
@@ -19,7 +19,7 @@
   copy: "src={{ finder_plist }} dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600 backup=yes"
 
 
-# explicity rewrite the array's dictionary:{
+# explicity rewrite the arrays dictionary:{
 #    IconViewSettings =     {
 #        arrangeBy = [none|grid|name|kind|dateModified|dateCreated|dateLastOpened|dateAdded|size|label];
 #        backgroundColorBlue = 1;
@@ -37,25 +37,38 @@
 #        viewOptionsVersion = [0|1]; (only ever seen 1, once)
 #    };
 #}
-- name: set Desktop Sort by to {{ arrange_by }}
-  command: {{ defaults_finder_write }} DesktopViewSettings IconViewSettings -dict
-    "arrangeBy" "{{ arrange_by }}"
-    "backgroundColorBlue" "1"
-    "backgroundColorGreen" "1"
-    "backgroundColorRed" "1"
-    "backgroundType" "0"
-    "gridOffsetX" "0"
-    "gridOffsetY" "0"
-    "gridSpacing" "{{ grid_spacing }}"
-    "iconSize" "{{ icon_size }}"
-    "labelOnBottom" "{{ label_on_bottom }}"
-    "showIconPreview" "{{ show_icon_preview }}"
-    "showItemInfo" "{{ show_item_info }}"
-    "textSize" "{{ text_size }}"
-    "viewOptionsVersion" "0"
+##- name: setting Desktop View Options prefs array via defaults
+##  command: 'defaults write ~/Desktop/test.plist DesktopViewSettings -array "<dict>IconViewSetting><dict>arrangeBy<string>{{ arrange_by }}</string>backgroundColorBlue <integer>1</integer>backgroundColorGreen<integer>1</integer>backgroundColorRed<integer>1</integer>backgroundType<integer>0</integer>gridOffsetX<integer>0</integer>gridOffsetY<integer>0</integer>gridSpacing<integer>{{ grid_spacing }}</integer>iconSize<integer>{{ desktop_icon_size }}</integer>labelOnBottom{{ label_on_bottom }}showIconPreview{{ show_icon_preview }}showItemInfo{{ show_item_info }}textSize<integer>{{ text_size }}</integer>viewOptionsVersion<integer>1</integer></dict></dict>"'
+#  command: '{{ defaults_finder_write }} "DesktopViewSettings IconViewSettings" -dict
+#    "<dict>IconViewSetting>"
+#    "<dict>arrangeBy" "<string>{{ arrange_by }}</string>"
+#    "backgroundColorBlue" "<integer>1</integer>"
+#    "backgroundColorGreen" "<integer>1</integer>"
+#    "backgroundColorRed" "<integer>1</integer>"
+#    "backgroundType" "<integer>0</integer>"
+#    "gridOffsetX" "<integer>0</integer>"
+#    "gridOffsetY" "<integer>0</integer>"
+#    "gridSpacing" "<integer>{{ grid_spacing }}</integer>"
+#    "iconSize" "<integer>{{ desktop_icon_size }}</integer>"
+#    "labelOnBottom" "<boolean>{{ label_on_bottom }}</boolean>"
+#    "showIconPreview" "<boolean>{{ show_icon_preview }}</boolean>"
+#    "showItemInfo" "<boolean>{{ show_item_info }}</boolean>"
+#    "textSize" "<integer>{{ text_size }}</integer>"
+#    "viewOptionsVersion" "<integer>1</integer>"
+#    "</dict></dict>"'
+
+#    "labelOnBottom" "<boolean>{{ label_on_bottom }}</boolean>"
+#    "showIconPreview" "<boolean>{{ show_icon_preview }}</boolean>"
+#    "showItemInfo" "<boolean>{{ show_item_info }}</boolean>"
+
+#- name: echo DesktopViewSettings settings
+#  command: defaults read com.apple.finder DesktopViewSettings
 
 
-# explicitly rewrites the array's dictionary:
+# This is actually all dildos, only display mode "sticks", "is shown" just
+# flips  willy nilly around irregardless of what is actuslly set.
+#
+# "explicitly rewrites the arrays dictionary:
 #     "NSToolbar Configuration Browser" =     {
 #         "TB Display Mode" = [1|2|3];
 #         "TB Icon Size Mode" = 1;
@@ -65,17 +78,18 @@
 #
 # TB Display Mode = [1 = icon & text | 2 = icon only | 3 = text only]
 # TB Icon Size Mode = [1] / I *think* this is legacy from when it had a big and small mode (<=10.7)
-# TB Is Shown = [0|1] / whether the Finder window's Toolbar is shown or not
+# TB Is Shown = [0|1] / whether the Finder windows Toolbar is shown or not
 # TB Size Mode = [1] / I *think* this is legacy from when it had a big and small mode (<=10.7)
-- name: setting Finder Toolbar pref's array via defaults
-  command: {{ defaults_finder_write }} "NSToolbar Configuration Browser" -dict
+#
+# note: these are written as strings not numbers
+- name: set Finder Toolbar prefs array via defaults
+  command: '{{ defaults_finder_write }} "NSToolbar Configuration Browser" -dict
     "TB Display Mode" "{{ toolbar_mode }}"
     "TB Icon Size Mode" "1"
     "TB Is Shown" "{{ toolbar_shown }}"
-    "TB Size Mode" "1"
+    "TB Size Mode" "1"'
 
-
-# changes made, now let's make them active
-- name: killing and restarting Finder
+# changes made, now lets make them active
+- name: kill and restart Finder
   command: "/usr/bin/killall Finder > /dev/null 2>&1"
  
