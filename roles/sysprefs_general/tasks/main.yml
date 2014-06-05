@@ -3,12 +3,12 @@
 # playbook use:
 #  - role: sysprefs_general
 #    system_appearance: [blue|graphite]
-#    highlight_color: (R G B) / RGB = [0.0-1.0]
+#    highlight_color: [R G B] / RGB = [0.0-1.0]
 #    sidebar_icon_size: [small|medium|large]
-#    system_scroll: [Automatic|WhenScrolling|Always]
-#    scroll_behavior: [page|clicked]
-#    close_confirms_changes: [0|1]
-#    quit_keeps_windows: [0|1]
+#    scrollbar: [Automatic|WhenScrolling|Always]
+#    scroll_behavior: [page|spot]
+#    close_confirms_changes: [no|yes]
+#    restore_windows: [yes|no]
 
 
 # These are normally set through System Preferences - General
@@ -22,10 +22,9 @@
   command: "{{ defaults_global_write }} AppleAquaColorVariant 6"
   when: system_appearance == "graphite"
 
-# (R G B) values as string [0.0-1.0]
+# [R G B] values as string [0.0-1.0]
 - name: set Finder Highlight color
-  ignore_errors: yes
-  command: "{{ defaults_global_write }} AppleHighlightColor {{ highlight_color }}"
+  command: '{{ defaults_global_write }} "AppleHighlightColor" "{{ highlight_color }}"'
 
 # Sidebar icon size:
 #	1 = Small
@@ -44,8 +43,8 @@
   when: sidebar_icon_size == "large"
 
 # [Automatic|WhenScrolling|Always]
-- name: set Show scroll bars to {{ system_scroll }}
-  command: "{{ defaults_global_write }} AppleShowScrollBars {{ system_scroll }}"
+- name: set Show scroll bars to {{ scrollbar }}
+  command: "{{ defaults_global_write }} AppleShowScrollBars {{ scrollbar }}"
 
 # [page|spot]
 - name: set Show scroll bars to Jump to the next page
@@ -65,5 +64,5 @@
 # Close windows when quitting an application
 #	0 = Yes / Checked (do NOT restore windows)
 #	1 = No / Unchecked (DO restore windows)
-- name: set Close windows when quitting an application to {{ quit_keeps_windows }}
-  command: "{{ defaults_global_write }} NSQuitAlwaysKeepsWindows {{ quit_keeps_windows }}"
+- name: set Close windows when quitting an application to {{ restore_windows }}
+  command: "{{ defaults_global_write }} NSQuitAlwaysKeepsWindows {{ restore_windows }}"

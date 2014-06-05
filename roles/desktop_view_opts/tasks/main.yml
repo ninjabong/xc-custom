@@ -1,5 +1,6 @@
 ---
 # Desktop View Options, normally set via cmd-j in Finder
+# this whole thing is bustedass dildobabies
 # playbook use:
 #  - role: desktop_view_opts
 #    arrange_by:
@@ -13,6 +14,7 @@
 #    text_size: [10-16]
 #    toolbar_mode: [1-3]
 #    toolbar_shown: [0|1]
+
 
 # before we do anything, backup existing Finder preferences
 - name: back up existing Finder prefs

@@ -1,4 +1,2 @@
 ---
-#nstoolbar: 'NSToolbar Configuration Browser'
-#defaults_finder_write: /usr/bin/defaults write com.apple.finder
 defaults_global_write: /usr/bin/defaults write NSGlobalDomain

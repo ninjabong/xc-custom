@@ -16,7 +16,6 @@
 #    toolbar_mode: 2
 
 
-
 # before we do anything, backup existing Finder preferences
 - name: back up existing Finder prefs
   copy: src={{ finder_plist }} dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600 backup=yes

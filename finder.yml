@@ -4,10 +4,9 @@
 
   - role: sysprefs_general
     system_appearance: blue
-    highlight_color: "(1.000000 0.823500 0.505900)"
-    sidebar_icon_size: small
-    scroll_behavior: page
-    system_scroll: Always
+    highlight_color: "1.000000 0.823500 0.505900"
+    sidebar_icon_size: medium
+    scrollbar: Automatic
     scroll_behavior: page
     close_confirms_changes: no
-    quit_keeps_windows: no
+    restore_windows: no
