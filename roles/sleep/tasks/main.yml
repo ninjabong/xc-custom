@@ -10,7 +10,7 @@
 #    button_sleep: "[off|on]"
 #    wake_on_lan: "[off|on]"
 #
-#  note - these need to explicitly quoted
+#  note - these need to be explicitly quoted
 
 - name: set various sleep options
   sudo: True
