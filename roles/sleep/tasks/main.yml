@@ -1,0 +1,30 @@
+---
+# set/disable various sleep related options
+# requires ansible-playbook -K for sudo
+# playbook use:
+#  - role: sleep
+#    system_sleep: "[off|##]" (# = minutes)
+#    comp_sleep: "[off|##]" (# = minutes)
+#    disk_sleep: "[off|##]" (# = minutes)
+#    display_sleep: "[off|##]" (# = minutes)
+#    button_sleep: "[off|on]"
+#    wake_on_lan: "[off|on]"
+#
+#  note - these need to explicitly quoted
+
+- name: set various sleep options
+  sudo: True
+  command: /usr/sbin/systemsetup {{ item.pref }}
+  with_items:
+ # Idle time before Computer, Display and Hard Drive sleep
+    - { pref: 'setsleep {{ system_sleep }}' }
+ # Idle time until computer sleeps
+    - { pref: 'setcomputersleep {{ comp_sleep }}' }
+ # Idle time until hard disk sleeps
+    - { pref: 'setharddisksleep {{ disk_sleep }}' }
+# Idle time until display sleeps 
+    - { pref: 'setdisplaysleep {{ display_sleep }}' }
+# Allow power button to sleep the computer
+    - { pref: 'setallowpowerbuttontosleepcomputer {{ button_sleep }}' }
+# Should we listen for WoL
+    - { pref: 'setwakeonnetworkaccess {{ wake_on_lan }}' }

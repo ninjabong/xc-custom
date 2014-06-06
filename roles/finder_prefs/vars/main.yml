@@ -1,4 +1,5 @@
 ---
+base_path: file://localhost
 defaults_finder_write: /usr/bin/defaults write com.apple.finder
 defaults_finder_del: /usr/bin/defaults delete com.apple.finder
 defaults_global_write: /usr/bin/defaults write NSGlobalDomain

@@ -2,11 +2,20 @@
 - hosts: all
   roles:
 
-  - role: ansible_vars
-  - role: gatekeeper
-    gatekeeper: disable
-  - role: locatedb
-    locatedb: load
-  - role: sshd
-    sshd: "on"
-  - role: unhide_library
+#  - role: ansible_vars
+#  - role: gatekeeper
+#    gatekeeper: disable
+#  - role: locatedb
+#    locatedb: load
+#  - role: sshd
+#    sshd: "on"
+#  - role: unhide_library
+
+  # various sleep related options
+  - role: sleep
+    system_sleep: "off"
+    comp_sleep: "off"
+    disk_sleep: "off"
+    display_sleep: "15"
+    button_sleep: "on"
+    wake_on_lan: "on"

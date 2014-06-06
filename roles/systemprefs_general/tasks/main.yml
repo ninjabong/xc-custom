@@ -1,7 +1,7 @@
 ---
 # System Preferences - General
 # playbook use:
-#  - role: sysprefs_general
+#  - role: systemprefs_general
 #    system_appearance: [blue|graphite]
 #    highlight_color: [R G B] / RGB = [0.0-1.0]
 #    sidebar_icon_size: [small|medium|large]

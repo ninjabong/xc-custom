@@ -2,9 +2,8 @@
 # Finder's Preferences, normally set via cmd-; in Finder
 # playbook use:
 #  - role: finder_prefs
-# - First Page
+# - First tab
 #    show_internal: [on|off]
-#    show_extensions: [on|off]
 #    show_external: [on|off]
 #    show_removeable: [on|off]
 #    show_servers: [on|off]
@@ -13,14 +12,14 @@
 #    always_new: [on|off]
 #    spring_loaded_folders: [on|off]
 #    spring_loaded_delay: [0.0-1.0] (seconds)
-# - Third Page
+# - Third tab
 #    sidebar: [on|off]
 #    sidebar_width: []##]
 #    sidebar_devices: [on|off]
 #    sidebar_favorites: [on|off]
 #    sidebar_shared: [on|off]
 #    sidebar_tags: [on|off]
-# - Fourth Page
+# - Fourth tabs
 #    show_extensions: [on|off]
 #    extension_warning: [on|off]
 #    trash_warning: [on|off]
@@ -33,18 +32,28 @@
   copy: src={{ finder_plist }} dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600 backup=yes
 
 # First tab - General "GNRL"
+- name: set desktop item visibility (in a loop)
+  command: "{{ defaults_finder_write }} {{ item.pref }}"
+  with_items:
 # Show these items on the desktop:
-- name: set Hard disks visibility to {{ show_internal }}
-  command: "{{ defaults_finder_write }} ShowHardDrivesOnDesktop -bool {{ show_internal }}"
-
-- name: set External disks visibility to {{ show_external }}
-  command: "{{ defaults_finder_write }} ShowExternalHardDrivesOnDesktop -bool {{ show_external }}"
-
-- name: set CDs, DVDs, and iPods visibility to {{ show_removeable }}
-  command: "{{ defaults_finder_write }} ShowRemovableMediaOnDesktop -bool {{ show_removeable }}"
-
-- name: set Connected servers visibility to {{ show_servers }}
-  command: "{{ defaults_finder_write }} ShowMountedServersOnDesktop -bool {{ show_servers }}"
+    - { pref: 'ShowHardDrivesOnDesktop -bool {{ show_internal }}' }
+    - { pref: 'ShowExternalHardDrivesOnDesktop -bool {{ show_external }}' }
+    - { pref: 'ShowRemovableMediaOnDesktop -bool {{ show_removeable }}' }
+    - { pref: 'ShowMountedServersOnDesktop -bool {{ show_servers }}' }
+# Spring-loaded folders
+    - { pref: 'com.apple.springing.enabled -bool {{ spring_loaded_folders }}' }
+    - { pref: 'com.apple.springing.delay -float {{ spring_loaded_delay }}' }
+# Finder Sidebar options
+    - { pref: 'ShowSidebar -bool {{ sidebar }}' }
+    - { pref: 'SidebarWidth -int {{ sidebar_width }}' }
+    - { pref: 'SidebarDevicesSectionDisclosedState -bool {{ sidebar_devices }}' }
+    - { pref: 'SidebarPlacesSectionDisclosedState -bool {{ sidebar_favorites }}' }
+    - { pref: 'SidebarSharedSectionDisclosedState -bool {{ sidebar_shared }}' }
+# Finder extensions and trash options
+    - { pref: 'AppleShowAllExtensions -bool {{ show_extensions }}' }
+    - { pref: 'FXEnableExtensionChangeWarning -bool {{ extension_warning }}' }
+    - { pref: 'WarnOnEmptyTrash -bool {{ trash_warning }}' }
+    - { pref: 'EmptyTrashSecurely -bool {{ trash_securely }}' }
 
 # New Finder windows show:
 - name: set default Finder window to {{ ansible_nodename }}
@@ -52,57 +61,50 @@
   when: new_window == "machine"
 
 - name: set default Finder window path to {{ ansible_nodename }}
-  command: "{{ defaults_finder_del }} com.apple.finder NewWindowTargetPath"
+  command: "{{ defaults_finder_del }} NewWindowTargetPath"
   when: new_window == "machine"
 
-- name: set default Finder window to /
-  command: "{{ defaults_finder_write }} NewWindowTarget -string PfVo"
+- name: set default Finder window and path to /
+  command: "{{ defaults_finder_write }} {{ item.pref }}"
   when: new_window == "bootdisk"
+  with_items:
+    - { pref: 'NewWindowTarget -string PfVo' }
+    - { pref: 'NewWindowTargetPath -string {{ base_path }}' }
 
-- name: set default Finder window path to /
-  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/"
-  when: new_window == "bootdisk"
-
-- name: set default Finder window to ~/
-  command: "{{ defaults_finder_write }} NewWindowTarget -string PfHm"
+- name: set default Finder window and path to ~/
+  command: "{{ defaults_finder_write }} {{ item.pref }}"
   when: new_window == "home"
+  with_items:
+    - { pref: 'NewWindowTarget -string PfHm' }
+    - { pref: 'NewWindowTargetPath -string {{ base_path }}/Users/{{ ansible_env.USER}}/' }
 
-- name: set default Finder window path to ~/
-  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/"
-  when: new_window == "home"
-
-- name: set default Finder window to ~/Desktop
-  command: "{{ defaults_finder_write }} NewWindowTarget -string PfDe"
+- name: set default Finder window and path to ~/Desktop
+  command: "{{ defaults_finder_write }} {{ item.pref }}"
   when: new_window == "desktop"
+  with_items:
+    - { pref: 'NewWindowTarget -string PfDe' }
+    - { pref: 'NewWindowTargetPath -string {{ base_path }}/Users/{{ ansible_env.USER}}/Desktop/' }
 
-- name: set default Finder window path to ~/Desktop
-  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/Desktop/"
-  when: new_window == "desktop"
-
-- name: set default Finder window to ~/Documents
-  command: "{{ defaults_finder_write }} NewWindowTarget -string PfDo"
+- name: set default Finder window and path to ~/Documents
+  command: "{{ defaults_finder_write }} {{ item.pref }}"
   when: new_window == "documents"
-
-- name: set default Finder window path to ~/Documents
-  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/Users/{{ ansible_env.USER}}/Documents/"
-  when: new_window == "documents"
+  with_items:
+    - { pref: 'NewWindowTarget -string PfDo' }
+    - { pref: 'NewWindowTargetPath -string {{ base_path }}/Users/{{ ansible_env.USER}}/Documents/' }
 
 - name: set default Finder window to All Files
-  command: "{{ defaults_finder_write }} NewWindowTarget -string PfAF"
+  command: "{{ defaults_finder_write }} {{ item.pref }}"
   when: new_window == "allfiles"
-
-- name: set default Finder window path to All Files
-  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/System/Library/CoreServices/Finder.app/Contents/Resources/MyLibraries/myDocuments.cannedSearch"
-  when: new_window == "allfiles"
+  with_items:
+    - { pref: 'NewWindowTarget -string PfAf' }
+    - { pref: 'NewWindowTargetPath -string {{ base_path }}/System/Library/CoreServices/Finder.app/Contents/Resources/MyLibraries/myDocuments.cannedSearch' }
 
 - name: set default Finder window to Other
-  command: "{{ defaults_finder_write }} NewWindowTarget -string PfLo"
+  command: "{{ defaults_finder_write }} {{ item.pref }}"
   when: new_window == "custom"
-
-- name: set default Finder window path to All Files
-  command: "{{ defaults_finder_write }} NewWindowTargetPath -string file://localhost/{{ new_window_path }}/"
-  when: new_window == "custom"
-
+  with_items:
+    - { pref: 'NewWindowTarget -string PfLo' }
+    - { pref: 'NewWindowTargetPath -string {{ base_path }}/{{ new_window_path }}/' }
 
 # Always opens folders in a new window (10.8)
 - name: set Always opens folders in a new window to {{ always_new }}
@@ -115,59 +117,20 @@
   when: "ansible_distribution_version | search('10.9')"
 
 
-# Spring-loaded folders
-- name: setting Spring-loaded folders to {{ spring_loaded_folders }}
-  command: "{{ defaults_global_write }} com.apple.springing.enabled -bool {{ spring_loaded_folders }}"
-
-- name: setting Spring-loaded folders and windows delay time to {{ spring_loaded_delay }}
-  command: "{{ defaults_global_write }} com.apple.springing.delay -float {{ spring_loaded_delay }}"
-  when: spring_loaded_folders == True
-
-
 # Second tab - Labels "LBLS" in 10.8.x / "TAGS" in 10.9.x
 # its complex enough to warrant its own seperate role
 # see http://rdr.to/0tZ
 
 
 # Third tab - Sidebar "SDBR"
-# show Sidebar is a View menu setting, not from prefs, but fits here logically
-# Finder: show Sidebar
-- name: setting show Sidebar to {{ sidebar }}
-  command: "{{ defaults_finder_write }} ShowSidebar -bool {{ sidebar }}"
-
-- name: setting Sidebar width to {{ sidebar_width }}
-  command: "{{ defaults_finder_write }} SidebarWidth -int {{ sidebar_width }}"
-
-# Finder: Sidebar options
-- name: setting Devices in Sidebar to {{ sidebar_devices }}
-  command: "{{ defaults_finder_write }} SidebarDevicesSectionDisclosedState -bool {{ sidebar_devices }}"
-
-- name: setting Favorites in Sidebar to {{ sidebar_favorites }}
-  command: "{{ defaults_finder_write }} SidebarPlacesSectionDisclosedState -bool {{ sidebar_favorites }}"
-
-- name: setting Shared in Sidebar to {{ sidebar_shared }}
-  command: "{{ defaults_finder_write }} SidebarSharedSectionDisclosedState -bool {{ sidebar_shared }}"
 
 # Tags are 10.9 only
 - name: setting Recent Tags in Sidebar to {{ sidebar_tags }}
   command: "{{ defaults_finder_write }} ShowRecentTags -bool {{ sidebar_tags }}"
   when: "ansible_distribution_version | search('10.9')"
 
-
 # Fourth tab - Advanced "ADVD"
-# filename extensions related options
-- name: setting Show all filename extensions to {{ show_extensions }}
-  command: "{{ defaults_global_write }} AppleShowAllExtensions -bool {{ show_extensions }}"
 
-- name: setting Show warning before changing an extension to {{ extension_warning }}
-  command: "{{ defaults_finder_write }} FXEnableExtensionChangeWarning -bool {{ extension_warning }}"
-
-# Trash related options
-- name: setting Show warning before emptying the Trash to {{ trash_warning }}
-  command: "{{ defaults_finder_write }} WarnOnEmptyTrash -bool {{ trash_warning }}"
-
-- name: setting Empty Trash securely to {{ trash_securely }}
-  command: "{{ defaults_finder_write }} EmptyTrashSecurely -bool {{ trash_securely }}"
 
 # When performing a search:
 # absent by default, auto uses SCev until set to SCcf of SCsp, then sets SCev if/when chosen later

@@ -44,7 +44,7 @@
     toolbar_mode: 2
 
    # System Preferences - General
-  - role: sysprefs_general
+  - role: systemprefs_general
     system_appearance: blue
     highlight_color: "1.000000 0.823500 0.505900"
     sidebar_icon_size: medium
@@ -52,6 +52,15 @@
     scroll_behavior: page
     close_confirms_changes: no
     restore_windows: no
+
+  # various sleep related options
+  - role: sleep
+    system_sleep: "off"
+    comp_sleep: "off"
+    disk_sleep: "off"
+    display_sleep: "15"
+    button_sleep: "on"
+    wake_on_lan: "on"
 
     # Desktop View Options
     # these are kinda broken right now.
