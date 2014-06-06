@@ -32,7 +32,7 @@
   copy: src={{ finder_plist }} dest=~/Library/Preferences/com.apple.finder.osxc_backup.plist mode=0600 backup=yes
 
 # First tab - General "GNRL"
-- name: set desktop item visibility (in a loop)
+- name: set bunch of Finder Prefs
   command: "{{ defaults_finder_write }} {{ item.pref }}"
   with_items:
 # Show these items on the desktop:
@@ -123,6 +123,7 @@
 
 
 # Third tab - Sidebar "SDBR"
+# moved above to - name: set bunch of Finder Prefs
 
 # Tags are 10.9 only
 - name: setting Recent Tags in Sidebar to {{ sidebar_tags }}
@@ -130,7 +131,7 @@
   when: "ansible_distribution_version | search('10.9')"
 
 # Fourth tab - Advanced "ADVD"
-
+# moved above to - name: set bunch of Finder Prefs
 
 # When performing a search:
 # absent by default, auto uses SCev until set to SCcf of SCsp, then sets SCev if/when chosen later
