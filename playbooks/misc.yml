@@ -12,10 +12,10 @@
 #  - role: unhide_library
 
   # various sleep related options
-  - role: sleep
-    system_sleep: "off"
-    comp_sleep: "off"
-    disk_sleep: "off"
-    display_sleep: "15"
-    button_sleep: "on"
-    wake_on_lan: "on"
+#  - role: sleep
+#    system_sleep: "off"
+#    comp_sleep: "off"
+#    disk_sleep: "off"
+#    display_sleep: "15"
+#    button_sleep: "on"
+#    wake_on_lan: "on"

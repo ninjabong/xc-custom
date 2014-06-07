@@ -1,0 +1,5 @@
+---
+# shim for homebrew cask to install to user defined dir
+# works around first run/clean system that don't have their dot-shell patched yet
+- name: wrap homebrew in bash with env
+  command: 'bash -lc "HOMEBREW_CASK_OPTS=\"{{ homebrew_cask_opts }}\"; brew cask install {{ package_name }}"'
