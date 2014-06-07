@@ -3,6 +3,6 @@
   roles:
 
   - role: cask_env_package
+    package_name: textmate
 # optional:
-#    homebrew_cask_opts: --appdir=/Applications
-    package_name: firefox
+#    homebrew_cask_opts: --appdir=~/Applications
