@@ -2,7 +2,24 @@
 - hosts: all
   roles:
 
-  - role: ansible_vars
+#  - role: ansible_vars
+#  - role: terminal_prefs
+#    startup_window: mypro
+#    default_window: mybrew
+#    custom_fonts:
+#    - Inconsolata.otf
+#    - SourceCodePro-Regular
+
+  - role: googlefonts
+    fonts:
+      - inconsolata
+      - sourcecodepro
+
+  # install some Terminal.app prefs
+  - role: terminal_prefs
+    startup_theme: mypro
+    default_theme: mybrew
+
 #  - role: gatekeeper
 #    gatekeeper: disable
 #  - role: locatedb

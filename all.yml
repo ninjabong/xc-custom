@@ -179,6 +179,15 @@
 #    wake_on_ac: "1"
 #    lower_brightness: "1"
 
+  # install some ttf fonts
+  - role: googlefonts
+    fonts:
+      - inconsolata
+      - sourcecodepro
+  # install some Terminal.app prefs
+  - role: terminal_prefs
+    startup_theme: mypro
+    default_theme: mybrew
 
 #####
     # Desktop View Options
