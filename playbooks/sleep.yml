@@ -1,0 +1,20 @@
+---
+- hosts: all
+  roles:
+
+# various sleep related options
+  - role: sleep
+    system_sleep: "off"
+    comp_sleep: "off"
+    disk_sleep: "off"
+    display_sleep: "15"
+    button_sleep: "on"
+    wake_on_lan: "on"
+# optional - these set behavior on battery power
+    display_sleep_batt: "15"
+    disk_sleep_batt: "off"
+    system_sleep_batt: "off"
+    wake_on_lan_batt: "1"
+    wake_on_lid: "1"
+    wake_on_ac: "1"
+    lower_brightness: "1"
