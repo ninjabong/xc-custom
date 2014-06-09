@@ -153,7 +153,7 @@
     desktop_icon_size: 64
 
    # System Preferences - General
-  - role: sysprefs_general
+  - role: systemprefs_general
     system_appearance: blue
     highlight_color: "1.000000 0.823500 0.505900"
     sidebar_icon_size: medium
