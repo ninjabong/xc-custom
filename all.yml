@@ -34,51 +34,51 @@
 
   # cask stuff... for the apps
   ## Misc Stuff...
-  - role: cask_env_package
+  - role: cask_package
     package_name: firefox
-  - role: cask_env_package
+  - role: cask_package
     package_name: google-chrome
-  - role: cask_env_package
+  - role: cask_package
     package_name: music-manager
-  - role: cask_env_package
+  - role: cask_package
     package_name: flip4mac
-  - role: cask_env_package
+  - role: cask_package
     package_name: vlc
   ## Misc Things...
-  - role: cask_env_package
+  - role: cask_package
     package_name: asepsis
-  - role: cask_env_package
+  - role: cask_package
     package_name: box-sync
-  - role: cask_env_package
+  - role: cask_package
     package_name: flux
-  - role: cask_env_package
+  - role: cask_package
     package_name: istat-menus
-  - role: cask_env_package
+  - role: cask_package
     package_name: pacifist
-  - role: cask_env_package
+  - role: cask_package
     package_name: totalterminal
-  - role: cask_env_package
+  - role: cask_package
     package_name: osxfuse
-  - role: cask_env_package
+  - role: cask_package
     package_name: sshfs
   ## Text Editors
-#  - role: cask_env_package
+#  - role: cask_package
 #    package_name: atom
-  - role: cask_env_package
+  - role: cask_package
     package_name: sublime-text
-  - role: cask_env_package
+  - role: cask_package
     package_name: textmate
   ## VM related stuff
-#  - role: cask_env_package
+#  - role: cask_package
 #    package_name: virtualbox
-#  - role: cask_env_package
+#  - role: cask_package
 #    package_name: vmware-fusion
-#  - role: cask_env_package
+#  - role: cask_package
 #    package_name: vagrant
   ## Panic, mmmmm Panic
-  - role: cask_env_package
+  - role: cask_package
     package_name: transmit
-  - role: cask_env_package
+  - role: cask_package
     package_name: panic-unison
 
   # osx config
@@ -150,7 +150,8 @@
     quicklook_text_selection: on
     menubar_transparency: off
     icloud_as_default: off
-    desktop_icon_size: 64
+    toolbar_mode: 2
+#    desktop_icon_size: 64
 
    # System Preferences - General
   - role: systemprefs_general
@@ -193,7 +194,7 @@
     # Desktop View Options
     # these are kinda broken right now.
     # and by kinda, I mean totally.
-  - role: desktop_view_opts
+#  - role: desktop_view_opts
 #    arrange_by: name
 #    grid_spacing: 0
 #    desktop_icon_size: 96
@@ -202,4 +203,5 @@
 #    show_icon_preview: on
 #    text_size: 12
     # these actually work, kinda
-    toolbar_shown: 1
+#    toolbar_mode: 2
+#    toolbar_shown: 1

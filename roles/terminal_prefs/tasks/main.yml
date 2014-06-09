@@ -16,8 +16,11 @@
   command: "open {{ ansible_env.PWD }}/roles/terminal_prefs/files/{{ default_theme }}.terminal"
 
 # Kill Terminal so we can write to the plist and have them stick
-- name: killing and restarting Terminal.app
+#- name: gracefully quit Terminal.app
+#  command: osascript -e 'tell application "Terminal" to quit'
+- name: ungracefully quit Terminal.app
   command: "/usr/bin/killall Terminal > /dev/null 2>&1"
+
 
 # Write the new startup and default window settings to plist
 - name: "set Startup Window Settings to {{ startup_theme }}"
