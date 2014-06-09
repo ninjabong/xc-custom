@@ -10,7 +10,7 @@ my custom [osxc](http://osxc.github.io) roles
 -   **finder\_prefs:** sets a bunch of Finder preferences normally done via Finder's Pref Pane
 -   **finder\_window\_prefs:**  sets a bunch of Finder preferences normally done via the Menubar
 -   **gatekeeper:** enable or disable GateKeeper system wide via spctl
--   **googlefonts:** facilitates downloading selected fonts from [googlefontdirectory](https://github.com/w0ng/googlefontdirectory) and placing them in ~/Library/Fonts
+-   **googlefonts:** downloads and installs selected fonts from [googlefontdirectory](https://github.com/w0ng/googlefontdirectory)
 -   **locatedb:** load or unload locatedb via launchctl
 -   **sleep:** set various sleep times for Disks, Display, System via systemsetup and pmset
 -   **sshd:** enable or disable sshd via systemsetup
