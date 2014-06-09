@@ -2,44 +2,5 @@
 - hosts: all
   roles:
 
-#  - role: ansible_vars
-#  - role: terminal_prefs
-#    startup_window: mypro
-#    default_window: mybrew
-#    custom_fonts:
-#    - Inconsolata.otf
-#    - SourceCodePro-Regular
-
-  - role: googlefonts
-    fonts:
-      - inconsolata
-      - sourcecodepro
-
-  # install some Terminal.app prefs
-  - role: terminal_prefs
-    startup_theme: mypro
-    default_theme: mybrew
-
-#  - role: gatekeeper
-#    gatekeeper: disable
-#  - role: locatedb
-#    locatedb: load
-#  - role: sshd
-#    sshd: "on"
-#  - role: unhide_library
-# various sleep related options
-#  - role: sleep
-#    system_sleep: "off"
-#    comp_sleep: "off"
-#   disk_sleep: "off"
-#    display_sleep: "15"
-#    button_sleep: "on"
-#    wake_on_lan: "on"
-# optional - these set behavior on battery power
-#    display_sleep_batt: "15"
-#    disk_sleep_batt: "off"
-#    system_sleep_batt: "off"
-#    wake_on_lan_batt: "1"
-#    wake_on_lid: "1"
-#    wake_on_ac: "1"
-#    lower_brightness: "1"
+  - role: ansible_vars
+  - role: check_os_vers

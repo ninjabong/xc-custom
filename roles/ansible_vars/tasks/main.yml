@@ -1,14 +1,4 @@
 ---
-# determining osx version from ansible's variables
-#- name: info_dump
-#  debug: "var=hostvars[inventory_hostname]"
-
-- name: checking for Mavericks
-  debug: msg="you have Mavericks!"
-  when: "ansible_distribution_version | search('10.9')"
-#  when: "ansible_distribution_version | version_compare('10.9', '>=')"
-
-- name: checking for Mt. Lion
-  debug: msg="you have Mt. Lion!"
-  when: "ansible_distribution_version | search('10.8')"
-#  when: "ansible_distribution_version | version_compare('10.8', '>=') and ansible_distribution_version | version_compare('10.9', '<')"
+# dump all of ansible's variables to console
+- name: variables_dump
+  debug: "var=hostvars[inventory_hostname]"
