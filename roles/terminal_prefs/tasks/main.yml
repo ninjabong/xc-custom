@@ -1,5 +1,8 @@
 ---
 # Set some custom Terminal.app things
+###################################################
+# VERY NOT RECOMMENDED TO USE WITHIN TERMINAL.APP #
+###################################################
 # playbook use:
 #  - role: terminal_prefs
 #    startup_theme: [filename] = files/<filename>.terminal
@@ -8,20 +11,18 @@
 # Use a modified version of the Pro theme for initial term  in Terminal.app
 - name: open Startup Window settings
   command: "open {{ ansible_env.PWD }}/roles/terminal_prefs/files/{{ startup_theme }}.terminal"
-# Wait a bit to make sure the theme is loaded
-#- name: wait for theme to load
-  command: sleep 1
-# Write the new startup window settings to plist
-- name: "set Startup Window Settings to {{ startup_theme }}"
-  command: '{{ defaults_term_write }} "Startup Window Settings" -string {{ startup_theme }}'
-
-
-# Use a modified version of the Homebrew them as the default in Terminal.app
+# Use a modified version of the Homebrew theme as the default in Terminal.app
 - name: open Default Window settings
   command: "open {{ ansible_env.PWD }}/roles/terminal_prefs/files/{{ default_theme }}.terminal"
-# Wait a bit to make sure the theme is loaded
-- name: wait for theme to load
-  command: sleep 1
-# Write the new default window settings to plist
-- name: "set Default Window Settings to {{ default_theme }}"
-  command: '{{ defaults_term_write }} "Default Window Settings" -string {{ default_theme }}'
+
+# Kill Terminal so we can write to the plist and have them stick
+- name: killing and restarting Terminal.app
+  command: "/usr/bin/killall Terminal > /dev/null 2>&1"
+
+# Write the new startup and default window settings to plist
+- name: "set Startup Window Settings to {{ startup_theme }}"
+  command: '{{ defaults_term_write }} {{ item.pref }}'
+  with_items:
+    - { pref: '"Startup Window Settings" -string {{ startup_theme }}' }
+    - { pref: '"Default Window Settings" -string {{ default_theme }}' }
+

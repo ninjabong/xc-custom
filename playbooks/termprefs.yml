@@ -1,0 +1,13 @@
+---
+- hosts: all
+  roles:
+
+  - role: googlefonts
+    fonts:
+      - inconsolata
+      - sourcecodepro
+
+  # install some Terminal.app prefs
+  - role: terminal_prefs
+    startup_theme: mypro
+    default_theme: mybrew

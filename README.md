@@ -19,4 +19,4 @@ my custom [osxc](http://osxc.github.io) roles
 
 #####broken/being worked on:
 -   **desktop\_view\_opts:** is a severly broken attempt to set some Finder window prefs (only TB Display Mode works)
--   **terminal\_prefs:** an attempt to install and configured Terminal.app prefs.  install: works, setting the prefs and having them work?  not so much.
+-   **terminal\_prefs:** an attempt to install and configured Terminal.app prefs.  install: works, setting the prefs and having them stick with Terminal.app running?  not so much.

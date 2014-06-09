@@ -118,7 +118,7 @@
 	<key>VisualBell</key>
 	<true/>
 	<key>name</key>
-	<string>MyPro</string>
+	<string>mypro</string>
 	<key>shellExitAction</key>
 	<integer>2</integer>
 	<key>type</key>
