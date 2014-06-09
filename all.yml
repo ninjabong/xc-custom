@@ -62,8 +62,8 @@
   - role: cask_env_package
     package_name: sshfs
   ## Text Editors
-  - role: cask_env_package
-    package_name: atom
+#  - role: cask_env_package
+#    package_name: atom
   - role: cask_env_package
     package_name: sublime-text
   - role: cask_env_package
@@ -193,7 +193,7 @@
     # Desktop View Options
     # these are kinda broken right now.
     # and by kinda, I mean totally.
-#  - role: desktop_view_opts
+  - role: desktop_view_opts
 #    arrange_by: name
 #    grid_spacing: 0
 #    desktop_icon_size: 96
@@ -202,4 +202,4 @@
 #    show_icon_preview: on
 #    text_size: 12
     # these actually work, kinda
-#    toolbar_shown: 1
+    toolbar_shown: 1
