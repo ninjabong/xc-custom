@@ -7,7 +7,8 @@ my custom [osxc](http://osxc.github.io) roles
 --------------------
 #####working:
 -   **ansible\_vars:** dump all of ansible's available variables
--   **check\_os\_vers**  example of how to test for Mt Lion or Mavericks
+-   **check\_os\_vers** example of how to test for Mt Lion or Mavericks
+-   **computer\_name** sets the Computer Name normally done via System Prefences \- Sharing
 -   **finder\_prefs:** sets a bunch of Finder preferences normally done via Finder's Pref Pane
 -   **finder\_window\_prefs:**  sets a bunch of Finder preferences normally done via the Menubar
 -   **gatekeeper:** enable or disable GateKeeper system wide via spctl

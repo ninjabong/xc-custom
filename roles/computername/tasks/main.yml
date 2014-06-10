@@ -1,0 +1,9 @@
+---
+# sets Computer's name (equiv of setting it in System Prefs - Sharing)
+# requires ansible-playbook -K for sudo
+# playbook use:
+#  - role: computername
+#    computername: <foo>
+- name: "set Computer Name to {{ computername }}"
+  sudo: True
+  command: "/usr/sbin/scutil --set ComputerName {{ computername }}"

@@ -4,3 +4,5 @@
 
   - role: ansible_vars
   - role: check_os_vers
+  - role: computername
+    computername: VM

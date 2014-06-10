@@ -189,6 +189,15 @@
   - role: terminal_prefs
     startup_theme: mypro
     default_theme: mybrew
+  # set some system volumes
+  - role: systemprefs_sound
+    alert_volume: "0.5"
+    ui_soundfx: "1"
+    volume_feedback: "0"
+  # set the Computer Name
+  - role: computername
+    computername: OSXC-VM
+
 
 #####
     # Desktop View Options
