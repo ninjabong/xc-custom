@@ -1,7 +1,7 @@
 ---
-# System Preferences - General
+# System Preferences - Sound
 # playbook use:
-#  - role: systemprefs_general
+#  - role: systemprefs_sound
 #    alert_volume: [0.0-1.0]
 #    ui_soundfx: [0|1]
 #    volume_feedback: [0|1]

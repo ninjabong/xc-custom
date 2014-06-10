@@ -1,7 +1,7 @@
 ---
 - hosts: all
   roles:
-  - role: systemprefs_general
+  - role: systemprefs_sound
     alert_volume: "0.5"
     ui_soundfx: "1"
     volume_feedback: "0"
