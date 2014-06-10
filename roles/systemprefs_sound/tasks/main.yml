@@ -17,6 +17,6 @@
 # Alert volume
     - { plist: com.apple.systemsound , pref: '"com.apple.sound.beep.volume" "{{ alert_volume }}"' }
 # Play user interface sound effects
-    - { plist: com.apple.systemsound , pref: '"com.apple.sound.uiaudio.enabled" "{{ sysui_soundfx }}"' }
+    - { plist: com.apple.systemsound , pref: '"com.apple.sound.uiaudio.enabled" "{{ ui_soundfx }}"' }
 # Play feedback when volume is changed
     - { plist: NSGlobalDomain , pref: '"com.apple.sound.beep.feedback" "{{ volume_feedback }}"'}
