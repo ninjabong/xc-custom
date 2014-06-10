@@ -3,7 +3,7 @@
 # playbook use:
 #  - role: systemprefs_general
 #    alert_volume: [0.0-1.0]
-#    sysui_soundfx: [0|1]
+#    ui_soundfx: [0|1]
 #    volume_feedback: [0|1]
 
 

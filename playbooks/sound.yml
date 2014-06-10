@@ -1,4 +1,6 @@
 ---
+- hosts: all
+  roles:
   - role: systemprefs_general
     alert_volume: "0.5"
     ui_soundfx: "1"
