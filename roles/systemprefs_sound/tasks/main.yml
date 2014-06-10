@@ -3,7 +3,7 @@
 # playbook use:
 #  - role: systemprefs_general
 #    alert_volume: [0.0-1.0]
-#    ui_soundfx: [0|1]
+#    sysui_soundfx: [0|1]
 #    volume_feedback: [0|1]
 
 
@@ -17,6 +17,6 @@
 # Alert volume
     - { plist: com.apple.systemsound , pref: '"com.apple.sound.beep.volume" "{{ alert_volume }}"' }
 # Play user interface sound effects
-    - { plist: com.apple.systemsound , pref: '"com.apple.sound.uiaudio.enabled" "{{ ui_soundfx }}"' }
+    - { plist: com.apple.systemsound , pref: '"com.apple.sound.uiaudio.enabled" "{{ sysui_soundfx }}"' }
 # Play feedback when volume is changed
     - { plist: NSGlobalDomain , pref: '"com.apple.sound.beep.feedback" "{{ volume_feedback }}"'}

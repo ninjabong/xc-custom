@@ -1,5 +1,5 @@
 ---
   - role: systemprefs_general
     alert_volume: 0.5
-    ui_soundfx: 1
+    sysui_soundfx: 1
     volume_feedback: 0
