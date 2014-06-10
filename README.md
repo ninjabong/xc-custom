@@ -16,6 +16,7 @@ my custom [osxc](http://osxc.github.io) roles
 -   **sleep:** set various sleep times for Disks, Display, System via systemsetup and pmset
 -   **sshd:** enable or disable sshd via systemsetup
 -   **systemprefs\_general:** sets prefs normally done via System Preferences \- General
+-   **systemprefs\_sound** sets a few system volume options normally done via System Preferences \- Sound
 -   **unhide\_library:** unhides ~/Library in Finder
 
 #####broken/being worked on:

@@ -1,0 +1,22 @@
+---
+# System Preferences - General
+# playbook use:
+#  - role: systemprefs_general
+#    alert_volume: [0.0-1.0]
+#    ui_soundfx: [0|1]
+#    volume_feedback: [0|1]
+
+
+# These are normally set through System Preferences - Sound > Sound Effects tab
+# the Output volume and Output & Input are nested dicts in /Lib/Prefs/Audio/com.apple.audio files
+# and much more complex.
+# note: they're stored as string not number values.
+- name: set System Audio preferences
+  command: "/usr/bin/defaults write {{ item.plist }} {{ item.pref }}"
+  with_items:
+# Alert volume
+    - { plist: com.apple.systemsound , pref: '"com.apple.sound.beep.volume" "{{ alert_volume }}"' }
+# Play user interface sound effects
+    - { plist: com.apple.systemsound , pref: '"com.apple.sound.uiaudio.enabled" "{{ ui_soundfx }}"' }
+# Play feedback when volume is changed
+    - { plist: NSGlobalDomain , pref: '"com.apple.sound.beep.feedback" "{{ volume_feedback }}"'}
