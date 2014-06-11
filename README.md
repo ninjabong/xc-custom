@@ -7,8 +7,8 @@ my custom [osxc](http://osxc.github.io) roles
 --------------------
 #####working:
 -   **ansible\_vars:** dump all of ansible's available variables
--   **check\_os\_vers** example of how to test for Mt Lion or Mavericks
--   **computername** sets the Computer Name normally done via System Prefences \- Sharing
+-   **check\_os\_vers:** example of how to test for Mt Lion or Mavericks
+-   **computername:** sets the Computer Name normally done via System Prefences \- Sharing
 -   **finder\_prefs:** sets a bunch of Finder preferences normally done via Finder's Pref Pane
 -   **finder\_window\_prefs:**  sets a bunch of Finder preferences normally done via the Menubar
 -   **gatekeeper:** enable or disable GateKeeper system wide via spctl
@@ -17,7 +17,7 @@ my custom [osxc](http://osxc.github.io) roles
 -   **sleep:** set various sleep times for Disks, Display, System via systemsetup and pmset
 -   **sshd:** enable or disable sshd via systemsetup
 -   **systemprefs\_general:** sets prefs normally done via System Preferences \- General
--   **systemprefs\_sound** sets a few system volume options normally done via System Preferences \- Sound
+-   **systemprefs\_sound:** sets a few system volume options normally done via System Preferences \- Sound
 -   **unhide\_library:** unhides ~/Library in Finder
 
 #####broken/being worked on:
