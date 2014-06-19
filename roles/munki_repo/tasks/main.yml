@@ -1,6 +1,6 @@
 ---
-# sets up a minimal directory structure for a munki repo
-# supports both osx client and server 
+# sets up minimal directory structure for a munki repo
+# supports both os x client and server
 # requires ansible-playbook -K for sudo
 # playbook use:
 #  - role: munki_repo
@@ -26,7 +26,7 @@
 - name: "Symlink {{ repo_base }}/{{ repo_name }} to Apache's default DocumentRoot for OS X Server"
   sudo: True
   file: src={{ repo_base }}/{{ repo_name }}
-        path=/Library/Server/Web/Data/Sites/Default/munki
+        path=/Library/Server/Web/Data/Sites/Default/{{ repo_name }}
         state=link
   when: is_osx_server.stat.exists == true
 
