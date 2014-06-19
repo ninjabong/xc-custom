@@ -36,3 +36,7 @@
         path=/Library/Webserver/Documents/{{ repo_name }}
         state=link
   when: is_osx_server.stat.exists == false
+
+- name: (Re)Start Apache
+  sudo: True
+  command: apachectl restart
