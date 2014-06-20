@@ -1,0 +1,31 @@
+---
+defaults_mngdprefs_write: /usr/bin/defaults write /Library/Preferences/ManagedInstalls
+AdditionalHttpHeaders: "Authorization: Basic abcdefghijklmno=" # (array)
+AppleSoftwareUpdatesOnly: no
+InstallAppleSoftwareUpdates: no
+ClientIdentifier: "client-name" # *
+DaysBetweenNotifications: "1" # * (int)
+SoftwareUpdateServerUrl: ""
+SoftwareRepoURL: "http://munki/repo" # *
+CatalogURL: "SoftwareRepoURL/catalogs"
+PackageURL: "SoftwareRepoURL/pkgs"
+ManifestURL: "SoftwareRepoURL/manifests" # *
+ManifestBaseURL: "http://munki/manifests"
+ManagedInstallDir: "/Library/Managed Installs" # *
+LoggingLevel: "1" # * (int - higher vals = more debugging)
+LogFile: "ManagedInstallDir/Logs/ManagedSoftwareUpdate.log"
+LogToSyslog: no
+UseClientCertificate: no # *
+UseClientCertificateCNAsClientIdentifier: no
+SoftwareRepoCAPath: "/path/to/applesus_certs/"
+SoftwareRepoCACertificate: "/path/to/apple_sus_certs/applesus.pem"
+ClientCertificatePath: "/Library/Managed Installs/certs/munki.pem"
+ClientKeyPath: ""
+PackageVerificationMode: "hash" # [hash|hash_strict|none]
+SuppressUserNotification: no
+SuppressAutoInstall: no
+SuppressLoginwindowInstall: no
+SuppressStopButtonOnInstall: no
+InstallRequiresLogout: no
+ShowRemovalDetail: no
+CurlPath: "/usr/bin/curl"

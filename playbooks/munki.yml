@@ -2,6 +2,38 @@
 - hosts: all
   roles:
 
-  - role: munki_repo
-    repo_base: /Users/Shared/
-    repo_name: munki_repo
+#  - role: munki_repo
+#    repo_base: /Users/Shared/
+#    repo_name: munki_repo
+
+#  - role: munki
+#    install_type: pkg
+
+  - role: munki_client
+    ClientIdentifier: "VM"
+    CurlPath: "/opt/local/bin/curl"
+    InstallAppleSoftwareUpdates: no
+    ManifestBaseURL: "http://munki.ereet.st/manifests"
+    ManifestURL: ""
+    SoftwareRepoURL: "https://munki.ereet.st"
+
+#    AdditionalHttpHeaders: "Authorization: Basic abcdefghijklmno=" # (array)
+#    AppleSoftwareUpdatesOnly: no
+
+#    SuppressStopButtonOnInstall: no
+#    UseClientCertificate: no
+#    ## optional
+#    PackageURL: SoftwareRepoURL/pkgs
+#    CatalogURL: SoftwareRepoURL/catalogs
+#    ## end optional
+#  * ManagedInstallDir: "/Library/Managed Installs"
+#    LogFile: "ManagedInstallDir/Logs/ManagedSoftwareUpdate.log"
+#    LogToSyslog: [0|1]
+#  * LoggingLevel: [1] (int - higher vals = more debugging)
+#  * DaysBetweenNotifications: [1] (int)
+#  * UseClientCertificate: [0|1]
+#    UseClientCertificateCNAsClientIdentifier:
+#    SoftwareRepoCAPath: "/path/to/applesus_certs/"
+#    SoftwareRepoCACertificate: "/path/to/apple_sus_certs/applesus.pem"
+#    ClientCertificatePath: "/Library/Managed Installs/certs/munki.pem" 
+#    ClientKeyPath: "/path/to/private/client.key"

@@ -1,0 +1,47 @@
+---
+# downloads and installs munkitools from pkg or dmg
+# various bits borrowed from http://munkibuilds.org/latest.sh
+#
+# requires ansible-playbook -K for sudo
+# playbook use:
+#  - role: munki
+#    install_type: [pkg|dmg]
+
+
+- name: Acquire latest munki pkg
+  get_url: "url=http://munkibuilds.org/munkitools2-latest.pkg dest=/tmp/munki.pkg"
+  when: install_type != "dmg"
+
+- name: Install latest munki pkg
+  sudo: True
+  command: "/usr/sbin/installer -pkg /tmp/munki.pkg -target /"
+  when: install_type != "dmg"
+
+- name: Remove latest munki pkg
+  file: path=/tmp/munki.pkg state=absent
+  when: install_type != "dmg"
+
+
+- name: Acquire latest munki dmg
+  get_url: "url=http://munkibuilds.org/munkitools2-latest.dmg dest=/tmp/munki.dmg"
+  when: install_type is defined install_type = "dmg"
+
+- name: Mount latest munki dmg
+  command: /usr/bin/hdiutil attach /tmp/munki.dmg \
+           -mountpoint `/usr/bin/mktemp -d /tmp/munki.XXXX`
+  when: install_type is defined install_type = "dmg"
+
+- name: Install latest munki from dmg
+  sudo: True
+  command: /usr/sbin/installer \
+           -pkg /tmp/munki.XXXX/`/bin/ls /tmp/munki.XXXX | grep munkitools` \
+           -target /"
+  when: install_type is defined install_type = "dmg"
+
+- name: Unmount latest munki dmg
+  command: /usr/bin/hdiutil detach /tmp/munki.XXXX
+  when: install_type is defined install_type = "dmg"
+
+- name: Remove latest munki dmg
+  file: path=/tmp/munki.dmg state=absent
+  when: install_type is defined install_type = "dmg"
