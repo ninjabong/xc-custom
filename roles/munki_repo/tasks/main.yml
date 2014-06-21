@@ -8,7 +8,7 @@
 #    repo_base: /path/to/...
 #    repo_name: ...repo_name
 
-- name: Create the repo directories
+- name: "Create the repo directories in {{ repo_base }}"
   file: path={{ item }}
         mode=755
         recurse=yes
@@ -19,6 +19,7 @@
     - "{{ repo_base }}/{{ repo_name }}/manifests"
     - "{{ repo_base }}/{{ repo_name }}/pkgs"
     - "{{ repo_base }}/{{ repo_name }}/pkgsinfo"
+
 
 - name: Check for OS X Server
   stat: path=/Library/Server/Web/Data/Sites/Default
@@ -37,6 +38,7 @@
         path=/Library/Webserver/Documents/{{ repo_name }}
         state=link
   when: is_osx_server.stat.exists == false
+
 
 - name: (Re)Start Apache
   sudo: True

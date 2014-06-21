@@ -7,9 +7,9 @@ ClientIdentifier: "client-name" # *
 DaysBetweenNotifications: "1" # * (int)
 SoftwareUpdateServerUrl: ""
 SoftwareRepoURL: "http://munki/repo" # *
-CatalogURL: "SoftwareRepoURL/catalogs"
-PackageURL: "SoftwareRepoURL/pkgs"
-ManifestURL: "SoftwareRepoURL/manifests" # *
+CatalogURL: "{{ SoftwareRepoURL }}/catalogs"
+PackageURL: "{{ SoftwareRepoURL }}/pkgs"
+ManifestURL: "{{ SoftwareRepoURL }}/manifests" # *
 ManifestBaseURL: "http://munki/manifests"
 ManagedInstallDir: "/Library/Managed Installs" # *
 LoggingLevel: "1" # * (int - higher vals = more debugging)

@@ -214,3 +214,46 @@
     # these actually work, kinda
 #    toolbar_mode: 2
 #    toolbar_shown: 1
+
+
+#  - role: munki_repo
+#    repo_base: /Users/Shared/
+#    repo_name: munki_repo
+
+
+#  - role: munki
+#    ## optional
+#    update: [yes|no]
+#    install_type: [pkg|dmg] (defaults to pkg)
+#    ## defaults to http://munkibuilds.org/latest.[pkg|dmg]
+#    munki_pkg_url: http://host.tld/munki.pkg
+#    munki_dmg_url: http://host.tld/munki.dmg
+
+
+#  - role: munki_client
+#    ClientIdentifier: "VM"
+#    InstallAppleSoftwareUpdates: no
+#    SoftwareRepoURL: "http://munki.tld"
+#    CurlPath: "/opt/local/bin/curl"
+    ## the rest aren't really needed for most installs
+#    ManifestBaseURL: "http://munki.tld/manifests"
+#    ManifestURL: ""
+#    AdditionalHttpHeaders: "Authorization: Basic abcdefghijklmno=" # (array)
+#    AppleSoftwareUpdatesOnly: no
+#    SuppressStopButtonOnInstall: no
+#    UseClientCertificate: no
+#    ## optional
+#    PackageURL: SoftwareRepoURL/pkgs
+#    CatalogURL: SoftwareRepoURL/catalogs
+#    ## end optional
+#  * ManagedInstallDir: "/Library/Managed Installs"
+#    LogFile: "ManagedInstallDir/Logs/ManagedSoftwareUpdate.log"
+#    LogToSyslog: [0|1]
+#  * LoggingLevel: [1] (int - higher vals = more debugging)
+#  * DaysBetweenNotifications: [1] (int)
+#  * UseClientCertificate: [0|1]
+#    UseClientCertificateCNAsClientIdentifier:
+#    SoftwareRepoCAPath: "/path/to/applesus_certs/"
+#    SoftwareRepoCACertificate: "/path/to/apple_sus_certs/applesus.pem"
+#    ClientCertificatePath: "/Library/Managed Installs/certs/munki.pem" 
+#    ClientKeyPath: "/path/to/private/client.key"

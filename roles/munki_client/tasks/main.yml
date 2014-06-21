@@ -42,6 +42,7 @@
 
 
 - name: Defaults write settings to ManagedInstalls.plist
+  sudo: True
   command: "{{ defaults_mngdprefs_write }} {{ item.pref }}"
   with_items:
     - { pref: '"AdditionalHttpHeaders" -array "{{ AdditionalHttpHeaders }}"' }

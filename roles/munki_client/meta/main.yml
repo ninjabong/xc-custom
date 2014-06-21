@@ -1,4 +1,3 @@
 ---
 dependencies:
   - role: munki
-    install_type: pkg
