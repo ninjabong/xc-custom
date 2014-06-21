@@ -20,6 +20,11 @@ my custom [osxc](http://osxc.github.io) roles
 -   **systemprefs\_sound:** sets a few system volume options normally done via System Preferences \- Sound
 -   **unhide\_library:** unhides ~/Library in Finder
 
-#####broken/being worked on:
+#####in progress:
+-   **munki:** downloads and installs munkitools from pkg or dmg, even custom urls.  no https yet.
+-   **munki\_client:** sets up a new munki client from above.  no https yet.
+-   **munki\_repo:** sets up minimal directory structure for a munki repo.  only os x client & server so far.
+
+#####broken:
 -   **desktop\_view\_opts:** is a severly broken attempt to set some Finder window prefs (only TB Display Mode works)
 -   **terminal\_prefs:** an attempt to install and configure Terminal.app prefs.  install: works, setting the prefs and having them stick with Terminal.app running?  not so much, so it's very sketchy to use in a playbook run from within Terminal.app since it will aggressively kill Terminal.app in order to make the prefs stick.  yuck.
