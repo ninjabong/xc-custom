@@ -2,14 +2,14 @@ munki\_manifest
 ==
 runs manifestutil
 --------
-requires: ....  ?
-          autopkg\_install, and thus munkitools and munki_repo roles
-          ansible\-playbook \-K for sudo
+**requires:**<br />
+- autopkg\_install, and thus munkitools and munki_repo roles<br />
+- ansible\-playbook \-K for sudo<br />
 
-playbook use:
-  \- role: munki\_manifest
-    pkg\_list: item1
-               item2
-               etc...
-    manifest\_name: autopkg
-    repo\_path: "/Users/Shared/munki"
+playbook use:<br />
+&nbsp;&nbsp;\- role: munki\_manifest<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pkg\_list: item1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;etc...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;manifest\_name: autopkg<br />
+&nbsp;&nbsp;&nbsp;&nbsp;repo\_path: "/Users/Shared/munki"<br />
