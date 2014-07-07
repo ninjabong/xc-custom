@@ -9,7 +9,8 @@ adds repos to autopkg
 playbook use:<br />
 &nbsp;&nbsp;\- role: autopkg\_repo<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\#\#optional:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;repos: \(additional repos can be found<br /> [here](https://github.com/autopkg/recipes)\)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;repos: \(additional repos can be found 
+[here](https://github.com/autopkg/recipes)\)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\- "https://github.com/autopkg/recipes" \(installed by default\)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\- repo2<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\- etc...<br />

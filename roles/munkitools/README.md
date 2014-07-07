@@ -11,7 +11,7 @@ playbook use:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\#\# optional<br />
 &nbsp;&nbsp;&nbsp;&nbsp;update: \[yes|no\]<br />
 &nbsp;&nbsp;&nbsp;&nbsp;install\_type: \[pkg|dmg\] (defaults to pkg)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;\#\# defaults to http://munkibuilds.org/latest.\[pkg|dmg\]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;\#\# defaults to http://munkibuilds.org/latest \[pkg|dmg\]<br />
 &nbsp;&nbsp;&nbsp;&nbsp;munki\_pkg\_url: http://host.tld/munki.pkg<br />
 &nbsp;&nbsp;&nbsp;&nbsp;munki\_dmg\_url: http://host.tld/munki.dmg<br />
 &nbsp;&nbsp;&nbsp;&nbsp;default\_catalog: testing<br />
