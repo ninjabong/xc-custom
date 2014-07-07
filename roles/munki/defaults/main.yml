@@ -1,5 +1,0 @@
----
-munki_pkg_url: "http://munkibuilds.org/munkitools2-latest.pkg"
-munki_dmg_url: "http://munkibuilds.org/munkitools-latest.dmg"
-install_type: pkg
-update: no

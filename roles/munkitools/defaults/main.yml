@@ -1,0 +1,11 @@
+---
+munki_pkg_url: "http://munkibuilds.org/munkitools2-latest.pkg"
+munki_dmg_url: "http://munkibuilds.org/munkitools-latest.dmg"
+install_type: pkg
+update: no
+default_catalog: testing
+editor: TextMate2.app
+pkginfo_extension: .plist
+repo_path: "{{ repo_base }}/{{ repo_name }}"
+repo_url: http://localhost/munki
+munkiimport_prefs: ~/Library/Preferences/com.googlecode.munki.munkiimport.plist

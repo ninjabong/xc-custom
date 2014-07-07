@@ -1,45 +1,39 @@
 ---
-# sets up minimal directory structure for a munki repo
-# supports both os x client and server
-#
-# requires ansible-playbook -K for sudo
-# playbook use:
-#  - role: munki_repo
-#    repo_base: /path/to/...
-#    repo_name: ...repo_name
 
-- name: "Create the repo directories in {{ repo_base }}"
+- name: "Create the repo directories in {{ repo_path }}"
   file: path={{ item }}
         mode=755
         recurse=yes
         state=directory
   with_items:
-    - "{{ repo_base }}/{{ repo_name }}/catalogs"
-    - "{{ repo_base }}/{{ repo_name }}/icons"
-    - "{{ repo_base }}/{{ repo_name }}/manifests"
-    - "{{ repo_base }}/{{ repo_name }}/pkgs"
-    - "{{ repo_base }}/{{ repo_name }}/pkgsinfo"
+    - "{{ repo_path }}/catalogs"
+    - "{{ repo_path }}/icons"
+    - "{{ repo_path }}/manifests"
+    - "{{ repo_path }}/pkgs"
+    - "{{ repo_path }}/pkgsinfo"
 
 
 - name: Check for OS X Server
   stat: path=/Library/Server/Web/Data/Sites/Default
   register: is_osx_server
 
-- name: "Symlink {{ repo_base }}/{{ repo_name }} to Apache's default DocumentRoot for OS X Server"
+- name: "Symlink {{ repo_path }} to Apache's default DocumentRoot for OS X Server"
   sudo: True
-  file: src={{ repo_base }}/{{ repo_name }}
-        path=/Library/Server/Web/Data/Sites/Default/{{ repo_name }}
+  file: src={{ repo_path }}
+        dest=/Library/Server/Web/Data/Sites/Default/{{ repo_path | basename }}
+        owner=root group=wheel
         state=link
   when: is_osx_server.stat.exists == true
 
-- name: "Symlink {{ repo_base }}/{{ repo_name }} to Apache's default DocumentRoot for OS X Client"
+- name: "Symlink {{ repo_path }} to Apache's default DocumentRoot for OS X Client"
   sudo: True
-  file: src={{ repo_base }}/{{ repo_name }}
-        path=/Library/Webserver/Documents/{{ repo_name }}
+  file: src={{ repo_path }}
+        dest=/Library/Webserver/Documents/{{ repo_path | basename }}
+        owner=root group=wheel
         state=link
   when: is_osx_server.stat.exists == false
 
 
 - name: (Re)Start Apache
   sudo: True
-  command: apachectl restart
+  command: /usr/sbin/apachectl restart

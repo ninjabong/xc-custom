@@ -221,7 +221,7 @@
 #    repo_name: munki_repo
 
 
-#  - role: munki
+#  - role: munkitools
 #    ## optional
 #    update: [yes|no]
 #    install_type: [pkg|dmg] (defaults to pkg)

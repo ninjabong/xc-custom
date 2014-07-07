@@ -1,0 +1,15 @@
+---
+
+- name: Check for munki iconimporter
+  stat: path=/usr/local/munki/iconimporter
+  register: importer_exists
+
+- name: Download munki iconimporter of absent
+  sudo: True
+  get_url: url={{ iconimporter_url }}
+           dest=/usr/local/munki/iconimporter
+           owner=root group=wheel mode=0755
+  when: importer_exists.stat.exists == false
+
+- name: Running munki iconimporter
+  command: /usr/local/munki/iconimporter {{ repo_path }}

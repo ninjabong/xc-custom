@@ -1,0 +1,6 @@
+---
+
+- name: add repos to autopkg
+  ignore_errors: True
+  command: '/usr/local/bin/autopkg repo-add {{ item }}'
+  with_items: repos

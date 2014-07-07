@@ -1,0 +1,47 @@
+---
+- hosts: all
+  vars:
+    # shared between: autopkg_install, munkitools, munki_repo and munki_manifest
+    repo_path: /Users/Shared/munki_repo
+    # shared between: munkitools and munki_client
+    repo_url: http://{{ ansible_nodename }}/{{ repo_path | basename }}
+    # shared between: munki_client and munki_manifest
+    manifest_name: autopkg-osxc
+    # not shared, just munki_manifest
+    manifest_list:
+    - "AdobeFlashPlayer"
+    - "Firefox"
+    - "GoogleChrome"
+    - "Skype"
+    - "TextMate2"
+    - "TheUnarchiver"
+    - "TotalTerminal"
+    - "Transmit"
+    - "Vagrant"
+    - "VLC"
+    # shared between: autopkg_run and munki_manifest
+    pkg_list: AdobeFlashPlayer.munki
+              Firefox.munki
+              GoogleChrome.munki
+              Skype.munki
+              TextMate2.munki
+              TheUnarchiver.munki
+              TotalTerminal.munki
+              Transmit.munki
+              Vagrant.munki
+              VLC.munki
+              MakeCatalogs.munki
+    # not shared, just autopkg_repo
+    repos:
+    - "https://github.com/autopkg/recipes"
+    - "https://github.com/autopkg/hjuutilainen-recipes"
+    - "https://github.com/autopkg/jps3-recipes"
+    - "https://github.com/autopkg/arubdesu-recipes"
+    - "https://github.com/autopkg/hansen-m-recipes"
+
+  roles:
+    - role: autopkg_install
+    - role: autopkg_repo
+    - role: autopkg_run
+    - role: munki_manifest
+    - role: munki_iconimport

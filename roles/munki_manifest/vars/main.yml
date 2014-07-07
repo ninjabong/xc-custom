@@ -1,0 +1,4 @@
+---
+manifest_name: autopkg
+repo_path: "/Users/Shared/munki"
+manifestutil_exec: /usr/local/munki/manifestutil

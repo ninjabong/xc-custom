@@ -1,18 +1,23 @@
 ---
 - hosts: all
+#  vars:
+#    repo_path: /Users/Shared/munki_repo
+
   roles:
 
-  - role: munki_repo
-    repo_base: /Users/Shared/
-    repo_name: munki_repo
+  - role: munki_iconimport
+    repo_path: /Users/Shared/munki_repo
+
+#  - role: munki_repo
+#    repo_path: /Users/Shared/munki_repo
 
 
-#  - role: munki
+#  - role: munkitools
 #    install_type: pkg
     ## optional
 #    update: yes
 
-#  - role: munki
+#  - role: munkitools
 #    ## optional
 #    update: [yes|no]
 #    install_type: [pkg|dmg] (defaults to pkg)
