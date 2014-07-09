@@ -1,0 +1,9 @@
+---
+- hosts: all
+  roles:
+
+#  - role: macports_install
+  - role: macports_package
+    port:
+      - tree
+      - figlet

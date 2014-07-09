@@ -1,0 +1,5 @@
+---
+pkg_path: /tmp/munki_client
+plist_path: {{ pkg_path }}/Library/Preferences/ManagedInstalls.plist
+defaults_write: /usr/bin/defaults write
+SoftwareRepoURL: "http://{{ ansible_node_name }}/{{ repo_path | basename }}"

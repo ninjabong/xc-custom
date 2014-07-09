@@ -6,6 +6,6 @@ update: no
 default_catalog: testing
 editor: TextMate2.app
 pkginfo_extension: .plist
-repo_path: "{{ repo_base }}/{{ repo_name }}"
-repo_url: http://localhost/munki
+repo_path: "/Users/Shared/munki_repo"
+repo_url: "http://{{ ansible_nodename }}/{{ repo_path | basename }}"
 munkiimport_prefs: ~/Library/Preferences/com.googlecode.munki.munkiimport.plist

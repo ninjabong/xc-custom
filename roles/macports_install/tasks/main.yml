@@ -1,0 +1,43 @@
+---
+
+
+- name: check if macports is installed
+  stat: path=/opt/local/bin/port
+  register: macports_exists
+
+# things we do when macports is installed
+- name: selfupdate macports
+  sudo: True
+  command: /opt/local/bin/port selfupdate
+  when: macports_exists.stat.exists == true and (update is defined and update == true)
+
+- name: upgrade outdated macports
+  # if no ports are installed ansible will complain
+  ignore_errors: True
+  sudo: True
+  command: /opt/local/bin/port upgrade outdated
+  when: macports_exists.stat.exists == true
+
+
+# things we do when macports is not installed
+- name: download macports for Mt Lion
+  get_url: "url={{ macports_url }}/MacPorts-2.3.1-10.8-MountainLion.pkg dest=/tmp/macports.pkg"
+  when: "macports_exists.stat.exists == false and ansible_distribution_version | search('10.8')"
+
+- name: download macports for Mavericks
+  get_url: "url={{ macports_url }}/MacPorts-2.3.1-10.9-Mavericks.pkg dest=/tmp/macports.pkg"
+  when: "macports_exists.stat.exists == false and ansible_distribution_version | search('10.9')"
+
+- name: install macports pkg
+  sudo: True
+  command: "/usr/sbin/installer -pkg /tmp/macports.pkg -target /"
+  when: macports_exists.stat.exists == false
+
+- name: cleanup macports pkg
+  file: path=/tmp/macports.pkg state=absent
+  when: macports_exists.stat.exists == false
+
+- name: selfupdate macports
+  sudo: True
+  command: /opt/local/bin/port selfupdate
+  when: macports_exists.stat.exists == false

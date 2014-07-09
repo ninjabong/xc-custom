@@ -1,0 +1,18 @@
+---
+
+- name: selfupdate macports
+  sudo: True
+  command: /opt/local/bin/port selfupdate
+  when: (update is defined and update == true) and port is not defined
+
+- name: install {{ port }} and update package db
+  sudo: True
+  macports: name={{ item }} state=present update_cache=yes
+  with_items: port
+  when: (update is defined and update == true) and port is defined
+
+- name: install {{ port }}
+  sudo: True
+  macports: name={{ item }} state=present
+  with_items: port
+  when: port is defined

@@ -1,7 +1,8 @@
 munki\_client
 =====
-sets up a new munki client<br />
+sets up a new local munki client<br />
 for explanations see: http://code.google.com/p/munki/wiki/configuration
+see (munki\_client\_pkgr)[../munki\_client\_pkgr] for a munki.pkg for clients
 -----
 **requires:**
 - ansible\-playbook \-K for sudo<br />

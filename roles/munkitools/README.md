@@ -2,6 +2,8 @@ munkitools
 =====
 downloads and installs munkitools from pkg or dmg
 various bits borrowed from http://munkibuilds.org/latest.sh
+note: by default pkg will be the latest/current munki v2.0.0.\#\#\#\# build
+while the dmg is still munki v1.0.0.1884
 -----
 **requires:**<br />
 - ansible\-playbook \-K for sudo<br />
@@ -17,5 +19,5 @@ playbook use:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;default\_catalog: testing<br />
 &nbsp;&nbsp;&nbsp;&nbsp;editor: TextMate2.app<br />
 &nbsp;&nbsp;&nbsp;&nbsp;pkginfo\_extension: .plist<br />
-&nbsp;&nbsp;&nbsp;&nbsp;repo\_path: \{\{ repo_base \}\}/\{\{ repo_name \}\}<br />
-&nbsp;&nbsp;&nbsp;&nbsp;repo\_url: http://localhost/munki<br />
+&nbsp;&nbsp;&nbsp;&nbsp;repo\_path: /Users/Shared/munki_repo<br />
+&nbsp;&nbsp;&nbsp;&nbsp;repo\_url: http://\{\{ ansible_nodename \}\}/\{\{ repo_path | basename \}\}<br />

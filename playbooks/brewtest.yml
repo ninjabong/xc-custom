@@ -1,0 +1,7 @@
+---
+- hosts: all
+  roles:
+
+  - role: brew_package
+    package_name: irssi
+    brew_opts: with-openssl,without-perl

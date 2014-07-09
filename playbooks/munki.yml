@@ -5,8 +5,10 @@
 
   roles:
 
-  - role: munki_iconimport
-    repo_path: /Users/Shared/munki_repo
+  - role: munki_client_pkg
+
+#  - role: munki_iconimport
+#    repo_path: /Users/Shared/munki_repo
 
 #  - role: munki_repo
 #    repo_path: /Users/Shared/munki_repo
