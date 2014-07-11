@@ -1,0 +1,61 @@
+---
+# installs homebrew system-wide
+
+# but first, let's update the repo path
+- name: check for current repo path
+  stat: path={{ brew_repo_path }}
+  register: new_repo
+
+- name: check for deprecated repo path
+  stat: path={{ old_repo_path }}
+  register: old_repo
+
+- name: git clone old repo to new repo path
+  # copy and synchronize are soooooo slooooooooooow but git on the other hand...
+  git: repo={{ old_repo_path }} dest={{ brew_repo_path }}
+  when: new_repo.stat.exists == false and (old_repo.stat.exists == true and old_repo.stat.isdir == true)
+  register: repo_clone
+
+- name: update repo's remote URL
+  command: "cd {{ brew_repo_path }} && git remote set-url origin https://github.com/Homebrew/homebrew"
+
+
+# this is the part that worries me vs leaving old repo around "just in case"
+- name: remove old repo
+  file: path={{ old_repo_path | dirname }} state=absent
+  when: repo_clone|success
+
+
+- name: assert new homebrew installation
+  stat: path=/usr/local/bin/brew
+  ignore_errors: True
+  register: brew_installed
+
+- name: clone homebrew
+  git: "repo=https://github.com/Homebrew/homebrew.git dest={{ brew_repo_path }} update=no"
+  when: new_repo.stat.exists == false and old_repo.stat.exists == false
+#  when: (new_repo.stat.exists == false and old_repo.stat.exists == false) and brew_installed.stat.exists == false
+
+- name: get old /usr/local
+  copy: src=/usr/local dest={{ brew_repo_path }} force=no
+  when: brew_installed.stat.exists == false
+
+- name: fix user acls
+  command: chmod -R +x {{ brew_repo_path }}/bin
+  when: brew_installed.stat.exists == false
+
+- name: clean up /usr/local
+  sudo: True
+  command: rm -rf /usr/local
+  when: brew_installed.stat.exists == false
+
+# it should always be there and the above code ensures that is is.
+# so at this point it's all that's left to do besides brew update
+- name: link the repo to the brew installation path
+  sudo: True
+  file: state=link src={{ brew_repo_path }} dest={{ brew_install_path }} owner={{ ansible_user_id }}
+
+
+- name: update homebrew
+  homebrew: update_homebrew=yes
+#  when: brew_installed.stat.exists == true
