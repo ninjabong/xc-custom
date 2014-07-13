@@ -4,6 +4,13 @@
 # but first, let's cleanup the local repo path...
 # previous osxc code cloned to ~/src/github.com/mxcl
 # but now we want to use ~/src/github.com/Homebrew
+
+# we need to check for brew BEFORE we do anything
+- name: assert new homebrew installation
+  stat: path={{ brew_install_path }}/bin/brew
+#  ignore_errors: True
+  register: brew_installed
+
 - name: check for deprecated repo path
   stat: path={{ old_repo_path }}
   register: old_repo
@@ -12,9 +19,9 @@
   stat: path={{ brew_repo_path }}
   register: new_repo
 
-- name: git clone old repo to new repo path
-  # copy and synchronize are soooooo slooooooooooow but git on the other hand...
-  git: repo={{ old_repo_path }} dest={{ brew_repo_path }}
+
+- name: synchronize {{ old_repo_path }} to {{ new_repo_path }}
+  synchronize: src={{ old_repo_path }} dest={{ brew_repo_path | dirname }}
   when: new_repo.stat.exists == false and old_repo.stat.exists == true
   register: repo_cloned
 
@@ -25,24 +32,20 @@
 
 # this part is worrisome vs leaving old repo around "just in case"
 # ESPECIALLY since we need sudo to ensure anything root owned gets removed
-- name: remove old repo
+- name: remove {{ old_repo_path }}
   sudo: True
   file: path={{ old_repo_path | dirname }} state=absent
-  when: repo_cloned|success
+  when: old_repo.stat.exists == true and repo_cloned|success
 
-
-- name: assert new homebrew installation
-  stat: path={{ brew_install_path }}/bin/brew
-  ignore_errors: True
-  register: brew_installed
 
 - name: clone homebrew if needed
   git: "repo={{ git_repo_url }} dest={{ brew_repo_path }} update=no"
-  when: (new_repo.stat.exists == false and old_repo.stat.exists == true) and brew_installed == false
+  when: (new_repo.stat.exists == false and old_repo.stat.exists == true) or brew_installed.stat.exists == false
 
-- name: get old {{ brew_install_path }}
+- name: copy {{ brew_install_path }} to {{ brew_repo_path }}
   sudo: True
-  synchronize: src={{ brew_install_path }} dest={{ brew_repo_path }} copy_links=yes
+  synchronize: src={{ brew_install_path }}/ dest={{ brew_repo_path }}
+#  synchronize: src={{ brew_install_path }} dest={{ brew_repo_path }} copy_links=yes
   when: brew_installed.stat.exists == false
 
 - name: fix user acl on {{ brew_repo_path }}
@@ -60,11 +63,9 @@
   file: path={{ brew_install_path }} state=absent
   when: brew_installed.stat.exists == false
 
-# it should always be there and the above code ensures that is is.
-# so at this point it's all that's left to do before brew update
 - name: ensure {{ brew_repo_path }} is linked to the {{ brew_install_path }}
   sudo: True
-  file: state=link src={{ brew_repo_path }} dest={{ brew_install_path }}
+  file: state=link src={{ brew_repo_path }} dest={{ brew_install_path }} owner={{ ansible_user_id }}
 
 - name: update homebrew
   homebrew: update_homebrew=yes
