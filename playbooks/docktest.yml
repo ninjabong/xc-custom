@@ -1,0 +1,17 @@
+---
+- hosts: all
+  roles:
+
+  - role: ansible_vars
+#  - role: dock
+#    apps:
+#    - "/Applications/System Preferences.app"
+#    - /Applications/Utilities/Terminal.app
+#    - /Applications/TextMate.app
+#    - "/Applications/Managed Software Center.app"
+#    folders:
+#    - path: ~/src/github.com
+#      view: grid
+#    - path: ~/Downloads
+#      sort: datemodified
+#      view: grid
