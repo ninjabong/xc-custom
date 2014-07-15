@@ -1,71 +1,34 @@
 ---
 # installs homebrew system-wide
-
-# but first, let's cleanup the local repo path...
-# previous osxc code cloned to ~/src/github.com/mxcl
-# but now we want to use ~/src/github.com/Homebrew
-
 # let's stat some things and register some conditionals
 - name: assert new homebrew installation
   stat: path={{ brew_install_path }}/bin/brew
   register: brew_installed
 
-- name: check for deprecated repo path
-  stat: path={{ old_repo_path }}
-  register: old_repo
-
-- name: check for current repo path
-  stat: path={{ brew_repo_path }}
-  register: new_repo
-
-- name: synchronize {{ old_repo_path }} to {{ new_repo_path }}
-  synchronize: src={{ old_repo_path }} dest={{ brew_repo_path | dirname }}
-  when: new_repo.stat.exists == false and old_repo.stat.exists == true
-  register: repo_moved
-
-# this should be a cleaner regexp
-- name: update repo remote url
-#  lineinfile: "dest={{ brew_repo_path }}/.git/config regexp='url' line='        url = {{ git_repo_url }}'"
-  replace: "dest={{ brew_repo_path }}/.git/config regexp='mxcl' replace='Homebrew'"
-  when: repo_moved|success and old_repo.stat.exists == true
-
-# this part is worrisome vs leaving old repo around "just in case"
-# ESPECIALLY since we need sudo for anything non-osxc in /usr/local that's root owned
-- name: remove {{ old_repo_path }}
-  sudo: True
-  file: path={{ old_repo_path | dirname }} state=absent
-  when: repo_moved|success and old_repo.stat.exists == true
-
-
-# neither old or new repos found, so let's clone a fresh one
 - name: clone homebrew if needed
-  git: "repo={{ git_repo_url }} dest={{ brew_repo_path }} update=no"
-  when: repo_moved|failed or brew_installed.stat.exists == false
+  git: "repo=https://github.com/Homebrew/homebrew dest={{ brew_repo_path }} update=no"
+  when: brew_installed.stat.exists == false
 
 - name: copy {{ brew_install_path }} to {{ brew_repo_path }}
   sudo: True
   synchronize: src={{ brew_install_path }}/ dest={{ brew_repo_path }} copy_links=yes
   when: brew_installed.stat.exists == false
 
-- name: fix user acl on {{ brew_repo_path }}
+- name: fix user acl on {{ brew_repo_path }} and clean up {{ brew_install_path }}
   sudo: True
-  file: path={{ brew_repo_path }} mode=0755 owner={{ ansible_user_id }} group=staff
-  when: brew_installed.stat.exists == false
-
-- name: fix user acl on {{ brew_repo_path }}/bin
-  sudo: True
-  file: path={{ brew_repo_path }}/bin mode=0755 owner={{ ansible_user_id }} group=staff
-  when: brew_installed.stat.exists == false
-
-- name: clean up {{ brew_install_path }}
-  sudo: True
-  file: path={{ brew_install_path }} state=absent
+  file: path={{ item.path }} state={{ item.state|default('directory') }}
+        owner={{ ansible_user_id }} group=staff mode=0755
+  with_items:
+    - { path: '{{ brew_repo_path }}' }
+    - { path: '{{ brew_repo_path }}/bin' }
+    - { path: '{{ brew_install_path }}' , state: 'absent' }
   when: brew_installed.stat.exists == false
 
 - name: ensure {{ brew_repo_path }} is linked to the {{ brew_install_path }}
   sudo: True
   file: state=link src={{ brew_repo_path }} dest={{ brew_install_path }} owner={{ ansible_user_id }}
+  when: brew_installed.stat.exists == false
 
 - name: update homebrew
   homebrew: update_homebrew=yes
-  when: brew_installed.stat.exists == true or repo_moved|success
+  when: brew_installed.stat.exists == true

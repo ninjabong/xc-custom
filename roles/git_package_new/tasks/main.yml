@@ -1,0 +1,40 @@
+---
+# git clone a remote repo url to ~/src/github.com/*
+# * = unless otherwise specified
+
+# original:
+#- name: clone {{ repo }}
+#  git: repo=https://{{ repo }}.git dest=~/src/{{ repo }}
+
+# need a way to handle these:
+#  depth: 1
+#  keyfile: None
+#  reference:
+
+- include_vars: "ssh.yml"
+  when: "remote_repo | search('ssh://')"
+  register: ssh_remote
+
+- name: clone {{ remote_repo }}
+  git: repo= {{ remote_repo }} dest= {{ local_repo }}
+       bare= {{ bare }}
+       executable= {{ executable }}
+       force= {{ force }}
+       recursive= {{ recursive }}
+       remote= {{ remote }}
+       update= {{ update }}
+       version= {{ version }}
+  when: ssh_remote|skipped
+
+- name: clone {{ remote_repo }} via ssh
+  git: repo= {{ remote_repo }} dest= {{ local_repo }}
+       accept_hostkey= {{ accept_hostkey }}
+       bare= {{ bare }}
+       executable= {{ executable }}
+       force= {{ force }}
+       recursive= {{ recursive }}
+       remote= {{ remote }}
+       ssh_opts= {{ ssh_opts }}
+       update= {{ update }}
+       version= {{ version }}
+  when: ssh_remote|success

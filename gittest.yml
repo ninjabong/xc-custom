@@ -1,0 +1,7 @@
+---
+- hosts: all
+  roles:
+
+  - role: git_package_new
+    remote_repo: https://github.com/ninjabong/xc-custom.git
+    local_repo: ~/src/github.com/ninjabong/xc-custom-test
