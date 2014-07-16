@@ -1,0 +1,10 @@
+---
+- hosts: all
+  roles:
+
+  - role: git_package_new
+#    remote_repo: https://github.com/ninjabong/xc-custom.git
+    remote_repo: ssh://juan@tusk.ninjabong.com/home/juan/repo/dotfiles.git
+    accept_hostkey: True
+    ssh_opts: '"-o Port=42022"'
+    local_repo: ~/src/repo/dotfiles
