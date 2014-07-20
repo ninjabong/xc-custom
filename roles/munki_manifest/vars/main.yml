@@ -1,4 +1,5 @@
 ---
-manifest_name: autopkg
-repo_path: "/Users/Shared/munki"
+# testing is more sensible, but could squash an existing manifest
+manifest_name: osxc
+repo_path: "/Users/Shared/munki_repo"
 manifestutil_exec: /usr/local/munki/manifestutil

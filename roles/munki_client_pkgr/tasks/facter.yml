@@ -1,0 +1,2 @@
+---
+# download facter and install to {{ pkg_path }}

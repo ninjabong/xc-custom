@@ -1,4 +1,6 @@
 ---
+# creates a minimal but functional munki.pkg for clients
+# including ManagedInstalls.plsit pointing at newly created repo
 
 - name: check client pkg_dir exists
   stat: path={{ pkg_path }}
@@ -8,6 +10,9 @@
   command: "/bin/mkdir -p {{ pkg_path }}/Library/Preferences"
   when: pkg_dir_exists.stat.exists == false
 
+- name: create empty ManagedInstalls.plist
+  file: path={{ plist_path }} state=touch mode=0644 owner=root group=wheel
+
 - name: write minimum ManagedInstalls.plist
   command: '{{ default_write }} {{ plist_path }} {{ item.pref }}'
   with_items:
@@ -15,25 +20,15 @@
     - { pref: '"CurlPath" -string "/usr/local/bin/curl"' }
 #    - { pref: '"(key)" -type "(value)"' }
 
-###########
-# replace this with macports or homebrew + curl 
-###########
-# this matches the binary to the os of the machine running osxc/ansible, not the target client
-#- name: obtaining curl+ssl binary for Lion
-#  get_url: "src=http://www.hmug.org/pub/MacOS_X/BSD/Applications/Internet/curl/curl+ssl-7.37.0-2-osx7.tar.gz dest=/tmp/curl.tgz"
-#  when: "ansible_distribution_version | search('10.7')"
-#
-#- name: obtaining curl+ssl binary for Mt Lion
-#  get_url: "src=http://www.hmug.org/pub/MacOS_X/BSD/Applications/Internet/curl/curl+ssl-7.37.0-2-osx8.tar.gz dest=/tmp/curl.tgz"
-#  when: "ansible_distribution_version | search('10.8')"
-#
-#- name: obtaining curl+ssl binary for Mavericks
-#  get_url: "src=http://www.hmug.org/pub/MacOS_X/BSD/Applications/Internet/curl/curl+ssl-7.37.0-2-osx9.tar.gz dest=/tmp/curl.tgz"
-#  when: "ansible_distribution_version | search('10.9')"
-#
-#- name: untar and install curl binary
-#  unarchive: "src=/tmp/curl.tgz dest={{ pkg_path }}"
+# need to package up brew's curl and copy to {{ pkg_path }}
 
 
+- include: sal.yml
+  when: use_sal == true
+
+- include: facter.yml
+  when: use_facter == true
+
+# should also be setting a version with --version but what:  $date?  {{ version }}?
 - name: create client pkg and copy to top-level of the repo
   command: '/usr/bin/pkgbuild --identifier com.github.osxc.munki_client_pkgr.pkg --root {{ pkg_path }} {{ munki_repo }}/munki_client.pkg'

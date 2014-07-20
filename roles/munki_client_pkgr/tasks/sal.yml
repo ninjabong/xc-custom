@@ -1,0 +1,3 @@
+---
+# download sal client bits and install to {{ pkg_path }}
+# include options for sal.plist ServerURL and key

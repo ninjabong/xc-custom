@@ -3,3 +3,4 @@
 - name: autopkg run the list of pkgs
   ignore_errors: True
   command: '/usr/local/bin/autopkg run {{ pkg_list }}'
+  when: pkg_list is defined
