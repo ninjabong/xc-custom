@@ -7,6 +7,7 @@
         state=directory
   with_items:
     - "{{ repo_path }}/catalogs"
+    - "{{ repo_path }}/client_resources"
     - "{{ repo_path }}/icons"
     - "{{ repo_path }}/manifests"
     - "{{ repo_path }}/pkgs"
