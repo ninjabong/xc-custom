@@ -5,25 +5,14 @@
 
 - name: copy {{ autopkg_dir }}/Code contents to {{ install_dir }}
   sudo: True
-  command: cp -r {{ autopkg_dir }}/Code {{ install_dir }}
-
-- name: set permissions to 0755 on {{ install_dir }}
-  sudo: True
-  command: chmod -R 0755 {{ install_dir }}
-
-- name: set ownerships to root:wheel on {{ install_dir }}
-  sudo: True
-  command: chown -R root:wheel {{ install_dir }}
+  copy: src={{ autopkg_dir }}/Code dest={{ install_dir }} mode=0755 owner=root group=wheel
 
 - name: ensure /usr/local/bin exists
   file: path=/usr/local/bin state=directory owner=root group=wheel mode=0755
 
 - name: link executable in /usr/local/bin
   sudo: True
-  file: src={{ install_dir }}/autopkg
-        dest=/usr/local/bin/autopkg
-        state=link
-        mode=0755
+  file: src={{ install_dir }}/autopkg dest=/usr/local/bin/autopkg state=link mode=0755
 
 - name: copy LaunchDaemon into /Library/LaunchDaemons
   sudo: True
@@ -35,4 +24,3 @@
 - name: load LaunchDaemon
   sudo: True
   command: /bin/launchctl load {{ launch_daemon }}
-

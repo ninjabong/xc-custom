@@ -18,6 +18,7 @@ note: by default pkg will be the latest/current munki v2.0.0.\#\#\#\# build whil
 &nbsp;&nbsp;&nbsp;&nbsp;\#\# defaults to http://munkibuilds.org/latest \[pkg|dmg\]<br />
 &nbsp;&nbsp;&nbsp;&nbsp;munki\_pkg\_url: http://host.tld/munki.pkg<br />
 &nbsp;&nbsp;&nbsp;&nbsp;munki\_dmg\_url: http://host.tld/munki.dmg<br />
+&nbsp;&nbsp;&nbsp;&nbsp;version: \#.\#.\#.\#\#\#\# (target a pkg version besides latest)
 &nbsp;&nbsp;&nbsp;&nbsp;default\_catalog: testing<br />
 &nbsp;&nbsp;&nbsp;&nbsp;editor: TextMate.app<br />
 &nbsp;&nbsp;&nbsp;&nbsp;pkginfo\_extension: .plist<br />

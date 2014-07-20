@@ -1,8 +1,9 @@
 ---
 update: no
 install_type: pkg
-munki_pkg_url: "http://munkibuilds.org/munkitools2-latest.pkg"
-munki_dmg_url: "http://munkibuilds.org/munkitools-latest.dmg"
+munkibuilds_url: "http://munkibuilds.org"
+munki_pkg_url: "{{ munkibuilds_url }}/munkitools2-latest.pkg"
+munki_dmg_url: "{{ munkibuilds_url }}/munkitools-latest.dmg"
 default_catalog: testing
 editor: TextMate.app
 pkginfo_extension: .plist

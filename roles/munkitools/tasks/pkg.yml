@@ -3,10 +3,15 @@
 
 - name: Acquire latest munki.pkg
   get_url: "url={{ munki_pkg_url }} dest=/tmp/munki.pkg"
+  when: version is not defined
+
+- name: Acquire munkitools-{{ version }}.pkg
+  get_url: "url={{ munkibuilds_url }}/{{ version }}/munkitools-{{ version }}.pkg dest=/tmp/munki.pkg"
+  when: version is defined
 
 - name: Install latest munki.pkg
   sudo: True
   command: "/usr/sbin/installer -pkg /tmp/munki.pkg -target /"
 
-- name: Remove latest munki.pkg
+- name: Remove downloaded munki.pkg
   file: path=/tmp/munki.pkg state=absent
