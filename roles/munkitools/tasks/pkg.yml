@@ -1,0 +1,12 @@
+---
+# acquire and install/update latest munki pkg
+
+- name: Acquire latest munki.pkg
+  get_url: "url={{ munki_pkg_url }} dest=/tmp/munki.pkg"
+
+- name: Install latest munki.pkg
+  sudo: True
+  command: "/usr/sbin/installer -pkg /tmp/munki.pkg -target /"
+
+- name: Remove latest munki.pkg
+  file: path=/tmp/munki.pkg state=absent

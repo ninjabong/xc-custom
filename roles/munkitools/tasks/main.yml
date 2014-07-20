@@ -1,59 +1,31 @@
 ---
+# acquire and install/update latest munki client
 
 - name: Determine if munki is already installed
   stat: path=/usr/local/munki follow=true
   register: munki_exists
 
+- include: pkg.yml
+  when: install_type == "pkg" and (update == true or munki_exists.stat.exists == false)
 
-- name: Acquire latest munki.pkg
-  get_url: "url={{ munki_pkg_url }} dest=/tmp/munki.pkg"
-  when: (update == true or munki_exists.stat.exists == false) and install_type == "pkg"
+- include: dmg.yml
+  when: install_type == "dmg" and (update == true or munki_exists.stat.exists == false)
 
-- name: Install latest munki.pkg
-  sudo: True
-  command: "/usr/sbin/installer -pkg /tmp/munki.pkg -target /"
-  when: (update == true or munki_exists.stat.exists == false) and install_type == "pkg"
+# update munkitools prefs
 
-- name: Remove latest munki.pkg
-  file: path=/tmp/munki.pkg state=absent
-  when: (update == true or munki_exists.stat.exists == false) and install_type == "pkg"
-
-
-- name: Acquire latest munki.dmg
-  get_url: "url={{ munki_dmg_url }} dest=/tmp/munki.dmg"
-  when: (update == true or munki_exists.stat.exists == false) and install_type == "dmg"
-
-- name: Mount latest munki.dmg
-  command: /usr/bin/hdiutil attach /tmp/munki.dmg -mountpoint /tmp/munki.XXXX
-  when: (update == true or munki_exists.stat.exists == false) and install_type == "dmg"
-
-- name: Install latest from munki.dmg
-  sudo: True
-  shell: "/usr/sbin/installer -pkg /tmp/munki.XXXX/`/bin/ls /tmp/munki.XXXX/|grep munkitools` -target /"
-  when: (update == true or munki_exists.stat.exists == false) and install_type == "dmg"
-
-- name: Unmount latest munki.dmg
-  command: /usr/bin/hdiutil detach /tmp/munki.XXXX
-  when: (update == true or munki_exists.stat.exists == false) and install_type == "dmg"
-
-- name: Remove latest munki.dmg
-  file: path=/tmp/munki.dmg state=absent
-  when: (update == true or munki_exists.stat.exists == false) and install_type == "dmg"
-
-
-- name: Check if munkiimport prefs exists
-  stat: path={{ munkiimport_prefs }} follow=true
+- name: Check if munkitools prefs exists
+  stat: path={{ munkitools_prefs }} follow=true
   register: munki_prefs_exists
 
 - name: Set munkitools prefs values
-  command: /usr/bin/defaults write {{ munkiimport_prefs }} {{ item.key }} {{ item.val }}
+  command: /usr/bin/defaults write {{ munkitools_prefs }} {{ item.key }} {{ item.val }}
   with_items:
     - { key: "default_catalog"   , val: "{{ default_catalog }}" }
     - { key: "editor"            , val: "{{ editor }}" }
     - { key: "pkginfo_extension" , val: "{{ pkginfo_extension }}" }
     - { key: "repo_path"         , val: "{{ repo_path }}" }
     - { key: "repo_url"          , val: "{{ repo_url }}" }
-  when: munki_prefs_exists.stat.exists == false
+  when: update == true or munki_prefs_exists.stat.exists == false
 
 - name: Ensure munkitools prefs plist is XML
-  command: /usr/bin/plutil -convert xml1 {{ munkiimport_prefs }}
+  command: /usr/bin/plutil -convert xml1 {{ munkitools_prefs }}

@@ -1,11 +1,11 @@
 ---
+update: no
+install_type: pkg
 munki_pkg_url: "http://munkibuilds.org/munkitools2-latest.pkg"
 munki_dmg_url: "http://munkibuilds.org/munkitools-latest.dmg"
-install_type: pkg
-update: no
 default_catalog: testing
-editor: TextMate2.app
+editor: TextMate.app
 pkginfo_extension: .plist
 repo_path: "/Users/Shared/munki_repo"
 repo_url: "http://{{ ansible_nodename }}/{{ repo_path | basename }}"
-munkiimport_prefs: ~/Library/Preferences/com.googlecode.munki.munkiimport.plist
+munkitools_prefs: ~/Library/Preferences/com.googlecode.munki.munkiimport.plist

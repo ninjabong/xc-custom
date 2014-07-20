@@ -1,0 +1,18 @@
+---
+# acquire and install/update latest munki dmg
+
+- name: Acquire latest munki.dmg
+  get_url: "url={{ munki_dmg_url }} dest=/tmp/munki.dmg"
+
+- name: Mount latest munki.dmg
+  command: /usr/bin/hdiutil attach /tmp/munki.dmg -mountpoint /tmp/munki.XXXX
+
+- name: Install latest from munki.dmg
+  sudo: True
+  shell: "/usr/sbin/installer -pkg /tmp/munki.XXXX/`/bin/ls /tmp/munki.XXXX/|grep munkitools` -target /"
+
+- name: Unmount latest munki.dmg
+  command: /usr/bin/hdiutil detach /tmp/munki.XXXX
+
+- name: Remove latest munki.dmg
+  file: path=/tmp/munki.dmg state=absent
