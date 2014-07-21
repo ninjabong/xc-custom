@@ -1,14 +1,6 @@
 ---
-# Install some selections from an unofficial googlefonts mirror
-# note: this only installs ttf since that's what this fork does
-# playbook use:
-#  - role: googlefonts
-#    fonts:
-#    - font1
-#    - font2
-#    - etc...
+
 - name: svn export googlefonts to ~/Library/Fonts
-# use svn since git won't do subdirs and it's installed w/xcode-tools
   subversion: "repo=https://github.com/w0ng/googlefontdirectory/trunk/fonts/{{ item }}/ dest=~/Library/Fonts/{{ item }} export=yes"
 # ignore errors since svn will complain that dest 'is not a working copy'
   ignore_errors: True

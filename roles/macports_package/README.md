@@ -8,8 +8,8 @@ macports\_install
 
 playbook use:<br />
 &nbsp;&nbsp;\- role: macports\_package<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;port:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- foo<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- bar<br />
+&nbsp;&nbsp;&nbsp;&nbsp;port:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- foo<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- bar<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\#\# optional<br />
-&nbsp;&nbsp;&nbsp;&nbsp;update = yes<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;update = yes<br />
