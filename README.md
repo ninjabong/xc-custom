@@ -7,6 +7,7 @@ my custom [osxc](http://osxc.github.io) roles
 --------------------
 #####working:
 -   **ansible\_vars:** dump all of ansible's available variables.
+-   **bare\_role:** a basic empty role for copying when starting a new one.
 -   **check\_os\_vers:** example of how to test for Mt Lion or Mavericks.
 -   **computername:** sets the Computer Name normally done via System Prefences \- Sharing.
 -   **finder\_prefs:** sets a bunch of Finder preferences normally done via Finder's Pref Pane.
@@ -32,6 +33,7 @@ my custom [osxc](http://osxc.github.io) roles
 -   **munki\_manifest:** wraps 'manifestutil add-pkg' works really well with autopkg\_run to automagically create and populate a munki repo.
 -   **munki\_repo:** sets up minimal directory structure for a munki repo.  only os x client & server so far.
 -   **munkitools:** downloads and installs munkitools from pkg or dmg, even specific build versions and custom urls if specified.  no https yet.
+-  **example:** is an attempt at slapping together something basic illustrating some of the basic but extremely useful/common building blocks of a role.
 
 #####broken:
 -   **desktop\_view\_opts:** is a severly broken attempt to set some Finder window prefs (only TB Display Mode works)
