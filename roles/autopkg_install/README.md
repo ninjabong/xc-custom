@@ -13,4 +13,4 @@ playbook use:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;autopkg\_dir: ~/src/github.com/autopkg/autopkg<br />
 &nbsp;&nbsp;&nbsp;&nbsp;install\_dir: /Library/AutoPkg<br />
 &nbsp;&nbsp;&nbsp;&nbsp;launch\_daemon: /Library/LaunchDaemons/com.github.autopkg.autopkgserver.plist<br />
-&nbsp;&nbsp;&nbsp;&nbsp;repo\_path: /Users/Shared/munki<br />
+&nbsp;&nbsp;&nbsp;&nbsp;repo\_path: /Users/Shared/munki_repo<br />

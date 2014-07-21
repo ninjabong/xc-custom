@@ -2,4 +2,4 @@
 autopkg_dir: /Users/{{  ansible_env.USER }}/src/github.com/autopkg/autopkg
 install_dir: /Library/AutoPkg
 launch_daemon: /Library/LaunchDaemons/com.github.autopkg.autopkgserver.plist
-repo_path: /Users/Shared/munki
+repo_path: /Users/Shared/munki_repo
