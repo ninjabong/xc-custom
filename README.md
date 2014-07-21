@@ -14,6 +14,8 @@ my custom [osxc](http://osxc.github.io) roles
 -   **gatekeeper:** enable or disable GateKeeper system wide via spctl.
 -   **googlefonts:** downloads and installs selected fonts from [googlefontdirectory](https://github.com/w0ng/googlefontdirectory).
 -   **locatedb:** load or unload locatedb via launchctl.
+-   **macports_install:** downloads and installs the correct pkg of macports for current OS version.
+-   **macports_package:** wraps ansible's builtin macports module.
 -   **sleep:** set various sleep times for Disks, Display, System via systemsetup and pmset.
 -   **sshd:** enable or disable sshd via systemsetup.
 -   **systemprefs\_general:** sets prefs normally done via System Preferences \- General.
@@ -24,11 +26,12 @@ my custom [osxc](http://osxc.github.io) roles
 -   **autopkg\_install:** downloads and installs autopkg directly from github including specifying your own choices of repos.
 -   **autopkg\_repo:** add recipe repos to autopkg.
 -   **autopkg\_run:** performs an 'autopkg run foo foo2'.
--   **munkitools:** downloads and installs munkitools from pkg or dmg, even custom urls.  no https yet.
 -   **munki\_client:** sets up a new munki client from above.  no https yet.
--   **munki\_manifest:** wraps 'manifestutil add-pkg' works really well with autopkg\_run to automagically create and populate a munki repo.
+-   **munki\_client\v_pkgr:** builds a munki client pkg for an osxc installed/managed repo.
 -   **munki\_iconimport:** ensures munki's iconimporter is present and runs to import icons into the repo.
+-   **munki\_manifest:** wraps 'manifestutil add-pkg' works really well with autopkg\_run to automagically create and populate a munki repo.
 -   **munki\_repo:** sets up minimal directory structure for a munki repo.  only os x client & server so far.
+-   **munkitools:** downloads and installs munkitools from pkg or dmg, even specific build versions and custom urls if specified.  no https yet.
 
 #####broken:
 -   **desktop\_view\_opts:** is a severly broken attempt to set some Finder window prefs (only TB Display Mode works)
