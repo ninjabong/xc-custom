@@ -1,9 +1,5 @@
 ---
-# enable/disable gatekeeper
-# requires ansible-playbook -K for sudo
-# playbook use:
-#  - role: gatekeeper
-#    gatekeeper: [enable|disable]
+
 - name: "{{ gatekeeper }} gatekeeper"
   sudo: True
   command: "/usr/sbin/spctl --master-{{ gatekeeper }}"

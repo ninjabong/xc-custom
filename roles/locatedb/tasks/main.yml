@@ -1,9 +1,5 @@
 ---
-# loads or unloads locatedb via launchctl
-# requires ansible-playbook -K for sudo
-# playbook use:
-#  - role: locatedb
-#    locatedb: [load|unload]
+
 - name: turning locatedb on
   sudo: True
   command: "/bin/launchctl {{ locatedb }} -w /System/Library/LaunchDaemons/com.apple.locate.plist"

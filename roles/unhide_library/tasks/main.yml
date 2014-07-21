@@ -1,6 +1,4 @@
 ---
-# unhide ~/Library
-# playbook use:
-#  - role: unhide_library
+
 - name: unhide ~/Library
   command: "/usr/bin/chflags nohidden ~/Library"

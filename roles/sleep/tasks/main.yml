@@ -1,24 +1,5 @@
 ---
-# set/disable various sleep related options
-# requires ansible-playbook -K for sudo
-# playbook use:
-#  - role: sleep
-#    system_sleep: "[off|##]" (# = minutes)
-#    comp_sleep: "[off|##]" (# = minutes)
-#    disk_sleep: "[off|##]" (# = minutes)
-#    display_sleep: "[off|##]" (# = minutes)
-#    button_sleep: "[off|on]"
-#    wake_on_lan: "[off|on]"
-# optional - these set behavior on battery power
-#    display_sleep_batt: "[off|##]"
-#    disk_sleep_batt: "[off|##]"
-#    system_sleep_batt: "[off|##]"
-#    wake_on_lan_batt: [0|1]
-#    wake_on_lid: [0|1]
-#    wake_on_ac: [0|1]
-#    lower_brightness: [0|1]
-#
-#  note - these need to be explicitly quoted
+
 - name: set various sleep options on mains power
   sudo: True
   command: /usr/sbin/systemsetup {{ item.pref }}
