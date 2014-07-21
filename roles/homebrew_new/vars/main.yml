@@ -1,5 +1,0 @@
----
-# variables precising where to install homebrew
-
-brew_install_path: "/usr/local"
-brew_repo_path: "{{ ansible_env.HOME }}/src/github.com/mxcl/homebrew"
