@@ -1,0 +1,46 @@
+---
+# this is where are actual code winds up.  for some ideas
+# and examples of existing modules you can use, see:
+# http://docs.ansible.com/list_of_all_modules.html
+########################################################
+
+# this will simply output the value of $variable
+# in this example its defined differently in :
+#     playbook.yml
+#     defaults/task.yml
+#     vars/task.yml
+# to demonstrate order of precedence.
+#
+- name: basic example role
+  debug: var=variable
+
+
+# this will register a new variable, foo
+# which we can later use as a conditional
+#
+- name: example of registering a variable
+  debug: msg="registering the foo variable!"
+  register: foo
+
+# these are two ways to achieve a similar result
+# depending on the situation.
+#
+# stat is a module builtin to ansible that is 
+# similar to unix's 'stat' command.
+#
+# if you run your playbook verbosely, ie :
+# ansible-playbok playbook.yml -vvvv
+# you can see the plethora of info available
+#
+- name: "example of a stat conditional"
+  debug: msg="foo does not exist!"
+  when: foo.stat.exists == false
+
+
+- name: example of a conditional jinja2 filter
+  debug: msg="foo is not defined!"
+  when: foo is not defined
+
+# one of the best ways to learn more is dive right in 
+# with the docs linked above as well as these:
+# https://github.com/ansible/ansible-examples

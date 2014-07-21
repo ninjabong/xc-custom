@@ -1,0 +1,8 @@
+---
+# if we have a dependency on another role,
+# we'd put it here like so, like a playbook
+###########################################
+#dependencies:
+#  - role: rolename
+#    option: value
+

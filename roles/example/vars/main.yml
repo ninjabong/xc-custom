@@ -1,0 +1,5 @@
+---
+# if we have any general variables that will
+# override defaults and playbook they go here
+###########################################
+variable: vars
