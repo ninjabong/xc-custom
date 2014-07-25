@@ -1,4 +1,7 @@
 ---
+# uncomment to remove having to run ansible-playbook with -K
+#ask_sudo_pass=True
+
 - hosts: all
   roles:
 
