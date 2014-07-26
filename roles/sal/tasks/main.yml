@@ -49,12 +49,14 @@
     - { regex: "^TIME_ZONE "    , line: "TIME_ZONE = '{{ sal_timezone }}'" }
     - { regex: "^DISPLAY_NAME " , line: "DISPLAY_NAME = {{ sal_display_name }}" }
 
-- name: do some stuff in virtualenv as saluser
+- name: copy virtualenv wrapper
   template: src=venv_exec.j2
             dest={{ sal_env_path }}/exec
             owner=saluser
             group=salgroup
             mode=0755
+
+- name: do some stuff in virtualenv as saluser
   command: "{{ sal_env_path }}/exec /usr/bin/python {{ sal_env_path }}/manage.py {{ item }}"
   with_items:
     - "syncdb"
