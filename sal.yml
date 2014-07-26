@@ -1,5 +1,5 @@
 ---
-ask_sudo_pass=True
+ask_sudo_pass: True
 
 - hosts: all
   roles:

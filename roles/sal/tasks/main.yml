@@ -52,8 +52,8 @@
 - name: do some stuff in virtualenv as saluser
   template: src=venv_exec.j2
             dest={{ sal_env_path }}/exec
-            owner: saluser
-            group: salgroup
+            owner=saluser
+            group=salgroup
             mode=0755
   command: {{ sal_env_path }}/exec /usr/bin/python {{ sal_env_path }}/manage.py {{ item }}
   with_items:
