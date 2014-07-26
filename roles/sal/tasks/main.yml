@@ -4,6 +4,16 @@
 # install dependencies ?
 
 - name: create saluser and salgroup
+  command: /usr/bin/dscl . {{ item }}
+  with_items:
+    - '-create /Groups/salgroup
+	- '-create /Groups/salgroup PrimaryGroupID "303"'
+    - '-create /Users/saluser'
+    - '-create /Users/saluser UserShell /bin/bash'
+    - '-create /Users/saluser UniqueID "303"'
+    - '-create /Users/saluser NFSHomeDirectory /usr/local/sal_env_path'
+    - '-create /Users/saluser PrimaryGroupID "303"'
+
   user: name=saleuser
         groups=salgroup
         append=yes
