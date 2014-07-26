@@ -55,7 +55,7 @@
             owner=saluser
             group=salgroup
             mode=0755
-  command: {{ sal_env_path }}/exec /usr/bin/python {{ sal_env_path }}/manage.py {{ item }}
+  command: "{{ sal_env_path }}/exec /usr/bin/python {{ sal_env_path }}/manage.py {{ item }}"
   with_items:
     - "syncdb"
     - "migrate"
