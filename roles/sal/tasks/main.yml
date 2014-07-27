@@ -4,62 +4,77 @@
 # install dependencies ?
 
 - name: create saluser and salgroup
+  sudo: True
   command: /usr/bin/dscl . {{ item }}
   with_items:
-    - '-create /Groups/salgroup
-	- '-create /Groups/salgroup PrimaryGroupID "303"'
+    - '-create /Groups/salgroup'
+    - '-create /Groups/salgroup PrimaryGroupID "303"'
     - '-create /Users/saluser'
     - '-create /Users/saluser UserShell /bin/bash'
     - '-create /Users/saluser UniqueID "303"'
     - '-create /Users/saluser NFSHomeDirectory /usr/local/sal_env_path'
     - '-create /Users/saluser PrimaryGroupID "303"'
 
-  user: name=saleuser
-        groups=salgroup
-        append=yes
-        shell=bash
-
 - name: git clone sal
   git: repo=https://github.com/grahamgilbert/sal.git
        dest={{ sal_env_path }}/sal
 
 - name: ensure permissions of sal_env
+  sudo: True
   file: path={{ sal_env_path }}
         owner=saluser
         group=salgroup 
         state=directory
         recurse=yes
 
-- name: check easy_install exists
-  stat: path=/usr/bin/easy_install
-  register: ez_install
+#- name: check easy_install exists
+#  stat: path=/usr/bin/easy_install
+#  register: ez_install
  
 - name: install pip via easy_install
+  sudo: True
   easy_install: name=pip
 
+#- name: install virtualenv via easy_install
+#  easy_install: name=virtualenv
+
 - name: pip install virtualenv 1.10.1
+  sudo: True
   pip: name=virtualenv
        version=1.10.1
-       requirements={{ sal_env_path }}/sal/setup/requirements.txt
+#       virtualenv={{ sal_env_path }}
+#       virtualenv_site_packages=yes
+
+- name: pip install sal dependencies
+  sudo: True
+  pip: requirements={{ sal_env_path }}/sal/setup/requirements.txt
        virtualenv={{ sal_env_path }}
        virtualenv_site_packages=yes
 
 - name: copy example_settings.py
+  sudo: True
   copy: src={{ sal_env_path }}/sal/sal/example_settings.py
         dest={{ sal_env_path }}/sal/sal/settings.py
 
 - name: edit settings.py
+  sudo: True
   lineinfile: dest={{ sal_env_path }}/sal/sal/settings.py
               regexp='^ADMINS '
-              lineafter='{{ sal_admins }}'
+              insertafter='^ADMINS '
+              line='     {{ sal_admins }}'
+
+- name: edit settings.py 2
   lineinfile: dest={{ sal_env_path }}/sal/sal/settings.py
-              regexp={{ item.regex }}
-              line={{ item.line }}
-  with_items:
-    - { regex: "^TIME_ZONE "    , line: "TIME_ZONE = '{{ sal_timezone }}'" }
-    - { regex: "^DISPLAY_NAME " , line: "DISPLAY_NAME = {{ sal_display_name }}" }
+              regexp='^TIME_ZONE '
+              line=TIME_ZONE = {{ sal_timezone }}
+
+- name: edit settings.py 3
+  lineinfile: dest={{ sal_env_path }}/sal/sal/settings.py
+              regexp=^DISPLAY_NAME
+              line=DISPLAY_ZONE = {{ sal_display_name }}
 
 - name: copy virtualenv wrapper
+  sudo: True
   template: src=venv_exec.j2
             dest={{ sal_env_path }}/exec
             owner=saluser
