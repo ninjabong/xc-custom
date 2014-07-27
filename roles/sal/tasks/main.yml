@@ -12,7 +12,7 @@
     - '-create /Users/saluser'
     - '-create /Users/saluser UserShell /bin/bash'
     - '-create /Users/saluser UniqueID "303"'
-    - '-create /Users/saluser NFSHomeDirectory /usr/local/sal_env_path'
+    - '-create /Users/saluser NFSHomeDirectory {{ sal_env_path }}'
     - '-create /Users/saluser PrimaryGroupID "303"'
 
 - name: git clone sal
