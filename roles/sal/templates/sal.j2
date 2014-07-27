@@ -1,10 +1,10 @@
 WSGISocketPrefix /var/run/wsgi
 <VirtualHost *:80>
 ServerName {{ sal_hostname }}
-WSGIScriptAlias / /usr/local/sal_env/sal/sal.wsgi
+WSGIScriptAlias / {{ sal_env_path }}/sal/sal.wsgi
 WSGIDaemonProcess sal user=saluser group=salgroup
-Alias /static/ /usr/local/sal_env/sal/static/
-<Directory /usr/local/sal_env/sal>
+Alias /static/ {{ sal_env_path }}/sal/static/
+<Directory {{ sal_env_path }}/sal>
        WSGIProcessGroup sal
        WSGIApplicationGroup %{GLOBAL}
        Order deny,allow

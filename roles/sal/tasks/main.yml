@@ -16,6 +16,7 @@
     - '-create /Users/saluser PrimaryGroupID "303"'
 
 - name: git clone sal
+  sudo: True
   git: repo=https://github.com/grahamgilbert/sal.git
        dest={{ sal_env_path }}/sal
 
@@ -89,16 +90,16 @@
 
 - name: pip install sal dependencies
   sudo: True
-#  pip: requirements={{ sal_env_path }}/sal/setup/requirements.txt
-#       virtualenv={{ sal_env_path }}
-#       virtualenv_site_packages=yes
-  command: "{{ sal_env_path }}/exec /usr/local/bin/pip install -r {{ sal_env_path}}/sal/setup/requirements.txt"
+  pip: requirements={{ sal_env_path }}/sal/setup/requirements.txt
+       virtualenv={{ sal_env_path }}
+       virtualenv_site_packages=yes
+#  command: "{{ sal_env_path }}/exec /usr/local/bin/pip install -r {{ sal_env_path}}/sal/setup/requirements.txt"
 
 - name: do some stuff in virtualenv as saluser
   sudo: True
   command: "{{ sal_env_path }}/exec /usr/bin/python {{ sal_env_path }}/sal/manage.py {{ item }}"
   with_items:
-    - "syncdb"
+    - "syncdb --noinput"
     - "migrate"
     - "collectstatic --noinput"
 
