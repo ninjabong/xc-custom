@@ -1,10 +1,12 @@
 ---
 # defaults/main.yml
 sal_admins: "( '{{ ansible_user_id }}' , '{{ ansible_user_id }}@{{ ansible_domain }}' )"
-sal_timezone: "{{ ansible_date_time.tz }}"
+#sal_timezone: "{{ ansible_date_time.tz }}"
+sal_timezone: "America/New_York"
 sal_display_name: "sal.{{ ansible_domain }}"
 sal_allowed_hosts: "['*']"
 #sal_default_machine_group_key: ""
 sal_secret_key: "ppf%ls0f)mzkf#2dl-nbf^8f&=84py=y^u8^z-f559*d36y_@v"
 sal_env_path: /usr/local/sal_env
 sal_hostname: "sal.{{ ansible_domain }}"
+sal_settings_path: "{{ sal_env_path }}/sal/sal"

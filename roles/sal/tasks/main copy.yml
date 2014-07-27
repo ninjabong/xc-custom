@@ -70,14 +70,14 @@
 - name: edit settings.py 2
   sudo: True
   lineinfile: dest={{ sal_settings_path }}/settings.py
-              regexp="^TIME_ZONE"
-              line="TIME_ZONE = '{{ sal_timezone }}'"
+              regexp='^TIME_ZONE'
+              line='TIME_ZONE = {{ sal_timezone }}'
 
 - name: edit settings.py 3
   sudo: True
   lineinfile: dest={{ sal_settings_path }}/settings.py
-              regexp="^DISPLAY_NAME"
-              line="DISPLAY_NAME = '{{ sal_display_name }}'"
+              regexp='^DISPLAY_NAME'
+              line='DISPLAY_ZONE = {{ sal_display_name }}'
 
 - name: copy virtualenv wrapper
   sudo: True
