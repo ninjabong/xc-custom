@@ -1,0 +1,34 @@
+---
+
+- name: copy example_settings.py
+  sudo: True
+  copy: src={{ sal_settings_path }}/example_settings.py
+        dest={{ sal_settings_path }}/settings.py
+
+#- name: edit settings.py
+#  sudo: True
+#  lineinfile: dest={{ sal_settings_path }}/settings.py
+#              regexp={{ item.regex }}
+#              line={{ item.line }}
+#  with_items:
+#    - { regex: "Your Name"     , line: "('juan', 'juan@ninjabong.com')" }
+#    - { regex: "^TIME_ZONE"    , line: "TIMEZONE = '{{ sal_timezone }}'" }
+#    - { regex: "^DISPLAY_NAME" , line: "DISPLAY_NAME = {{ sal_display_name }}" }
+
+- name: edit settings.py
+  sudo: True
+  lineinfile: dest={{ sal_settings_path }}/settings.py
+              regexp='Your Name'
+              line="     ('{{ ansible_user_id }}', '{{ ansible_user_id }}@{{ ansible_domain }}')"
+
+- name: edit settings.py 2
+  sudo: True
+  lineinfile: dest={{ sal_settings_path }}/settings.py
+              regexp="^TIME_ZONE"
+              line="TIME_ZONE = '{{ sal_timezone }}'"
+
+- name: edit settings.py 3
+  sudo: True
+  lineinfile: dest={{ sal_settings_path }}/settings.py
+              regexp="^DISPLAY_NAME"
+              line="DISPLAY_NAME = '{{ sal_display_name }}'"

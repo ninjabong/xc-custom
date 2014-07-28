@@ -1,0 +1,28 @@
+---
+
+- name: copy virtualenv wrapper
+  sudo: True
+  template: src=venv_exec.j2
+            dest={{ sal_env_path }}/exec
+            owner=saluser
+            group=salgroup
+            mode=0755
+
+- name: pip install sal dependencies
+  sudo: True
+  pip: requirements={{ sal_env_path }}/sal/setup/requirements.txt
+       virtualenv={{ sal_env_path }}
+       virtualenv_site_packages=yes
+
+- name: do some stuff in virtualenv as saluser
+  sudo: True
+  django_manage: command={{ item }}
+                 app_path={{ sal_env_path }}/sal
+                 pythonpath={{ sal_env_path }}/bin/python
+                 virtualenv={{ sal_env_path }}
+  with_items:
+    - "syncdb --noinput"
+    - "createsuperuser --username {{ sal_db_admin }} --email {{ sal_db_email }}"
+    - "changepassword {{ sal_db_admin }} {{ sal_db_pass }}"
+    - "migrate"
+    - "collectstatic --noinput"

@@ -10,3 +10,8 @@ sal_secret_key: "ppf%ls0f)mzkf#2dl-nbf^8f&=84py=y^u8^z-f559*d36y_@v"
 sal_env_path: /usr/local/sal_env
 sal_hostname: "sal.{{ ansible_domain }}"
 sal_settings_path: "{{ sal_env_path }}/sal/sal"
+
+# for django's db admin
+sal_db_admin: "{{ ansible_user_id }}"
+sal_db_email: "{{ ansible_user_id }}@{{ ansible_domain }}"
+sal_db_pass: "p@55w0rd!"

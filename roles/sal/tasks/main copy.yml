@@ -1,8 +1,11 @@
 ---
 # tasks/main.yml
 
-# install dependencies ?
 
+# - include: "user.yml"
+
+
+# because user module doesn't work on osx
 - name: create saluser and salgroup
   sudo: True
   command: /usr/bin/dscl . {{ item }}
@@ -12,38 +15,41 @@
     - '-create /Users/saluser'
     - '-create /Users/saluser UserShell /bin/bash'
     - '-create /Users/saluser UniqueID "303"'
-    - '-create /Users/saluser NFSHomeDirectory /usr/local/sal_env_path'
+    - '-create /Users/saluser NFSHomeDirectory {{ sal_env_path }}'
     - '-create /Users/saluser PrimaryGroupID "303"'
 
+
+# - include: 
+
+
 - name: git clone sal
+  sudo: True
   git: repo=https://github.com/grahamgilbert/sal.git
        dest={{ sal_env_path }}/sal
 
-- name: ensure permissions of sal_env
+- name: tweak sal.wsgi if not installing to /usr/local/sal_env
   sudo: True
-  file: path={{ sal_env_path }}
-        owner=saluser
-        group=salgroup 
-        state=directory
-        recurse=yes
+  lineinfile: dest={{ sal_env_path }}/sal/sal.wsgi
+              regexp="^SAL_ENV_DIR"
+              line="SAL_ENV_DIR = '{{ sal_env_path }}'"
+  when: sal_env_path != '/usr/local/sal_env'
 
-#- name: check easy_install exists
-#  stat: path=/usr/bin/easy_install
-#  register: ez_install
+- name: check easy_install exists
+  stat: path=/usr/local/bin/pip
+  register: pip_exists
  
 - name: install pip via easy_install
   sudo: True
   easy_install: name=pip
-
-#- name: install virtualenv via easy_install
-#  easy_install: name=virtualenv
+  when: pip_exists|failed
 
 - name: pip install virtualenv 1.10.1
   sudo: True
   pip: name=virtualenv
        version=1.10.1
-#       virtualenv={{ sal_env_path }}
-#       virtualenv_site_packages=yes
+
+
+# - include: settings.yaml
 
 
 - name: copy example_settings.py
@@ -65,19 +71,23 @@
   sudo: True
   lineinfile: dest={{ sal_settings_path }}/settings.py
               regexp='Your Name'
-              line="     ('juan', 'juan@ninjabong.com')"
+              line="     ('{{ ansible_user_id }}', '{{ ansible_user_id }}@{{ ansible_domain }}')"
 
 - name: edit settings.py 2
   sudo: True
   lineinfile: dest={{ sal_settings_path }}/settings.py
-              regexp='^TIME_ZONE'
-              line='TIME_ZONE = {{ sal_timezone }}'
+              regexp="^TIME_ZONE"
+              line="TIME_ZONE = '{{ sal_timezone }}'"
 
 - name: edit settings.py 3
   sudo: True
   lineinfile: dest={{ sal_settings_path }}/settings.py
-              regexp='^DISPLAY_NAME'
-              line='DISPLAY_ZONE = {{ sal_display_name }}'
+              regexp="^DISPLAY_NAME"
+              line="DISPLAY_NAME = '{{ sal_display_name }}'"
+
+
+# - include: "venv.yml"
+
 
 - name: copy virtualenv wrapper
   sudo: True
@@ -89,19 +99,44 @@
 
 - name: pip install sal dependencies
   sudo: True
-#  pip: requirements={{ sal_env_path }}/sal/setup/requirements.txt
-#       virtualenv={{ sal_env_path }}
-#       virtualenv_site_packages=yes
-  command: "{{ sal_env_path }}/exec /usr/local/bin/pip install -r {{ sal_env_path}}/sal/setup/requirements.txt"
+  pip: requirements={{ sal_env_path }}/sal/setup/requirements.txt
+       virtualenv={{ sal_env_path }}
+       virtualenv_site_packages=yes
+
+#- name: do some stuff in virtualenv as saluser
+#  sudo: True
+#  django_manage: command={{ item }}
+#                 app_path={{ sal_env_path }}/sal
+#                 pythonpath={{ sal_env_path }}/bin/python
+#                 virtualenv={{ sal_env_path }}
+#  with_items:
+#    - "syncdb --noinput"
+#    - "createsuperuser --username {{ sal_db_admin }} --email {{ sal_db_email }} --noinput"
+#    - "changepassword {{ sal_db_admin }}"
+#    - "migrate"
+#    - "collectstatic --noinput"
 
 - name: do some stuff in virtualenv as saluser
   sudo: True
-  command: "{{ sal_env_path }}/exec /usr/bin/python {{ sal_env_path }}/sal/manage.py {{ item }}"
+  command: "{{ sal_env_path }}/exec python {{ sal_env_path }}/sal/manage.py {{ item }}"
   with_items:
     - "syncdb"
     - "migrate"
     - "collectstatic --noinput"
 
+- name: ensure permissions of sal_env
+  sudo: True
+  file: path={{ sal_env_path }}
+        owner=saluser
+        group=salgroup 
+        state=directory
+        recurse=yes
+
+
+# - include: "wsgi.yml"
+
+
+# doesn't work on osx
 #- name: enable apache2's wsgi module
 #  apache2_module: name=wsgi state=present
 
@@ -123,19 +158,15 @@
               insertafter='LoadModule hfs_apple_module'
               line='LoadModule wsgi_module libexec/apache2/mod_wsgi.so'
 
-#- name: enable apache2's wsgi module
-#  sudo: True
-#  apache2_module: name=wsgi state=present
-
 - name: copy vhost template for apache2
   sudo: True
-  template: src=sal.j2
+  template: src=sal_vhost.j2
             dest=/private/etc/apache2/other/sal.conf
             owner=root
             group=wheel
             mode=0644
 
-# start/restart apache via handler
+# make this a handler
 - name: (re)start apache2
   sudo: True
   command: /usr/sbin/apachectl restart

@@ -1,0 +1,14 @@
+---
+
+# because user module doesn't work on osx
+- name: create saluser and salgroup
+  sudo: True
+  command: /usr/bin/dscl . {{ item }}
+  with_items:
+    - '-create /Groups/salgroup'
+    - '-create /Groups/salgroup PrimaryGroupID "303"'
+    - '-create /Users/saluser'
+    - '-create /Users/saluser UserShell /bin/bash'
+    - '-create /Users/saluser UniqueID "303"'
+    - '-create /Users/saluser NFSHomeDirectory {{ sal_env_path }}'
+    - '-create /Users/saluser PrimaryGroupID "303"'
