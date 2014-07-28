@@ -14,15 +14,32 @@
        virtualenv={{ sal_env_path }}
        virtualenv_site_packages=yes
 
+#- name: do some stuff in virtualenv as saluser
+#  sudo: True
+#  django_manage: command={{ item }}
+#                 app_path={{ sal_env_path }}/sal
+#                 pythonpath={{ sal_env_path }}/bin/python
+#                 virtualenv={{ sal_env_path }}
+#  with_items:
+#    - "syncdb --noinput"
+#    - "createsuperuser --username {{ sal_db_admin }} --email {{ sal_db_email }} --noinput"
+#    - "changepassword {{ sal_db_admin }}"
+#    - "migrate"
+#    - "collectstatic --noinput"
+
 - name: do some stuff in virtualenv as saluser
   sudo: True
-  django_manage: command={{ item }}
-                 app_path={{ sal_env_path }}/sal
-                 pythonpath={{ sal_env_path }}/bin/python
-                 virtualenv={{ sal_env_path }}
+  command: "{{ sal_env_path }}/exec python {{ sal_env_path }}/sal/manage.py {{ item }}"
   with_items:
     - "syncdb --noinput"
-    - "createsuperuser --username {{ sal_db_admin }} --email {{ sal_db_email }}"
-    - "changepassword {{ sal_db_admin }} {{ sal_db_pass }}"
+    - "createsuperuser --username {{ sal_db_admin }} --email {{ sal_db_email }} --noinput"
     - "migrate"
     - "collectstatic --noinput"
+
+- name: ensure permissions of sal_env
+  sudo: True
+  file: path={{ sal_env_path }}
+        owner=saluser
+        group=salgroup 
+        state=directory
+        recurse=yes

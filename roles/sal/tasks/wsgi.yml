@@ -29,3 +29,8 @@
             owner=root
             group=wheel
             mode=0644
+
+# make this a handler
+- name: (re)start apache2
+  sudo: True
+  command: /usr/sbin/apachectl restart

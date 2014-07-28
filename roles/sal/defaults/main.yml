@@ -14,4 +14,3 @@ sal_settings_path: "{{ sal_env_path }}/sal/sal"
 # for django's db admin
 sal_db_admin: "{{ ansible_user_id }}"
 sal_db_email: "{{ ansible_user_id }}@{{ ansible_domain }}"
-sal_db_pass: "p@55w0rd!"
