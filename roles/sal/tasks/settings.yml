@@ -15,19 +15,19 @@
 #    - { regex: "^TIME_ZONE"    , line: "TIMEZONE = '{{ sal_timezone }}'" }
 #    - { regex: "^DISPLAY_NAME" , line: "DISPLAY_NAME = {{ sal_display_name }}" }
 
-- name: edit settings.py
+- name: edit settings.py - ADMIN
   sudo: True
   lineinfile: dest={{ sal_settings_path }}/settings.py
               regexp='Your Name'
               line="     ('{{ ansible_user_id }}', '{{ ansible_user_id }}@{{ ansible_domain }}')"
 
-- name: edit settings.py 2
+- name: edit settings.py - TIME_ZONE
   sudo: True
   lineinfile: dest={{ sal_settings_path }}/settings.py
               regexp="^TIME_ZONE"
               line="TIME_ZONE = '{{ sal_timezone }}'"
 
-- name: edit settings.py 3
+- name: edit settings.py - DISPLAY_NAME
   sudo: True
   lineinfile: dest={{ sal_settings_path }}/settings.py
               regexp="^DISPLAY_NAME"

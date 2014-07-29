@@ -1,0 +1,31 @@
+---
+
+- name: pip install mod_wsgi for OS X
+  sudo: True
+  pip: name=mod_wsgi
+
+- name: copy mod_wsgi to apache2 module's dir for OS X
+  sudo: True
+  copy: src=/Library/Python/2.7/site-packages/mod_wsgi/server/mod_wsgi-py27.so
+        dest=/usr/libexec/apache2/mod_wsgi.so
+        owner=root
+        group=wheel
+        mode=0755
+
+- name: enable mod_wsgi module for OS X
+  sudo: True
+  lineinfile: dest=/private/etc/apache2/httpd.conf
+              insertafter='LoadModule hfs_apple_module'
+              line='LoadModule wsgi_module libexec/apache2/mod_wsgi.so'
+
+- name: copy vhost template for apache2 for OS X
+  sudo: True
+  template: src=sal_vhost.j2
+            dest=/private/etc/apache2/other/sal.conf
+            owner=root
+            group=wheel
+            mode=0644
+
+- name: (re)start apache2 for OS X
+  sudo: True
+  command: /usr/sbin/apachectl restart
