@@ -1,6 +1,33 @@
 ---
+# {{ recipe_path }}
 
-- name: autopkg run the list of pkgs
-  ignore_errors: True
-  command: '/usr/local/bin/autopkg run {{ pkg_list }}'
-  when: pkg_list is defined
+
+#- name: autopkg run the list of pkgs
+#  ignore_errors: True
+#  command: '/usr/local/bin/autopkg run {{ pkg_list }}'
+#  command: '/usr/local/bin/autopkg run {{ pkg_list }}.munki'
+#  when: pkg_list is defined
+
+- name: Check for {{ recipe_path }}
+  stat: path={{ recipe_path }}
+  register: recipelist
+
+- name: Create recipe-list in {{ recipe_path }}
+  template: src=recipe-list.j2 dest={{ recipe_path }} backup=yes
+  when: recipelist.stat.exists == false
+
+- name: autopkg run recipe-list
+  command: '/usr/local/bin/autopkg run --recipe-list {{ recipe_path }}'
+  when: recipelist.stat.exists == true
+
+#- name: Check if {{ manifest_name }} manifest exists
+#  stat: path={{ repo_path }}/manifests/{{ manifest_name }} follow=true
+#  register: manifest_exists
+
+#- name: Create new munki manifest {{ manifest_name }}
+#  command: "{{ manifestutil_exec }} new-manifest {{ manifest_name }}"
+#  when: manifest_exists.stat.exists == false
+
+#- name: Add items to munki manifest {{ manifest_name }}
+#  command: "{{ manifestutil_exec }} add-pkg {{ item }} --manifest {{ manifest_name }} --section optional_installs"
+#  with_items: pkg_list

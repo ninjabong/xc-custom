@@ -4,12 +4,15 @@
 # run as root
 ####
 
+#echo "Saving Cache dir"
+#mv ~/Library/AutoPkg/Cache ~/src/AutoPkg-Cache
+
 echo "Deleting directories"
 rm -rf /usr/local/munki
 rm -rf /Users/Shared/munki*
 rm -rf /Library/Managed\ Installs
 rm -rf /Library/AutoPkg
-rm -rf ~/Library/AutoPkg
+rm -rf ~/Library/AutoPkg/RecipeRepos
 rm -rf ~/src/github.com/autopkg
 
 echo "Deleting plists"
@@ -28,3 +31,7 @@ rm -f ~/autopkg_test.retry
 
 echo "Stopping apache"
 sudo apachectl stop
+
+#echo "Restoring Cache"
+#mkdir -p ~/Library/AutoPkg
+#mv ~/src/AutoPkg-Cache ~/Library/AutoPkg/Cache

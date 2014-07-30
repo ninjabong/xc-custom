@@ -1,7 +1,7 @@
 ---
-# creates/updates a munki manifest from given manifest_list for autopkg
+# creates/updates a munki manifest from given pkg_list (for autopkg)
 
-- name: Check if {{ manifest_name }} exists
+- name: Check if manifest {{ manifest_name }} exists
   stat: path={{ repo_path }}/manifests/{{ manifest_name }} follow=true
   register: manifest_exists
 
@@ -11,6 +11,4 @@
 
 - name: Add items to munki manifest {{ manifest_name }}
   command: "{{ manifestutil_exec }} add-pkg {{ item }} --manifest {{ manifest_name }} --section optional_installs"
-# need to inline strip .munki from pkg_list
-#  command: "{{ manifestutil_exec }} add-pkg {{ item | regex_replace('\\.munki ', '\\ ') }} --manifest {{ manifest_name }} --section optional_installs"
-  with_items: manifest_list
+  with_items: pkg_list
