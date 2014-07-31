@@ -13,5 +13,5 @@
     close_confirms_changes: no
     restore_windows: no
     kb_ui_mode: all
-    # only works for 10.10
+    # Only works for 10.10
     interface_style: Dark
