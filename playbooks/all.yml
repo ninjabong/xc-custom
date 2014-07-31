@@ -155,13 +155,14 @@
 
    # System Preferences - General
   - role: systemprefs_general
-    system_appearance: blue
-    highlight_color: "1.000000 0.823500 0.505900"
+    system_appearance: graphite
+    highlight_color: "1.000000 0.874510 0.701961"
     sidebar_icon_size: medium
     scrollbar: Automatic
     scroll_behavior: page
     close_confirms_changes: no
     restore_windows: no
+    interface_style: Dark
 
   # Various sleep related options
   - role: sleep

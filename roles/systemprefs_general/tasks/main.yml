@@ -66,3 +66,7 @@
 #	1 = No / Unchecked (DO restore windows)
 - name: set Close windows when quitting an application to {{ restore_windows }}
   command: "{{ defaults_global_write }} NSQuitAlwaysKeepsWindows {{ restore_windows }}"
+
+- name: Use dark menu bar and Dock
+  command: {{ defaults_global_write }} AppleInterfaceStyle Dark
+  when: "ansible_distribution_version | search('10.10') and {{ interface_style }} == 'dark'"
