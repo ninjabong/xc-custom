@@ -1,0 +1,8 @@
+---
+# tasks/main.yml
+
+- name: Use dark menu bar and Dock
+  command: /usr/bin/defaults write -g AppleInterfaceStyle Dark
+  when: "ansible_distribution_version | search('10.10')"
+
+# something else triggers the instant switch when the checkbox is pressed, figured that out and automate it here
