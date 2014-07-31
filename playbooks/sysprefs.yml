@@ -1,0 +1,17 @@
+---
+
+- hosts: all
+
+  roles:
+   # System Preferences - General
+  - role: systemprefs_general
+    system_appearance: graphite
+    highlight_color: "1.000000 0.874510 0.701961"
+    sidebar_icon_size: medium
+    scrollbar: Automatic
+    scroll_behavior: page
+    close_confirms_changes: no
+    restore_windows: no
+    kb_ui_mode: all
+    # only works for 10.10
+    interface_style: Dark

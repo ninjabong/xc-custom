@@ -3,10 +3,18 @@
 # playbook use:
 # - role: check_os_vers
 
+- name: checking for Mt. Lion
+  debug: msg="you have Mt. Lion!"
+  when: "ansible_distribution_version | search('10.8')"
+
 - name: checking for Mavericks
   debug: msg="you have Mavericks!"
   when: "ansible_distribution_version | search('10.9')"
 
-- name: checking for Mt. Lion
-  debug: msg="you have Mt. Lion!"
-  when: "ansible_distribution_version | search('10.8')"
+- name: checking for Mt. Lion or Mavericks
+  debug: msg="you are pre Yosemite!"
+  when: "ansible_distribution_version | search('10.[8|9]')"
+
+- name: checking for Yosemite
+  debug: msg="you have Yosemite!  swag."
+  when: "ansible_distribution_version | search('10.10')"

@@ -4,10 +4,6 @@
 
   roles:
 
-  - role: git_config
-    git_user_mail: ninja@ninjabong.com
-    git_user_name: ninjabong
-
   ## disable gatekeeper, enable locatedb and sshd, unhide ~/Library and set user account image
   - role: gatekeeper
     gatekeeper: disable
@@ -45,6 +41,8 @@
     scroll_behavior: page
     close_confirms_changes: no
     restore_windows: no
+    kb_ui_mode: all
+    # only works for 10.10
     interface_style: Dark
 
 

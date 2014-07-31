@@ -9,7 +9,8 @@
 #    scroll_behavior: [page|spot]
 #    close_confirms_changes: [no|yes]
 #    restore_windows: [yes|no]
-
+#    interface_style: [Dark|Light]
+#    kb_ui_mode: [boxes|all]
 
 # These are normally set through System Preferences - General
 # note: they're stored as string not number values.
@@ -67,6 +68,34 @@
 - name: set Close windows when quitting an application to {{ restore_windows }}
   command: "{{ defaults_global_write }} NSQuitAlwaysKeepsWindows {{ restore_windows }}"
 
+# User normal or new "Dark" menu bar and Dock
+#   dark = new "Dark" style
+#   light = default "normal" style
+# needs some further magic to make it "instant" like GUI behavior.
 - name: Use dark menu bar and Dock
   command: {{ defaults_global_write }} AppleInterfaceStyle Dark
-  when: "ansible_distribution_version | search('10.10') and {{ interface_style }} == 'dark'"
+  when: "ansible_distribution_version | search('10.10') and {{ interface_style }} == 'Dark'"
+
+- name: Use normal menu bar and Dock
+  command: /usr/bin/defaults delete NSGlobalDomain AppleInterfaceStyle
+  when: "ansible_distribution_version | search('10.10') and {{ interface_style }} == 'Light'"
+
+# Full Keyboard Access: In windows and dialogs, press Tab to move keyboard focus between:
+#   0 = 10.10 / 1 = 10.8/9 (Text boxes and lists only)
+#   2 = 10.10 - 3 = 10.8/9 (All controls)
+# seems to work interchangeably, but these are what the OS uses as their native defaults
+- name: Full Keyboard Access: Text boxes and lists only
+  command: {{ defaults_global_write }} AppleKeyboardUIMode 0
+  when: "ansible_distribution_version | search('10.[8|9]') and {{ kb_ui_mode }} == 'boxes'"
+
+- name: Full Keyboard Access: Text boxes and lists only
+  command: {{ defaults_global_write }} AppleKeyboardUIMode 1
+  when: "ansible_distribution_version | search('10.[8|9]') and {{ kb_ui_mode }} == 'boxes'"
+
+- name: Full Keyboard Access: All controls
+  command: {{ defaults_global_write }} AppleKeyboardUIMode 2
+  when: "ansible_distribution_version | search('10.10') and {{ kb_ui_mode }} == 'all'"
+
+- name: Full Keyboard Access: Text boxes and lists only
+  command: {{ defaults_global_write }} AppleKeyboardUIMode 3
+  when: "ansible_distribution_version | search('10.[8|9]') and {{ kb_ui_mode }} == 'all'"

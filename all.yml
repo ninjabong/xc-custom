@@ -6,7 +6,7 @@
   roles:
 
   ## my dotfiles, not yours - myne.
-  - role: dots
+#  - role: dots
   ## brew, then cask, then osx bits like the dock which need the cask to go first
   # brew stuff
   ## some old reliables
@@ -165,6 +165,9 @@
     scroll_behavior: page
     close_confirms_changes: no
     restore_windows: no
+    kb_ui_mode: all
+    # only works for 10.10
+    interface_style: Dark
 
   # Various sleep related options
   - role: sleep
