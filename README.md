@@ -28,7 +28,7 @@ my custom [osxc](http://osxc.github.io) roles
 -   **autopkg\_repo:** add recipe repos to autopkg.
 -   **autopkg\_run:** performs an 'autopkg run foo foo2'.
 -   **munki\_client:** sets up a new munki client from above.  no https yet.
--   **munki\_client\v_pkgr:** builds a munki client pkg for an osxc installed/managed repo.
+-   **munki\_client\_pkgr:** builds a munki client pkg for an osxc installed/managed repo.
 -   **munki\_iconimport:** ensures munki's iconimporter is present and runs to import icons into the repo.
 -   **munki\_manifest:** wraps 'manifestutil add-pkg' works really well with autopkg\_run to automagically create and populate a munki repo.
 -   **munki\_repo:** sets up minimal directory structure for a munki repo.  only os x client & server so far.
