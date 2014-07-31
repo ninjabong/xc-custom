@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+
+  roles:
+
+  - role: git_config
+    git_user_mail: ninja@ninjabong.com
+    git_user_name: ninjabong
+

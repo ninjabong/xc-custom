@@ -1,0 +1,200 @@
+---
+
+- hosts: all
+
+#  gather_facts: False
+# uncomment to remove having to run ansible-playbook with -K
+#  ask_sudo_pass: True
+  roles:
+
+#  - role: git_config
+#    git_user_mail: ninja@ninjabong.com
+#    git_user_name: ninjabong
+
+  ## my dotfiles, not yours - myne.
+#  - role: dots
+  ## brew, then cask, then osx bits like the dock which need the cask to go first
+  # brew stuff
+  ## some old reliables
+#  - role: brew_package
+#    package_name: tree
+#  - role: brew_package
+#    package_name: htop-osx
+#  - role: brew_package
+#    package_name: homebrew/dupes/rsync
+  ## wget
+#  - role: brew_package
+#    package_name: wget
+  ## figlet!
+#  - role: brew_package
+#    package_name: figlet
+  ## irc and silc
+ # - role: brew_package
+ #   package_name: irssi
+ # - role: brew_package
+ #   package_name: silc-client
+  ## some networky stuffs
+#  - role: brew_package
+#    package_name: mtr
+#  - role: brew_package
+#    package_name: nmap
+#  - role: brew_package
+#    package_name: whatmask
+
+  # cask stuff... for the apps
+  ## Misc Stuff...
+#  - role: cask_package
+#    package_name: firefox
+#  - role: cask_package
+#    package_name: google-chrome
+#  - role: cask_package
+#    package_name: music-manager
+#  - role: cask_package
+#    package_name: flip4mac
+#  - role: cask_package
+#    package_name: vlc
+  ## Misc Things...
+#  - role: cask_package
+#    package_name: asepsis
+#  - role: cask_package
+#    package_name: box-sync
+#  - role: cask_package
+#    package_name: flux
+#  - role: cask_package
+#    package_name: istat-menus
+#  - role: cask_package
+#    package_name: pacifist
+#  - role: cask_package
+#    package_name: totalterminal
+#  - role: cask_package
+#    package_name: osxfuse
+#  - role: cask_package
+#    package_name: sshfs
+  ## Text Editors
+#  - role: cask_package
+#    package_name: atom
+#  - role: cask_package
+#    package_name: sublime-text
+#  - role: cask_package
+#    package_name: textmate
+  ## VM related stuff
+#  - role: cask_package
+#    package_name: virtualbox
+#  - role: cask_package
+#    package_name: vmware-fusion
+#  - role: cask_package
+#    package_name: vagrant
+  ## Panic, mmmmm Panic
+#  - role: cask_package
+#    package_name: transmit
+#  - role: cask_package
+#    package_name: panic-unison
+
+  # osx config
+  ## kill the dashboard
+  - role: dashboard
+    disabled: NO
+  ## fix up the dock
+#  - role: dock
+#    apps:
+#    - /Applications/"System Preferences.app"
+#    - /Applications/Utilities/Terminal.app
+#    - /Users/juan/Applications/"Google Chrome.app"
+#    - /Users/juan/Applications/"Sublime Text 2.app"
+#    - /Users/juan/Applications/TextMate.app
+ #   - /Applications/Utilities/"Managed Software Update.app"
+#    folders:
+#    - path: ~/src/github.com
+#      view: grid
+#    - path: ~/Downloads
+#      sort: datemodified
+#      view: grid
+  ## disable gatekeeper, enable locatedb and sshd, unhide ~/Library and set user account image
+  - role: gatekeeper
+    gatekeeper: disable
+  - role: locatedb
+    locatedb: load
+  - role: sshd
+    sshd: "on"
+  - role: unhide_library
+  - role: user_image
+    image_name: ninjastar.jpg
+
+
+  # install some ttf fonts
+  - role: googlefonts
+    fonts:
+      - inconsolata
+      - sourcecodepro
+  # install some Terminal.app prefs
+ # - role: terminal_prefs
+ #   startup_theme: mypro
+ #   default_theme: mybrew
+  # set some system volumes
+  - role: systemprefs_sound
+    alert_volume: "0.5"
+    ui_soundfx: "1"
+    volume_feedback: "0"
+  # set the Computer Name
+  - role: computername
+    computername: OSXC-VM
+
+
+#####
+    # Desktop View Options
+    # these are kinda broken right now.
+    # and by kinda, I mean totally.
+#  - role: desktop_view_opts
+#    arrange_by: name
+#    grid_spacing: 0
+#    desktop_icon_size: 96
+#    label_on_bottom: on
+#    show_item_info: on
+#    show_icon_preview: on
+#    text_size: 12
+    # these actually work, kinda
+#    toolbar_mode: 2
+#    toolbar_shown: 1
+
+
+#  - role: munki_repo
+#    repo_base: /Users/Shared/
+#    repo_name: munki_repo
+
+
+#  - role: munkitools
+#    ## optional
+#    update: [yes|no]
+#    install_type: [pkg|dmg] (defaults to pkg)
+#    ## defaults to http://munkibuilds.org/latest.[pkg|dmg]
+#    munki_pkg_url: http://host.tld/munki.pkg
+#    munki_dmg_url: http://host.tld/munki.dmg
+
+
+#  - role: munki_client
+#    ClientIdentifier: "VM"
+#    InstallAppleSoftwareUpdates: no
+#    SoftwareRepoURL: "http://munki.tld"
+#    CurlPath: "/opt/local/bin/curl"
+    ## the rest aren't really needed for most installs
+#    ManifestBaseURL: "http://munki.tld/manifests"
+#    ManifestURL: ""
+#    AdditionalHttpHeaders: "Authorization: Basic abcdefghijklmno=" # (array)
+#    AppleSoftwareUpdatesOnly: no
+#    SuppressStopButtonOnInstall: no
+#    UseClientCertificate: no
+#    ## optional
+#    PackageURL: SoftwareRepoURL/pkgs
+#    CatalogURL: SoftwareRepoURL/catalogs
+#    ## end optional
+#  * ManagedInstallDir: "/Library/Managed Installs"
+#    LogFile: "ManagedInstallDir/Logs/ManagedSoftwareUpdate.log"
+#    LogToSyslog: [0|1]
+#  * LoggingLevel: [1] (int - higher vals = more debugging)
+#  * DaysBetweenNotifications: [1] (int)
+#  * UseClientCertificate: [0|1]
+#    UseClientCertificateCNAsClientIdentifier:
+#    SoftwareRepoCAPath: "/path/to/applesus_certs/"
+#    SoftwareRepoCACertificate: "/path/to/apple_sus_certs/applesus.pem"
+#    ClientCertificatePath: "/Library/Managed Installs/certs/munki.pem" 
+#    ClientKeyPath: "/path/to/private/client.key"
