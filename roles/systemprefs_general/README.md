@@ -4,7 +4,7 @@ systemprefs\_general
 Most of these are normally set through System Preferences - General, and written to NSGlobalDomain
 ----------
 
-**note:** the interface\_style setting requires logout/restart to take effect, for now.
+**note:** the interface\_style setting requires logout/restart to take effect in most applications, for now.
 
 **requires:**<br />
 
