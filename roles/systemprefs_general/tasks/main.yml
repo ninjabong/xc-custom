@@ -17,11 +17,11 @@
 # note: they're stored as String unless otherwise specified
 # 1 = Blue (default) / 6 = Graphite
 - name: "set Appearance (For Buttons, Menus, and Windows) to Blue"
-  command: "{{ defaults_global_write }} AppleAquaColorVariant -number 1"
+  command: "{{ defaults_global_write }} AppleAquaColorVariant -int 1"
   when: system_appearance == "blue"
 
 - name: "set Appearance (For Buttons, Menus, and Windows) to Graphite"
-  command: "{{ defaults_global_write }} AppleAquaColorVariant -number 6"
+  command: "{{ defaults_global_write }} AppleAquaColorVariant -int 6"
   when: system_appearance == "graphite"
 
 # [R G B] values as string [0.0-1.0]
@@ -33,15 +33,15 @@
 #	2 = Medium (default)
 #	3 = Large
 - name: set Finder Sidebar icon size to Small
-  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -number 1"
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -int 1"
   when: sidebar_icon_size == "small"
 
 - name: set Finder Sidebar icon size to Medium
-  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -number 2"
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -int 2"
   when: sidebar_icon_size == "medium"
 
 - name: set Finder Sidebar icon size to Large
-  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -number 3"
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -int 3"
   when: sidebar_icon_size == "large"
 
 # [Automatic|WhenScrolling|Always]
@@ -50,11 +50,11 @@
 
 # [page|spot]
 - name: set Show scroll bars to Jump to the next page
-  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior -boolean 0"
+  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior -bool true"
   when: scroll_behavior == "page"
 
 - name: set Show scroll bars to Jump to the spot that's clicked
-  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior -boolean 1"
+  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior -bool true"
   when: scroll_behavior == "spot"
 
 # Ask to keep changes when closing documents
@@ -73,19 +73,19 @@
 #   0 = 10.10 / 1 = 10.8/9 (Text boxes and lists only)
 #   2 = 10.10 - 3 = 10.8/9 (All controls)
 # seems to work interchangeably, but these are what the OS uses as their native defaults
-- name: Full Keyboard Access: Text boxes and lists only
+- name: Full Keyboard Access - Text boxes and lists only
   command: "{{ defaults_global_write }} AppleKeyboardUIMode 0"
   when: "ansible_distribution_version | search('10.[8|9]') and kb_ui_mode == 'boxes'"
 
-- name: Full Keyboard Access: Text boxes and lists only
+- name: Full Keyboard Access - Text boxes and lists only
   command: "{{ defaults_global_write }} AppleKeyboardUIMode 1"
   when: "ansible_distribution_version | search('10.[8|9]') and kb_ui_mode == 'boxes'"
 
-- name: Full Keyboard Access: All controls
+- name: Full Keyboard Access - All controls
   command: "{{ defaults_global_write }} AppleKeyboardUIMode 2"
   when: "ansible_distribution_version | search('10.10') and kb_ui_mode == 'all'"
 
-- name: Full Keyboard Access: Text boxes and lists only
+- name: Full Keyboard Access - Text boxes and lists only
   command: "{{ defaults_global_write }} AppleKeyboardUIMode 3"
   when: "ansible_distribution_version | search('10.[8|9]') and kb_ui_mode == 'all'"
 
