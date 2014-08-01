@@ -7,4 +7,4 @@ enable/disable sshd
 
 playbook use:<br />
 &nbsp;&nbsp;\- role: sshd<br />
-&nbsp;&nbsp;&nbsp;&nbsp;sshd: "\[on|off\]" \(explicitly quoted\)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;sshd: "\[on|off\]" \# \(explicitly quoted\)<br />

@@ -1,0 +1,3 @@
+---
+use_networktime: "on"
+networktime_server: time.apple.com
