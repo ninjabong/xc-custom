@@ -15,6 +15,7 @@ I've been working on trying to document full options with example playbook use f
 -   **bare\_role:** a basic empty role for copying when starting a new one.
 -   **check\_os\_vers:** example of how to test for Mt Lion or Mavericks or Yosemite.
 -   **computername:** sets the Computer Name normally done via System Prefences \- Sharing.
+-   **desktop\_image** sets the User's desktop picture via [set_desktops.py](https://github.com/grahamgilbert/macscripts/set_desktops/set_desktops.py).
 -   **finder\_prefs:** sets a bunch of Finder preferences normally done via Finder's Pref Pane.
 -   **finder\_window\_prefs:**  sets a bunch of Finder preferences normally done via the Menubar.
 -   **gatekeeper:** enable or disable GateKeeper system wide via spctl.
