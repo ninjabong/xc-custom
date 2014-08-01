@@ -14,14 +14,14 @@
 #    interface_style: [Dark|Light]
 
 # These are normally set through System Preferences - General
-# note: they're stored as string not number values.
+# note: they're stored as String unless otherwise specified
 # 1 = Blue (default) / 6 = Graphite
 - name: "set Appearance (For Buttons, Menus, and Windows) to Blue"
-  command: "{{ defaults_global_write }} AppleAquaColorVariant 1"
+  command: "{{ defaults_global_write }} AppleAquaColorVariant -number 1"
   when: system_appearance == "blue"
 
 - name: "set Appearance (For Buttons, Menus, and Windows) to Graphite"
-  command: "{{ defaults_global_write }} AppleAquaColorVariant 6"
+  command: "{{ defaults_global_write }} AppleAquaColorVariant -number 6"
   when: system_appearance == "graphite"
 
 # [R G B] values as string [0.0-1.0]
@@ -33,15 +33,15 @@
 #	2 = Medium (default)
 #	3 = Large
 - name: set Finder Sidebar icon size to Small
-  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode 1"
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -number 1"
   when: sidebar_icon_size == "small"
 
 - name: set Finder Sidebar icon size to Medium
-  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode 2"
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -number 2"
   when: sidebar_icon_size == "medium"
 
 - name: set Finder Sidebar icon size to Large
-  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode 3"
+  command: "{{ defaults_global_write }} NSTableViewDefaultSizeMode -number 3"
   when: sidebar_icon_size == "large"
 
 # [Automatic|WhenScrolling|Always]
@@ -50,11 +50,11 @@
 
 # [page|spot]
 - name: set Show scroll bars to Jump to the next page
-  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior 0"
+  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior -boolean 0"
   when: scroll_behavior == "page"
 
 - name: set Show scroll bars to Jump to the spot that's clicked
-  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior 1"
+  command: "{{ defaults_global_write }} AppleScrollerPagingBehavior -boolean 1"
   when: scroll_behavior == "spot"
 
 # Ask to keep changes when closing documents
