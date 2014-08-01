@@ -1,12 +1,13 @@
 desktop\_image
 ==========
 
-sets the user's desktop image to a specified image file.
+sets the user's desktop image(s) to a specified image file.
 ----------
 
 **note:**<br />
-default is desktop.png in the xc-custom dir
-paths are relative to xc-custom dir or /ab/so/lute
+- default is **desktop.png** in the xc-custom directory<br />
+- paths can be relative to xc-custom **or** /ab/so/lute<br />
+- sets the same image on **all** desktops<br />
 
 **requires:**<br />
 

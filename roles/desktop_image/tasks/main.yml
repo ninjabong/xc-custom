@@ -1,11 +1,19 @@
 ---
 # tasks/main.yml
 
-- name: "check {{ desktop_img_path }} exists"
+- name: check if set_desktops.py exists
+  stat: "{{ desktops_exec }}"
+  register: script_exists
+
+- name: download set_desktops.py and install in /usr/local/bin
+  get_url: "url={{ script_url }} dest={{ desktops_exec }} owner=root group=wheel mode=0755"
+  when: script_exists.stat.exists == false
+
+- name: "check if {{ desktop_img_path }} exists"
   stat: "path={{ desktop_img_path }}"
   when: desktop_img_path is defined
   register: img_exists
 
-- name: run set_desktops.py
-  command: "{{ desktop_exec }} --path {{ desktop_img_path }}"
+- name: run set_desktops.py to set desktop image
+  command: "{{ desktops_exec }} --path {{ desktop_img_path }}"
   when: img_exists.stat.exists == true
