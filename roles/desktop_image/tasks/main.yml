@@ -1,6 +1,12 @@
 ---
 # tasks/main.yml
+desktop_img_path: /Path/To/Desktop/Image
 
-# git clone set_desktops.py
+- name: "check {{ desktop_img_path }} exists"
+  stat: "src={{ desktop_img_path }}"
+  when: desktop_img_path is defined
+  register: desktop_img
 
-# run set_desktops.py
+- name: run set_desktops.py
+  command: "{{ desktop_exec }} --path {{ desktop_img_path }}"
+  when: desktop_img.stat.exists == true

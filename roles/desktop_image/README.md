@@ -1,12 +1,11 @@
-bare\_role
+desktop\_image
 ==========
 
-this is a bare\_role to copy when starting a new role
+sets the user's desktop image to a specified image file.
 ----------
 
 **requires:**<br />
 
 playbook use:<br />
-&nbsp;&nbsp;\- role: bare\_role<br />
-&nbsp;&nbsp;&nbsp;&nbsp;\#\# optional:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;option: value<br />
+&nbsp;&nbsp;\- role: desktop\_image<br />
+&nbsp;&nbsp;&nbsp;&nbsp;desktop\_img\_path: /path/to/image<br />

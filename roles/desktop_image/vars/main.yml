@@ -1,3 +1,3 @@
 ---
 # tasks/vars.yml
-set_desktops: github.com/grahamgilbert/macscripts/set_desktops/set_desktops.py
+desktop_exec: ~/src/github.com/grahamgilbert/macscripts/set_desktops/set_desktops.py
