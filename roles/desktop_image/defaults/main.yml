@@ -1,3 +1,3 @@
 ---
 # defaults/main.yml
-desktop_img_path: {{ ansible_env.PWD }}/desktop.png
+desktop_img_path: "{{ ansible_env.PWD }}/desktop.png"

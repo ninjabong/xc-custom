@@ -1,12 +1,11 @@
 ---
 # tasks/main.yml
-desktop_img_path: /Path/To/Desktop/Image
 
 - name: "check {{ desktop_img_path }} exists"
-  stat: "src={{ desktop_img_path }}"
+  stat: "path={{ desktop_img_path }}"
   when: desktop_img_path is defined
-  register: desktop_img
+  register: img_exists
 
 - name: run set_desktops.py
   command: "{{ desktop_exec }} --path {{ desktop_img_path }}"
-  when: desktop_img.stat.exists == true
+  when: img_exists.stat.exists == true

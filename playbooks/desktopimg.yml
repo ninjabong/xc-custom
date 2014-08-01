@@ -1,6 +1,8 @@
 ---
 - hosts: all
+
   roles:
 
   - role: desktop_image
-    desktop_img_path: desktops/NasaEarthAtmo1024x768.jpg
+    desktop_img_path: "desktops/NasaEarthAtmo1024x768.jpg"
+  

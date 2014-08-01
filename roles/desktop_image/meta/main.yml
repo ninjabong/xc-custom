@@ -1,6 +1,6 @@
 ---
 # meta/main.yml
-#dependencies:
+dependencies:
   - role: git_package
     remote_repo: github.com/grahamgilbert/macscripts
     local_repo: ~/src/github.com/grahamgilbert/macscripts
