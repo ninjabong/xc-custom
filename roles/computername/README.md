@@ -2,7 +2,7 @@ computername
 =====
 set Computer's name, equivalent of using System Preferences - Sharing
 -----
-**requires:**
+**requires:**<br />
 \- ansible\-playbook \-K for sudo<br />
 
 playbook use:<br />

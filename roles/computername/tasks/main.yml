@@ -2,4 +2,7 @@
 
 - name: "set Computer Name to {{ computername }}"
   sudo: True
-  command: "/usr/sbin/scutil --set ComputerName {{ computername }}"
+  command: "/usr/sbin/scutil --set {{ item }} {{ computername }}"
+  with_items:
+    - ComputerName
+    - LocalHostName
