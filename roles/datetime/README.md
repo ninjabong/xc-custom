@@ -11,7 +11,7 @@ playbook use:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\# optional (will default to these, which are apple's defaults)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;use_networktime: "on" \# \(explicitly quoted\)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;networktime\_server: time.apple.com<br />
-&nbsp;&nbsp;&nbsp;&nbsp;# extra optional menubar clock options<br />
+&nbsp;&nbsp;&nbsp;&nbsp;\# optional menubar clock options<br />
 &nbsp;&nbsp;&nbsp;&nbsp;date\_format: "EEE MMM d H:mm:ss"<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\# EEE: day of week<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\# MMM: month<br />
@@ -21,5 +21,6 @@ playbook use:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\# mm: minutes<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\# ss: seconds<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\# a: am/pm<br />
-&nbsp;&nbsp;&nbsp;&nbsp;flash\_separator: \[0|1\]<br />
-&nbsp;&nbsp;&nbsp;&nbsp;analog\_clock: \[0|1\]
+&nbsp;&nbsp;&nbsp;&nbsp;\# extra optional menubar clock options<br />
+&nbsp;&nbsp;&nbsp;&nbsp;flash\_separator: \[no|yes\]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;analog\_clock: \[no|yes\]

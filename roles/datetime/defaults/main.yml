@@ -1,9 +1,6 @@
 ---
-defaults_write_menuclock: "/usr/bin/defaults write ~/Library/Preferences/com.apple.menuextra.clock.plist"
-# these are apple's defaults
 use_networktime: "on"
 networktime_server: time.apple.com
 
+defaults_write_menuclock: "/usr/bin/defaults write ~/Library/Preferences/com.apple.menuextra.clock.plist"
 date_format: "EEE h:mm a"
-flash_separator: "0"
-analog_clock: "0"
