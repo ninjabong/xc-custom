@@ -1,0 +1,8 @@
+---
+- hosts: all
+  roles:
+
+  - role: datetime
+    time_zone: America/New_York
+    use_networktime: "on"
+    networktime_server: time.apple.com

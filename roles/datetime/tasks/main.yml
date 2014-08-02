@@ -2,8 +2,8 @@
 
 - name: "set computer datetime options"
   sudo: True
-  command: "/usr/sbin/systemsetup -{{ item.pref }} {{ item.value }}"
+  command: "/usr/sbin/systemsetup -{{ item.pref }} {{ item.val }}"
   with_items:
-    - { pref: "settimezone" , val: "{{ time_zone }}" }
-    - { pref: "setusingnetworktime" , val: "{{ use_networktime }}" }
+    - { pref: "settimezone"          , val: "{{ time_zone }}" }
+    - { pref: "setusingnetworktime"  , val: "{{ use_networktime }}" }
     - { pref: "setnetworktimeserver" , val: "{{ networktime_server }}" }
