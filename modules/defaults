@@ -93,11 +93,17 @@ def main():
     params['domain'] = domain = os.path.expanduser(params['domain'])
 
     # determine if the domain plist exists
-
+    # domain plist doesn't exist
     if os.path.exists(domain) == False:
+        # if we're told to write a nonexistent plist, create a new blank one with the key, type and value given.
         if action == "write":
-            subprocess.call(['/usr/bin/defaults', action, domain, key, value])
-            module.exit_json(action=action, domain=domain, changed=True, msg="plist %s created!" % domain)
+            # bail if we try to write, but key or value are missing
+            if key is None or value is None:
+                module.fail_json(action=action, domain=domain, changed=False, msg="plist %s not created, no key or value given!" % domain)
+            # write a new plist with the key and value, and type if also given
+            else:
+                subprocess.call(['/usr/bin/defaults', action, domain, key, '-'+type, value])
+                module.exit_json(action=action, domain=domain, changed=True, key=key, value=value, type=type, msg="plist %s created with key, value, and type if given!" % domain)
         # bail if we try to read a nonexistant plist
         elif action == "read":
             module.fail_json(action=action, domain=domain, changed=False, msg="plist %s does not exist for reading!" % domain)

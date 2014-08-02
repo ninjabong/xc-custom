@@ -3,6 +3,13 @@ hi
 
 ![ninjabong](ninjastar.jpg "ninjabong")
 
+**modules/** is where I keep custom ansible module(s)
+#####in progress:
+-  **defaults:** an attempt to stop wrapping command: /usr/bin/defaults with something a little nicer.  it works. for me. so far.  I guess.  no guarantees.
+
+
+----------
+
 **playbooks/** are mostly a mess of bits that could be "- include:"ed in all.yml, useful for testing.  for me at least.
 
 ----------
