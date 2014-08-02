@@ -4,5 +4,10 @@
 
   - role: datetime
     time_zone: America/New_York
+    # optional, these are the defaults
     use_networktime: "on"
     networktime_server: time.apple.com
+    # extra optional menubar clock options
+    date_format: "EEE MMM d H:mm:ss"
+    flash_separator: "0"
+    analog_clock: "0"

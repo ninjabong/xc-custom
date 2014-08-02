@@ -1,9 +1,17 @@
 ---
 
-- name: "set computer datetime options"
+- name: set computer datetime options
   sudo: True
   command: "/usr/sbin/systemsetup -{{ item.pref }} {{ item.val }}"
   with_items:
     - { pref: "settimezone"          , val: "{{ time_zone }}" }
     - { pref: "setusingnetworktime"  , val: "{{ use_networktime }}" }
     - { pref: "setnetworktimeserver" , val: "{{ networktime_server }}" }
+
+- name: menubar clock settings
+  command: "{{ defaults_write_menuclock }} {{ item }}"
+  with_items:
+    - "DateFormat -string {{ date_format }}"
+    - "FlashDateSeparators -bool {{ flash_separator }}"
+    - "IsAnalog -bool {{ analog_clock }}"
+  when: date_format is defined
