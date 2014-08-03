@@ -4,6 +4,8 @@
 import os
 import subprocess
 
+defaults_exec = "/usr/bin/defaults"
+
 DOCUMENTATION = '''
 ---
 module: defaults
@@ -21,16 +23,17 @@ options:
         choices: ['delete', 'read', 'write']
     domain:
         description:
-            - path to the plist file
+            - path to the plist file to manipulate
+            - writing outside of ~/ will likely require sudo: True
         required: true
         aliases: ['path']
     key:
         description:
-            - plist key to manipulate
+            - name of the key to manipulate
         required: false
     type:
         description:
-            - type of value for value
+            - the type of value to be stored in a key
         required: false
         default: string
         choices: ['string', 'data', 'int', 'float', 'bool', 'date']
@@ -38,6 +41,7 @@ options:
         description:
             - value to store in plist's key
         required: false
+extends_documentation_fragment: files
 author: ninjabong
 notes:
     - The "defaults" module is a very basic implementation, and merely wraps the command line binary.
@@ -52,7 +56,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-# Set tab behavior to cycle between all available controls, not just buttons/lists (equiv of hitting ctrl-F7)
+# Set tab behavior to cycle between all available controls, not just buttons/lists (equiv of hitting ctrl-F7 to enable/disable)
 - defaults: domain=NSGlobalDomain action=write key=AppleKeyboardUIMode value=2
 
 # Set a custom Login Greeting for users over AFP
@@ -73,15 +77,17 @@ EXAMPLES = '''
 def main():
     module = AnsibleModule(
         argument_spec = dict(
-            #action    = dict(choices=['read', 'read-type', 'write', 'rename', 'delete'], default=write, required=False),
+            # full list of actions, read-type and rename not implemented
+            #action    = dict(choices=['read', 'read-type', 'write', 'rename', 'delete'], default=read, required=False),
             action    = dict(choices=['delete', 'read', 'write'], default='read', required=False),
             domain    = dict(aliases=['path'], required=True),
             key       = dict(required=False),
-#            type      = dict(choices=['string', 'data', 'int', 'float', 'bool', 'date', 'array', 'array-add', 'dict', 'dict-add'], default='string', required=False),
+            # full list of options, arrays and dicts not implemented
+            #type      = dict(choices=['string', 'data', 'int', 'float', 'bool', 'date', 'array', 'array-add', 'dict', 'dict-add'], default='string', required=False),
             type      = dict(choices=['string', 'data', 'int', 'float', 'bool', 'date'], default='string', required=False),
             value     = dict(required=False),
         ),
-        supports_check_mode=True
+        #supports_check_mode=True
     )
     params = module.params
     action = params['action']
@@ -97,13 +103,13 @@ def main():
     if os.path.exists(domain) == False:
         # if we're told to write a nonexistent plist, create a new blank one with the key, type and value given.
         if action == "write":
-            # bail if we try to write, but key or value are missing
+            # bail if we try to write, but either key or value are missing
             if key is None or value is None:
                 module.fail_json(action=action, domain=domain, changed=False, msg="plist %s not created, no key or value given!" % domain)
             # write a new plist with the key and value, and type if also given
             else:
-                subprocess.call(['/usr/bin/defaults', action, domain, key, '-'+type, value])
-                module.exit_json(action=action, domain=domain, changed=True, key=key, value=value, type=type, msg="plist %s created with key, value, and type if given!" % domain)
+                subprocess.call([defaults_exec, action, domain, key, '-'+type, value])
+                module.exit_json(action=action, domain=domain, changed=True, key=key, value=value, type=type, msg="plist %s created with %s -%s \'%s\'!" % (domain, key, type, value))
         # bail if we try to read a nonexistant plist
         elif action == "read":
             module.fail_json(action=action, domain=domain, changed=False, msg="plist %s does not exist for reading!" % domain)
@@ -117,17 +123,24 @@ def main():
         if action == "delete":
             # plist exists, key doesn't - delete the plist
             if key is None:
-                subprocess.call(['/usr/bin/defaults', action, domain, key])
+                subprocess.call([defaults_exec, action, domain])
                 module.exit_json(action=action, domain=domain, changed=True, msg="plist %s deleted, key not specified!" % domain)
             # plist exists, key exists - delete the key
             if key is not None:
-                subprocess.call(['/usr/bin/defaults', action, domain, key])
-                module.exit_json(action=action, domain=domain, key=key, changed=True, msg="plist modifed, key %s removed!" % key)
+                subprocess.call([defaults_exec, action, domain, key])
+                module.exit_json(action=action, domain=domain, key=key, changed=True, msg="plist %s modifed, key %s removed!" % (domain, key))
 
-        # read a key
+        # read a plist or key
         if action == "read":
-            subprocess.call(['/usr/bin/defaults', action, domain])
-            module.exit_json(action=action, domain=domain, changed=True, msg="plist %s read!" % domain)
+            # no key, read out the whole plist
+            # this produces INVALID OUTPUT
+            if key is None:
+                subprocess.call([defaults_exec, action, domain])
+                module.exit_json(action=action, domain=domain, changed=False, msg="plist %s read!" % domain)
+            # key given, read out just the key
+            if key is not None:
+                subprocess.call([defaults_exec, action, domain, key])
+                module.exit_json(action=action, domain=domain, key=True, changed=False, msg="key %s read from plist %s!" % (key, domain))
 
         # write a key to the domain plist
         if action == "write":
@@ -141,15 +154,18 @@ def main():
             elif key is not None and value is not None:
                 # type is optional, and string by default
                 if type is None or type == 'string':
-                    subprocess.call(['/usr/bin/defaults', action, domain, key, value])
-                    module.exit_json(action=action, domain=domain, key=key, value=value, changed=True, msg="plist %s updated with string!" % domain)
+                    subprocess.call([defaults_exec, action, domain, key, value])
+                    module.exit_json(action=action, domain=domain, key=key, value=value, changed=True, msg="plist %s updated with %s \'%s\'!" % (domain, key, value))
                 # type is given
                 elif type is not None:
-                    subprocess.call(['/usr/bin/defaults', action, domain, key, '-'+type, value])
-                    module.exit_json(action=action, domain=domain, key=key, type=type, value=value, changed=True, msg="plist %s updated with nonstring!" % domain)
+                    subprocess.call([defaults_exec, action, domain, key, '-'+type, value])
+                    module.exit_json(action=action, domain=domain, key=key, type=type, value=value, changed=True, msg="plist %s updated with %s -%s \'%s\'!" % (domain, key, type, value))
             # we should never get here, so bail
             else:
                 module.fail_json(action=action, domain=domain, key=key, changed=False, msg="something went horribly horrible wrong!") 
+        # we should never get here, so bail
+        else:
+            module.fail_json(action=action, domain=domain, changed=False, msg="something went horribly horrible wrong!") 
 
     # plist doesn't exist, and no write given to create it
     else:
