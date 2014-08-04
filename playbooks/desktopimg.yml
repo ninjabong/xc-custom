@@ -5,4 +5,5 @@
   roles:
 
   - role: desktop_image
-    desktop_img_path: "desktops/NasaEarthAtmo1024x768.jpg"
+    #desktop_img_path: "desktops/NasaEarthAtmo1024x768.jpg"
+    desktop_img_path: "http://static.simpledesktops.com/uploads/desktops/2014/07/29/eamessimple.png"

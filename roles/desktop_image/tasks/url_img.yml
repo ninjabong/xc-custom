@@ -1,0 +1,5 @@
+---
+# tasks/url_img.yml
+
+- name: download image
+  get_url: "url={{ desktop_img_path }}"

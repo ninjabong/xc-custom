@@ -10,11 +10,14 @@
   get_url: "url={{ script_url }} dest={{ desktops_exec }} owner=root group=wheel mode=0755"
   when: script_exists.stat.exists == false
 
+- include: "url_img.yml"
+  when: "desktop_img_path|search('^http') == true"
+
 - name: "check if {{ desktop_img_path }} exists"
   stat: "path={{ desktop_img_path }}"
-  when: desktop_img_path is defined
+  when: "desktop_img_path is defined and desktop_img_path|search('^http') == false"
   register: img_exists
 
 - name: run set_desktops.py to set desktop image
   command: "{{ desktops_exec }} --path {{ desktop_img_path }}"
-  when: img_exists.stat.exists == true
+  when: "img_exists.stat.exists == true and desktop_img_path|search('^http') == false"
