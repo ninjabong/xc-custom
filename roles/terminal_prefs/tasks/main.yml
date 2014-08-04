@@ -20,6 +20,7 @@
 #  command: osascript -e 'tell application "Terminal" to quit'
 - name: ungracefully quit Terminal.app
   command: "/usr/bin/killall Terminal > /dev/null 2>&1"
+#  when: ansible_env.TERM_PROGRAM != 'Apple_Terminal'
 
 
 # Write the new startup and default window settings to plist
