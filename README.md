@@ -21,8 +21,8 @@ I've been working on trying to document full options with example playbook use f
 -   **ansible\_vars:** dump all of ansible's available variables.
 -   **bare\_role:** a basic empty role for copying when starting a new one.
 -   **check\_os\_vers:** example of how to test for Mt Lion or Mavericks or Yosemite.
--   **datetime:** sets time zone, enable/disable network time, network time server and menubar clock options equivalent to System Preferences - Date & Time
 -   **computername:** sets the Computer Name normally done via System Prefences \- Sharing.
+-   **datetime:** sets time zone, enable/disable network time, network time server and menubar clock options equivalent to System Preferences - Date & Time
 -   **desktop\_image** sets the User's desktop picture via [set_desktops.py](https://github.com/grahamgilbert/macscripts/set_desktops/set_desktops.py).
 -   **finder\_prefs:** sets a bunch of Finder preferences normally done via Finder's Pref Pane.
 -   **finder\_window\_prefs:**  sets a bunch of Finder preferences normally done via the Menubar.
