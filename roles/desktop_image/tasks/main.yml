@@ -13,11 +13,11 @@
 - include: "url_img.yml"
   when: "desktop_img_path|search('^http') == true"
 
-- name: "check if {{ desktop_img_path }} exists"
+- name: "check if {{ desktop_img_path }} exists locally"
   stat: "path={{ desktop_img_path }}"
   when: "desktop_img_path|search('^http') == false"
   register: img_exists
 
-- name: run set_desktops.py to set desktop image
+- name: run set_desktops.py to set desktop with local image
   command: "{{ desktops_exec }} --path {{ desktop_img_path }}"
-  when: "img_exists.stat.exists == true
+  when: img_exists is defined and img_exists.stat.exists == true
