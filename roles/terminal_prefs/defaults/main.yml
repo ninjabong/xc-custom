@@ -1,3 +1,0 @@
----
-defaults_term_write: /usr/bin/defaults write com.apple.terminal
-local_img_path: "{{ ansible_env.USER }}/Pictures/{{ desktop_img_path|basename }}"

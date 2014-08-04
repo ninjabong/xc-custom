@@ -1,0 +1,2 @@
+---
+defaults_term_write: /usr/bin/defaults write com.apple.terminal
