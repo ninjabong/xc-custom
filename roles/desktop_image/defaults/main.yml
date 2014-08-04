@@ -1,4 +1,4 @@
 ---
 # defaults/main.yml
 desktop_img_path: "{{ ansible_env.PWD }}/desktop.png"
-local_img_path: "{{ ansible_env.USER }}/Pictures/{{ desktop_img_path|basename }}"
+local_img_path: "/Users/{{ ansible_env.USER }}/Pictures/{{ desktop_img_path|basename }}"

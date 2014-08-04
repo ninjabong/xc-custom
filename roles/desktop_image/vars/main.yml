@@ -1,4 +1,4 @@
 ---
-# tasks/vars.yml
+# vars/main.yml
 desktops_exec: /usr/local/bin/set_desktops.py
 script_url: https://raw.githubusercontent.com/grahamgilbert/macscripts/master/set_desktops/set_desktops.py

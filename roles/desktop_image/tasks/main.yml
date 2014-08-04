@@ -15,9 +15,9 @@
 
 - name: "check if {{ desktop_img_path }} exists"
   stat: "path={{ desktop_img_path }}"
-  when: "desktop_img_path is defined and desktop_img_path|search('^http') == false"
+  when: "desktop_img_path|search('^http') == false"
   register: img_exists
 
 - name: run set_desktops.py to set desktop image
   command: "{{ desktops_exec }} --path {{ desktop_img_path }}"
-  when: "img_exists.stat.exists == true and desktop_img_path|search('^http') == false"
+  when: "img_exists.stat.exists == true
