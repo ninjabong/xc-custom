@@ -1,0 +1,10 @@
+---
+# tasks/local_img.yml
+
+- name: "check if {{ desktop_img_path }} exists locally"
+  stat: "path={{ desktop_img_path }}"
+  register: img_exists
+
+- name: run set_desktops.py to set desktop with local image
+  command: "{{ desktops_exec }} --path {{ desktop_img_path }}"
+  when: img_exists.stat.exists == true

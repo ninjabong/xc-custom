@@ -1,4 +1,5 @@
 ---
 # defaults/main.yml
+desktops_exec: /usr/local/bin/set_desktops.py
 desktop_img_path: "{{ ansible_env.PWD }}/desktop.png"
 local_img_path: "/Users/{{ ansible_env.USER }}/Pictures/{{ desktop_img_path|basename }}"
