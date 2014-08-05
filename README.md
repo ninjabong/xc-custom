@@ -58,4 +58,4 @@ I've been working on trying to document full options with example playbook use f
 
 **scripts/** are mostly bits to forcibly delete things when I'm developing/testing roles.  not very interesting or useful and certainly don't use on your own machine and blame me if your computer explodes in a giant fireball of doom.
 
-**ninjastar.jpg** is both for this [README.md](README.md) and my contributed [user_image role](https://github.com/osxc/xc-common/tree/master/roles/user_image/) in xc-common.
+**ninjastar.jpg** is both for this [README.md](README.md) and my contributed [user_image role](https://github.com/osxc/xc-common/tree/master/roles/user_image/) in [xc-common](https://github.com/osxc/xc-common).
