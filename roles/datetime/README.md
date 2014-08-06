@@ -1,6 +1,6 @@
 datetime
 =====
-set computer's date/time related options as well as menubar clock , equivalent of using System Preferences - Date & Time
+set computer's date/time related options as well as menubar clock, equivalent of using System Preferences - Date & Time
 -----
 **requires:**<br />
 \- ansible\-playbook \-K for sudo<br />
