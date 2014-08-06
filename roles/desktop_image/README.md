@@ -15,5 +15,6 @@ sets the user's desktop image(s) to a specified image file or url.
 
 playbook use:<br />
 &nbsp;&nbsp;\- role: desktop\_image<br />
+&nbsp;&nbsp;&nbsp;&nbsp;desktop\_img\_path: image.png<br />
 &nbsp;&nbsp;&nbsp;&nbsp;# optional if set\_desktops.py exists outside of /usr/local/bin<br />
-&nbsp;&nbsp;&nbsp;&nbsp;desktop\_img\_path: /path/to/set_desktops.py<br />
+&nbsp;&nbsp;&nbsp;&nbsp;desktops\_exec: /path/to/set_desktops.py<br />
