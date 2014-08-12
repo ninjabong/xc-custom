@@ -19,7 +19,7 @@
   - role: desktop_image
     desktop_img_path: "http://static.simpledesktops.com/uploads/desktops/2014/07/29/eamessimple.png"
 
-  - role: googlefonts
+  - role: google_fonts
     fonts:
       - inconsolata
       - sourcecodepro
@@ -31,7 +31,7 @@
     gatekeeper: disable
 
   - role: locatedb
-    locatedb: load
+    locatedb: locad
 
   - role: unhide_library
 
