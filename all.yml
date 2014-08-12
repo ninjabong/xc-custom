@@ -43,8 +43,8 @@
     apps:
     - /Applications/"System Preferences.app"
     - /Applications/Utilities/Terminal.app
-    - /Applications/Utilities/Textmate.app
-    - /Applications/Safari.app"
+    - /Applications/TextMate.app
+    - /Applications/Safari.app
     folders:
     - path: ~/src/github.com
       view: grid
