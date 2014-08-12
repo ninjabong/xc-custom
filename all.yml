@@ -41,7 +41,7 @@
 
   - role: dock
     apps:
-    - /Applications/"System Preferences.app"
+    - "/Applications/System Preferences.app"
     - /Applications/Utilities/Terminal.app
     - /Applications/TextMate.app
     - /Applications/Safari.app
