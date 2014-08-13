@@ -4,7 +4,7 @@
   stat: path=/usr/local/munki/iconimporter
   register: importer_exists
 
-- name: Download munki iconimporter of absent
+- name: Download munki iconimporter if absent
   sudo: True
   get_url: url={{ iconimporter_url }}
            dest=/usr/local/munki/iconimporter

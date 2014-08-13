@@ -8,6 +8,7 @@
   copy: src={{ autopkg_dir }}/Code/ dest={{ install_dir }} mode=0755 owner=root group=wheel
 
 - name: ensure /usr/local/bin exists
+  sudo: True
   file: path=/usr/local/bin state=directory owner=root group=wheel mode=0755
 
 - name: link executable in /usr/local/bin

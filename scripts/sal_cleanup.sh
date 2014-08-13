@@ -9,3 +9,13 @@ pip uninstall virtualenv -y
 
 echo "cleaning up /Users/Shared/sal_env"
 rm -rf /Users/Shared/sal_env
+
+echo "uninstall mod_wsgi"
+pip uninstall mod_wsgi
+
+echo "removing sal.conf"
+rm -rf /etc/apache2/other/sal.conf
+
+echo "don't forget to remove mod_wsgi from /etc/apache2/httpd.conf!"
+
+

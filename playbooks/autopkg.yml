@@ -34,4 +34,4 @@
     - role: autopkg_repo
     - role: autopkg_run
     - role: munki_manifest
-    - role: munki_iconimport
+#    - role: munki_iconimport
