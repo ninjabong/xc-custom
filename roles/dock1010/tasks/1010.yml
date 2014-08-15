@@ -1,0 +1,26 @@
+---
+
+- name: ensure /usr/local/bin exists
+  sudo: True
+  file: path=/usr/local/bin state=directory owner=root group=wheel mode=0775
+
+- name: download 10.10 compatible dockutil
+  sudo: True
+  get_url: "url=http://rdr.to/0vo dest={{ dockutil_exe_1010 }} owner=root group=wheel mode=0775"
+
+- name: clean dock
+  shell: "PYTHONIOENCODING=utf-8 {{ dockutil_exe_1010 }} --remove all creates=~/.managed-dock"
+
+- name: flag managed dock
+  file: path=~/.managed-dock state=touch
+
+- name: add apps
+  shell: "PYTHONIOENCODING=utf-8 {{ dockutil_exe_1010 }} --add '{{ item }}'"
+  ignore_errors: True
+  with_items: apps
+
+- name: add folders
+  shell: "PYTHONIOENCODING=utf-8 {{ dockutil_exe_1010 }} --add '{{ item.path }}' --view {{ item.view|default('grid') }} --display {{ item.display|default('folder') }} --sort {{ item.sort|default('name') }}"
+  ignore_errors: True
+  with_items: folders
+  when: folders is defined

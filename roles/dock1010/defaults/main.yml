@@ -1,0 +1,3 @@
+---
+dockutil_exe: ~/src/github.com/kcrawford/dockutil/scripts/dockutil
+dockutil_exe_1010: /usr/local/bin/dockutil
