@@ -3,7 +3,41 @@
 - hosts: all
   roles:
 
+  - role: computername
+    computername: VM
+ 
+  - role: git_config
+    git_user_mail: ninja@ninjabong.com
+    git_user_name: ninjabong
+ 
+  - role: sshd
+    sshd: "on"
 
+  - role: datetime
+    time_zone: America/New_York
+
+  - role: desktop_image
+    desktop_img_path: "http://static.simpledesktops.com/uploads/desktops/2014/07/29/eamessimple.png"
+
+  - role: googlefonts
+    fonts:
+      - inconsolata
+      - sourcecodepro
+
+  - role: user_image
+    image_name: ninjastar.jpg
+
+  - role: gatekeeper
+    gatekeeper: disable
+
+  - role: locatedb
+    locatedb: load
+
+  - role: unhide_library
+
+  - role: cask_env_package
+    package_name: textmate
+    homebrew_cask_opts: --appdir=/Applications
 
   - role: dock1010
     apps:
