@@ -1,7 +1,7 @@
 ---
 
 - name: download 10.10 compatible dockutil
-  get_url: "url=http://rdr.to/0vo dest={{ dockutil_exe }} owner={{ ansible_env.USER }} group=staff mode=0775"
+  get_url: "url=http://rdr.to/0vo dest={{ dockutil_exe }} force=yes owner={{ ansible_env.USER }} group=staff mode=0775"
 
 - name: clean dock
   shell: "PYTHONIOENCODING=utf-8 {{ dockutil_exe }} --remove all creates=~/.managed-dock"
