@@ -4,6 +4,5 @@
 - include: "pre1010.yml"
   when: "ansible_distribution_version | search('10.[8|9]')"
 
-
 - include: "1010.yml"
   when: "ansible_distribution_version | search('10.10')"
