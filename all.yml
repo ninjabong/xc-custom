@@ -39,6 +39,44 @@
     package_name: textmate
     homebrew_cask_opts: --appdir=/Applications
 
+  - role: finder_prefs
+	# first tab
+    show_internal: on
+    show_external: true
+    show_removeable: on
+    show_servers: yes
+    new_window: home
+    #     new_window_path: /path/to/foo
+    always_new: on
+    spring_loaded_folders: on
+    spring_loaded_delay: 0.33
+    # third tab
+    sidebar: on
+    sidebar_width: 190
+    sidebar_devices: on
+    sidebar_favorites: on
+    sidebar_shared: on
+    sidebar_tags: off
+    # fourth tab
+    show_extensions: on
+    extension_warning: off
+    trash_warning: off
+    trash_securely: off
+    search_default: mac
+
+  - role: systemprefs_general
+    system_appearance: graphite
+    highlight_color: "1.000000 0.874510 0.701961"
+    sidebar_icon_size: medium
+    scrollbar: Automatic
+    scroll_behavior: page
+    close_confirms_changes: no
+    restore_windows: no
+    kb_ui_mode: all
+    # Only works for 10.10
+    interface_style: Dark
+
+
   - role: dock1010
     apps:
     - "/Applications/System Preferences.app"
