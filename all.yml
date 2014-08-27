@@ -40,7 +40,7 @@
     homebrew_cask_opts: --appdir=/Applications
 
   - role: finder_prefs
-	# first tab
+    # first tab
     show_internal: on
     show_external: true
     show_removeable: on
