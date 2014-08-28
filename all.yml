@@ -39,6 +39,10 @@
     package_name: textmate
     homebrew_cask_opts: --appdir=/Applications
 
+  - role: cask_env_package
+    package_name: google-chrome
+    homebrew_cask_opts: --appdir=/Applications
+
   - role: finder_prefs
     # first tab
     show_internal: on
@@ -82,7 +86,7 @@
     - "/Applications/System Preferences.app"
     - /Applications/Utilities/Terminal.app
     - /Applications/TextMate.app
-    - /Applications/Safari.app
+    - "/Applications/Google Chrome.app"
     folders:
     - path: ~/src/github.com
       view: grid
