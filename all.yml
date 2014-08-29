@@ -19,10 +19,16 @@
   - role: desktop_image
     desktop_img_path: "http://static.simpledesktops.com/uploads/desktops/2014/07/29/eamessimple.png"
 
-  - role: googlefonts
-    fonts:
-      - inconsolata
-      - sourcecodepro
+#  - role: googlefonts
+#    fonts:
+#      - inconsolata
+#      - sourcecodepro
+
+  - role: cask_package
+    tap: caskroom/fonts
+    packages:
+      - font-inconsolata
+      - font-source-code-pro
 
   - role: user_image
     image_name: ninjastar.jpg
