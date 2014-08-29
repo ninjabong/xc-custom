@@ -2,7 +2,13 @@
 - hosts: all
   roles:
 
-  - role: cask_env_package
-    package_name: textmate
-# optional:
-#    homebrew_cask_opts: --appdir=~/Applications
+#  - role: cask_env_package
+#    package_name: textmate
+## optional:
+##    homebrew_cask_opts: --appdir=~/Applications
+
+  - role: cask_package
+    packages:
+      - google-chrome
+      - textmate
+    environment: "homebrew_cask_opts=--appdir=/Applications"
