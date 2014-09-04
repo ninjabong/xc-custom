@@ -1,0 +1,7 @@
+---
+- hosts: all
+  roles:
+
+  - role: brew_package
+    package_name: libav
+    brew_opts: with-theora,with-libvorbis,with-libvo-aacenc,with-libvpx
