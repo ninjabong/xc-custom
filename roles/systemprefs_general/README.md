@@ -4,7 +4,8 @@ systemprefs\_general
 Most of these are normally set through System Preferences - General, and written to NSGlobalDomain
 ----------
 
-**note:** the interface\_style setting requires logout/restart to take effect in most applications, for now.
+**note:** the interface\_style setting will be ignored if you're not running 10.10 so can be left uncommented, also since Beta 2 it works much better in that only Terminal.app needs to be quit/restart for the setting to take effect.
+kb\_ui\_mode will also write the appropriate default for the correct system version (10.8/9 and 10.10).
 
 **requires:**<br />
 
