@@ -1,5 +1,8 @@
 ---
+# munki_pkgr/vars/main.yml
 pkg_path: /tmp/munki_client
 plist_path: {{ pkg_path }}/Library/Preferences/ManagedInstalls.plist
 defaults_write: /usr/bin/defaults write
+sal_path: {{ ansible_env.HOME }}/src/github.com/grahamgilbert/sal
+sal_plist_path: {{ pkg_path }}/Library/Preferences/com.grahamgilbert.sal.plist
 SoftwareRepoURL: "http://{{ ansible_node_name }}/{{ repo_path | basename }}"

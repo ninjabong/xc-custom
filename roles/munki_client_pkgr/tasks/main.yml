@@ -1,4 +1,6 @@
 ---
+# munki_pkgr/tasks/main.yml
+
 # creates a minimal but functional munki.pkg for clients
 # including ManagedInstalls.plsit pointing at newly created repo
 
@@ -17,11 +19,25 @@
   command: '{{ default_write }} {{ plist_path }} {{ item.pref }}'
   with_items:
     - { pref: '"SoftwareRepoURL" -string "{{ SoftwareRepoURL }}"' }
-    - { pref: '"CurlPath" -string "/usr/local/bin/curl"' }
+#    - { pref: '"CurlPath" -string "/usr/local/bin/curl"' }
 #    - { pref: '"(key)" -type "(value)"' }
 
 # need to package up brew's curl and copy to {{ pkg_path }}
-
+# curl binary compiled --with-openssl
+##############
+#- name: install curl --with-openssl via homebrew
+#  brew_package: curl
+#  brew_opts: with-openssl
+#
+#- name: copy curl bits into {{ pkg_path }}
+#  copy: src={{ item.orig }} dest={{ item.new }}
+#  with_items:
+#    - { orig: '/usr/local/bin/curl' , new: '{{ pkg_path }}/usr/local/bin/curl' }
+#    - { orig: '' , new: '{{ pkg_path }}' }
+#    - { orig: '' , new: '{{ pkg_path }}' }
+#    - { orig: '' , new: '{{ pkg_path }}' }
+#    - { orig: '' , new: '{{ pkg_path }}' }
+##############
 
 - include: sal.yml
   when: use_sal == true

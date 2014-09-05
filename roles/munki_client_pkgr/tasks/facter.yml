@@ -1,4 +1,10 @@
 ---
-# download facter and install to {{ pkg_path }}
+# munki_pkgr/tasks/facter.yml
 
-# homebrew, not necessarily latest?
+# download facter and install to {{ pkg_path }}
+# is this cromulent?  does it just install to /usr/bin/facter like the pkg?
+- name: install facter
+  gem: name=facter state=latest
+
+- name: copy facter to {{ pkg_path }}
+  copy: src=/usr/bin/facter dest={{ pkg_path }}/usr/bin/facter owner=root group=wheel mode=0755

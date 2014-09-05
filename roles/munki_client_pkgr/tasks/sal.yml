@@ -1,23 +1,34 @@
 ---
+# munki_pkgr/tasks/sal.yml
+
 # download sal client bits and install to {{ pkg_path }}
 
 - name: git clone sal
-  git_package: "repo=https://github.com/grahamgilbert/sal dest={{ ansible_env.HOME }}/src/github.com/grahamgilbert/sal update=yes"
+  git_package: "repo=https://github.com/grahamgilbert/sal dest={{ sal_path }} update=yes"
 
-- name: copy postflight to {{ pkg_path }}/usr/local/munki
-  sudo: True
-  copy: src={{ ansible_env.HOME }}/src/github.com/grahamgilbert/sal/scripts/postflight
-        dest={{ pkg_path }}/usr/local/munki/postflight
-
-- name: copy yaml dir to {{ pkg_path }}/usr/local/sal/yaml
-  copy: src={{ ansible_env.HOME }}/src/github.com/grahamgilbert/sal/scripts/yaml
-        dest={{ pkg_path }}/usr/local/sal/yaml
+- name: copy sal bits into {{ pkg_path }}
+  copy: src={{ item.orig }} dest={{ item.new }}
+  with_items:
+    - { orig: '{{ sal_path }}/scripts/postflight' , new: '{{ pkg_path }}/usr/local/munki/postflight' }
+    - { orig: '{{ sal_path }}/scripts/yaml'       , new: '{{ pkg_path }}/usr/local/sal/yaml' }
 
 # include options for sal.plist ServerURL and key
 - name: write ServerURL to sal's plist
-  command: /usr/bin/defaults write {{ pkg_path }}/Library/Preferences/com.grahamgilbert.sal.plist ServerURL {{ sal_ServerURL }}
+  command: /usr/bin/defaults write {{ sal_plist_path }} ServerURL {{ sal_ServerURL }}
+
+#- name: extract key from sal
+#  command: sqlite3 /usr/local/sal_env/sal/sal.db "select key from server_machinegroup;"
+#  register: sal_Key
+#
+#- name: write sal Key to sal's plist
+#  command: /usr/bin/defaults write {{ sal_plist_path }} Key {{ sal_Key }}
 
 # determine sal key?
 
-#- name: write ServerURL to sal's plist
-#  command: /usr/bin/defaults write {{ pkg_path }}/Library/Preferences/com.grahamgilbert.sal.plist Key {{ sal_Key }}
+#select key from server_machinegroup;
+
+# select * from server_machinegroup;
+# business_unit_id|id|key|name
+# INSERT INTO "server_machinegroup" VALUES(1,1,'Key','portables');
+# INSERT INTO "server_machinegroup" VALUES(1,2,'Key','desktops');
+# INSERT INTO "server_machinegroup" VALUES(1,3,'Key','VMs');
