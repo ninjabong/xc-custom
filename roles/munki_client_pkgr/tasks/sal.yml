@@ -2,15 +2,15 @@
 # download sal client bits and install to {{ pkg_path }}
 
 - name: git clone sal
-  git_package: "repo=https://github.com/grahamgilbert/sal dest={{ ansible_env.HOME }}/src/github.com/grahamgilber/sal update=yes"
+  git_package: "repo=https://github.com/grahamgilbert/sal dest={{ ansible_env.HOME }}/src/github.com/grahamgilbert/sal update=yes"
 
 - name: copy postflight to {{ pkg_path }}/usr/local/munki
   sudo: True
-  copy: src={{ ansible_env.HOME }}/src/github.com/grahamgilber/sal/scripts/postflight
+  copy: src={{ ansible_env.HOME }}/src/github.com/grahamgilbert/sal/scripts/postflight
         dest={{ pkg_path }}/usr/local/munki/postflight
 
 - name: copy yaml dir to {{ pkg_path }}/usr/local/sal/yaml
-  copy: src={{ ansible_env.HOME }}/src/github.com/grahamgilber/sal/scripts/yaml
+  copy: src={{ ansible_env.HOME }}/src/github.com/grahamgilbert/sal/scripts/yaml
         dest={{ pkg_path }}/usr/local/sal/yaml
 
 # include options for sal.plist ServerURL and key
