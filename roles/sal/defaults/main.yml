@@ -11,6 +11,10 @@ sal_env_path: /usr/local/sal_env
 sal_hostname: "sal.{{ ansible_domain }}"
 sal_settings_path: "{{ sal_env_path }}/sal/sal"
 
+# host system's sal user and group
+sal_user: saluser
+sal_group: salgroup
+
 # for django's db admin
 sal_db_admin: "{{ ansible_user_id }}"
 sal_db_email: "{{ ansible_user_id }}@{{ ansible_domain }}"

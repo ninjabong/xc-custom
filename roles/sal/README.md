@@ -7,20 +7,17 @@ some pointers later found [here](https://gist.github.com/mikaellofgren/a5fe3351c
 ----------
 
 **requires:**<br />
+Passlib : ``sudo pip install Passlib``
 
 **note:**
 
-not 100% automated, upon completion you still need to set admin password!<br />
-<code>sudo su saluser</code><br />
-<code>cd</code><br />
-<code>source bin/activate</code><br />
-<code>cd sal</code><br />
-<code>python manage.py changepassword \(your sal\_db\_admin\)</code><br />
-<code>exit</code><br />
+it will first prompt for the user's passwd to sudo, and then it will prompt for the sal db admin's password at the start of playbook run.  that is the superuser password for the db used by the sal\_db\_admin locally and for logging into the web interface.
 
 playbook use:<br />
 &nbsp;&nbsp;\- role: sal<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\#\# optional:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;\-sal\_user:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;\-sal\_group:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_admins:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_timezone:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_display\_name:<br />

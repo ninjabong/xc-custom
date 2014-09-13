@@ -4,8 +4,8 @@
   sudo: True
   template: src=venv_exec.j2
             dest={{ sal_env_path }}/exec
-            owner=saluser
-            group=salgroup
+            owner={{ sal_user }}
+            group={{ sal_group }}
             mode=0755
 
 - name: pip install sal dependencies
@@ -27,19 +27,34 @@
 #    - "migrate"
 #    - "collectstatic --noinput"
 
-- name: do some stuff in virtualenv as saluser
+- name: do some stuff in virtualenv
   sudo: True
   command: "{{ sal_env_path }}/exec python {{ sal_env_path }}/sal/manage.py {{ item }}"
   with_items:
     - "syncdb --noinput"
-    - "createsuperuser --username {{ sal_db_admin }} --email {{ sal_db_email }} --noinput"
     - "migrate"
     - "collectstatic --noinput"
+
+- name: copy our one-liner to create db superuser and passwd
+  sudo: True
+  template: src=createsuperuser.j2
+            dest={{ sal_env_path }}/sal_createsuperuser.sh
+            owner={{ sal_user }}
+            group={{ sal_group }}
+            mode=0755
+
+- name: run our one-liner to create db superuser and passwd
+  sudo: True
+  script: "{{ sal_env_path }}/sal_createsuperuser.sh"
+
+- name: remove our one-liner
+  sudo: True
+  file: path={{ sal_env_path }}/sal_createsuperuser.sh state=absent
 
 - name: ensure permissions of sal_env
   sudo: True
   file: path={{ sal_env_path }}
-        owner=saluser
-        group=salgroup 
+        owner={{ sal_user }}
+        group={{ sal_group }}
         state=directory
         recurse=yes

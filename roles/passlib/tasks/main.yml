@@ -1,0 +1,5 @@
+---
+# passlib/tasks/main.yml
+- name: pip install Passlib
+  sudo: True
+  pip: name=Passlib

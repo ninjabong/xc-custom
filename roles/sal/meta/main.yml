@@ -1,0 +1,4 @@
+---
+# sal/meta/main.yml
+dependencies:
+  - role: passlib

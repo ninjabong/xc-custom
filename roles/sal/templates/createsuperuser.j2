@@ -1,0 +1,1 @@
+echo "from django.contrib.auth.models import User; User.objects.create_superuser('{{ sal_db_admin }}', '{{ sal_db_email }}', '{{ sal_db_passwd }}')" | {{ sal_env_path }}/exec python {{ sal_env_path }}/sal/manage.py shell
