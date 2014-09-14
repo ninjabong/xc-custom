@@ -1,8 +1,14 @@
 ---
 
-- name: create sal user and group for non-OS X
+- name: create sal group for non-OS X
+  sudo: True
+  user: name={{ sal_group }}
+  when: ansible_system != "Darwin"
+
+- name: create sal user for non-OS X
+  sudo: True
   user: name={{ sal_user }}
         group={{ sal_group }}
         append=yes
-        shell=bash
+        shell=/bin/bash
   when: ansible_system != "Darwin"

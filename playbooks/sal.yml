@@ -10,6 +10,6 @@
   roles:
 
   - role: sal
-    sal_env_path: /Users/Shared/sal_env
+#    sal_env_path: /Users/Shared/sal_env
     sal_db_admin: sal
     sal_db_email: sal@sal.sal

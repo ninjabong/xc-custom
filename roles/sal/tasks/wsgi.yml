@@ -1,11 +1,28 @@
 ---
-
-- name: pip install mod_wsgi for non-OS X
+- name: ensure apache2 and mod_wsgi are installed for Debian/Ubuntu
   sudo: True
-  pip: name=mod_wsgi
+  apt: name={{ item }}
+  with_items:
+    - apache2
+    - python
+    - python-devel
+    - libapache2-mod-wsgi
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
-- name: enable apache2's wsgi module for non-OS X
-  apache2_module: name=wsgi state=present
+- name: ensure apache2 and mod_wsgi are installed for RHEL/CentOS
+  sudo: True
+  yum: name={{ item }}
+  with_items:
+    - httpd
+    - httpd-devel
+    - python-devel
+    - mod_wsgi
+    - libselinux-python
+  when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
+
+# doesn't work?
+#- name: enable apache2's wsgi module for non-OS X
+#  apache2_module: name=mod_wsgi state=present
 
 - name: copy vhost template for apache2 for RedHat/CentOS
   sudo: True
@@ -25,6 +42,27 @@
             mode=0644
   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
-- name: (re)start apache2 for non-OS X
+# comment out <Directory /> lines in /etc/httpd/conf/httpd.conf
+
+- name: enable port 80 in firewall
   sudo: True
-  service: name=httpd state=reloaded
+  command: firewall-cmd {{ item }}
+  with_items: 
+    - "--zone=public --add-port=80/tcp --permanent"
+    - "--reload"
+
+- name: disable selinux
+  selinux: state=disabled
+
+- name: enable and start apache2
+  sudo: True
+  command: systemctl {{ item }} httpd
+  with_items:
+    - enable
+    - start
+  when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
+
+# doesn't work?
+#- name: (re)start apache2 for non-OS X
+#  sudo: True
+#  service: name=httpd state=reloaded
