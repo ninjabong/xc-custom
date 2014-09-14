@@ -29,16 +29,13 @@
   selinux: state=disabled
   when: selinux_cfg.stat.exists == True
 
-#- name: enable port 80 in firewall on RedHat/CentOS
-#  sudo: True
-#  command: firewall-cmd {{ item }}
-#  with_items: 
-#    - "--zone=public --add-port=80/tcp --permanent"
-#    - "--reload"
-
 - name: enable port 80/tcp in firewall on RedHat/CentOS
   sudo: True
-  firewalld: zone=public port=80/tcp permanent=true
+  firewalld: zone=public port=80/tcp state=enabled permanent=true
+
+- name: force firewalld --reload on RedHat/CentOS
+  sudo: True
+  command: /usr/bin/firewall-cmd --reload
 
 - name: enable and start apache2 on RedHat/CentOS
   sudo: True
