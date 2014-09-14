@@ -42,7 +42,12 @@
             mode=0644
   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
-# comment out <Directory /> lines in /etc/httpd/conf/httpd.conf
+# comment out <Directory /> lines in:
+# debian/ubuntu = /etc/apache2/apache2.conf
+# rhel/centos = /etc/httpd/conf/httpd.conf
+
+- name: disable selinux
+  selinux: state=disabled
 
 - name: enable port 80 in firewall
   sudo: True
@@ -50,9 +55,7 @@
   with_items: 
     - "--zone=public --add-port=80/tcp --permanent"
     - "--reload"
-
-- name: disable selinux
-  selinux: state=disabled
+  when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
 
 - name: enable and start apache2
   sudo: True
