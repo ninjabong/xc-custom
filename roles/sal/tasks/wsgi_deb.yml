@@ -26,18 +26,19 @@
   selinux: state=disabled
   when: selinux_cfg.stat.exists == True
 
+- name: disable 000-default.conf for apache2 on Debian/Ubuntu
+  sudo: True
+  file: path=/etc/apache2/sites-enabled/000-default.conf
+        state=absent
+
 - name: enable sal.conf for apache2 on Debian/Ubuntu
+  sudo: True
   file: src=/etc/apache2/sites-available/sal.conf
         dest=/etc/apache2/sites-enabled/sal.conf
         state=link
         owner=root
         group=root
 
-#- name: enable and start apache2 on Debian/Ubuntu
-#  sudo: True
-#  command: /usr/sbin/service apache2 reload
-
-# doesn't work?
 - name: (re)start apache2 for Debian/Ubuntu
   sudo: True
-  service: name=httpd state=reloaded
+  service: name=apache2 state=reloaded
