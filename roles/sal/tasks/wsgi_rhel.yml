@@ -1,14 +1,5 @@
 ---
-- name: ensure apache2 and mod_wsgi are installed for Debian/Ubuntu
-  sudo: True
-  apt: name={{ item }}
-  with_items:
-    - apache2
-    - python
-    - python-devel
-    - libapache2-mod-wsgi
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
-
+# sal/tasks/wsgi_rhel.yml
 - name: ensure apache2 and mod_wsgi are installed for RHEL/CentOS
   sudo: True
   yum: name={{ item }}
@@ -33,17 +24,7 @@
             mode=0644
   when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
 
-- name: copy vhost template for apache2 for Debian/Ubuntu
-  sudo: True
-  template: src=sal_vhost.j2
-            dest="/etc/apache2/sites-available/sal.conf"
-            owner=root
-            group=wheel
-            mode=0644
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
-
 # comment out <Directory /> lines in:
-# debian/ubuntu = /etc/apache2/apache2.conf
 # rhel/centos = /etc/httpd/conf/httpd.conf
 
 - name: disable selinux

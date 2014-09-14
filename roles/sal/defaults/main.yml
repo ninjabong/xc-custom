@@ -1,5 +1,5 @@
 ---
-# defaults/main.yml
+# sal/defaults/main.yml
 #host system's sal user and group
 sal_user: saluser
 sal_group: salgroup

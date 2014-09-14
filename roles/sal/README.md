@@ -6,6 +6,12 @@ some pointers later found [here](https://gist.github.com/mikaellofgren/a5fe3351c
 
 ----------
 
+**supports:**<br />
+
+- OS X (10.8+)
+- RHEL/CentOS7
+
+
 **requires:**<br />
 
 **note:**

@@ -1,5 +1,5 @@
 ---
-
+# sal/tasks/settings.yml
 - name: copy example_settings.py
   sudo: True
   copy: src={{ sal_settings_path }}/example_settings.py

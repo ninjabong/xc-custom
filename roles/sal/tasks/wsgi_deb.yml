@@ -1,0 +1,52 @@
+---
+# sal/tasks/wsgi_deb.yml
+- name: ensure apache2 and mod_wsgi are installed for Debian/Ubuntu
+  sudo: True
+  apt: name={{ item }}
+  with_items:
+    - apache2
+    - apache2-dev
+    - python-devel
+    - libapache2-mod-wsgi
+    - libselinux-pythong
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+# doesn't work?
+#- name: enable apache2's wsgi module for non-OS X
+#  apache2_module: name=mod_wsgi state=present
+
+- name: copy vhost template for apache2 for Debian/Ubuntu
+  sudo: True
+  template: src=sal_vhost.j2
+            dest="/etc/apache2/sites-available/sal.conf"
+            owner=root
+            group=wheel
+            mode=0644
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+# comment out <Directory /> lines in:
+# debian/ubuntu = /etc/apache2/apache2.conf
+
+- name: disable selinux
+  selinux: state=disabled
+
+#- name: enable port 80 in firewall on Debian/Ubuntu
+#  sudo: True
+#  command: firewall-cmd {{ item }}
+#  with_items: 
+#    - "--zone=public --add-port=80/tcp --permanent"
+#    - "--reload"
+#  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+- name: enable and start apache2 on Debian/Ubuntu
+  sudo: True
+  command: service apache2 reload
+#  with_items:
+#    - enable
+#    - start
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+
+# doesn't work?
+#- name: (re)start apache2 for non-OS X
+#  sudo: True
+#  service: name=httpd state=reloaded

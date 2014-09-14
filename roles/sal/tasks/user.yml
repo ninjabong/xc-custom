@@ -1,5 +1,5 @@
 ---
-
+# sal/tasks/user.yml
 - name: create sal group for non-OS X
   sudo: True
   user: name={{ sal_group }}
