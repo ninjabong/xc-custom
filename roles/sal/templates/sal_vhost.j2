@@ -8,6 +8,7 @@ Alias /static/ {{ sal_env_path }}/sal/static/
        WSGIProcessGroup sal
        WSGIApplicationGroup %{GLOBAL}
        Order deny,allow
+       Require all granted
        Allow from all
 </Directory>
 </VirtualHost>

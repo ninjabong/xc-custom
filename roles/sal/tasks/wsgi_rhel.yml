@@ -1,6 +1,6 @@
 ---
 # sal/tasks/wsgi_rhel.yml
-- name: ensure apache2 and mod_wsgi are installed for RHEL/CentOS
+- name: ensure apache2 and mod_wsgi are installed on RHEL/CentOS
   sudo: True
   yum: name={{ item }}
   with_items:
@@ -9,44 +9,36 @@
     - python-devel
     - mod_wsgi
     - libselinux-python
-  when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
 
-# doesn't work?
-#- name: enable apache2's wsgi module for non-OS X
-#  apache2_module: name=mod_wsgi state=present
-
-- name: copy vhost template for apache2 for RedHat/CentOS
+- name: copy vhost template for apache2 on RedHat/CentOS
   sudo: True
   template: src=sal_vhost.j2
             dest=/etc/httpd/conf.d/sal.conf
             owner=root
-            group=wheel
+            group=root
             mode=0644
-  when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
 
 # comment out <Directory /> lines in:
 # rhel/centos = /etc/httpd/conf/httpd.conf
 
-- name: disable selinux
-  selinux: state=disabled
+- name: check existence of /etc/selinux/config on RedHat/CentOS
+  stat: path=/etc/selinux/config
+  register: selinux_cfg
 
-- name: enable port 80 in firewall
+- name: disable selinux on RedHat/CentOS
+  selinux: state=disabled
+  when: selinux_cfg.stat.exists == True
+
+- name: enable port 80 in firewall on RedHat/CentOS
   sudo: True
   command: firewall-cmd {{ item }}
   with_items: 
     - "--zone=public --add-port=80/tcp --permanent"
     - "--reload"
-  when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
 
-- name: enable and start apache2
+- name: enable and start apache2 on RedHat/CentOS
   sudo: True
   command: systemctl {{ item }} httpd
   with_items:
     - enable
     - start
-  when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
-
-# doesn't work?
-#- name: (re)start apache2 for non-OS X
-#  sudo: True
-#  service: name=httpd state=reloaded
