@@ -6,7 +6,7 @@ some pointers later found [here](https://gist.github.com/mikaellofgren/a5fe3351c
 
 ----------
 
-**requires:**<br />a
+**requires:**<br />
 
 **note:**
 
