@@ -8,15 +8,20 @@ some pointers later found [here](https://gist.github.com/mikaellofgren/a5fe3351c
 
 **supports:**<br />
 
-- OS X (10.8+)
-- RHEL/CentOS7
-
+- OS X 10.8+
+- CentOS 7
+- Ubuntu 14.4
 
 **requires:**<br />
 
-**note:**
 
-it will first prompt for the user's passwd to sudo, and then it will prompt for the sal db admin's password at the start of playbook run.  that is the superuser password for the db used by the sal\_db\_admin locally and for logging into the web interface.
+**notes:**
+
+will first prompt for the user's passwd to sudo, and then it will prompt for the sal db admin's password at the start of playbook run.  the latter is the superuser password for the db used by the sal\_db\_admin locally and for logging into the web interface.
+
+only uses sqlite for db backend at the moment.
+
+it will disable SELinux.
 
 playbook use:<br />
 &nbsp;&nbsp;\- role: sal<br />
