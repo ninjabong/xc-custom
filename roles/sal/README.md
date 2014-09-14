@@ -6,8 +6,7 @@ some pointers later found [here](https://gist.github.com/mikaellofgren/a5fe3351c
 
 ----------
 
-**requires:**<br />
-Passlib : ``sudo pip install Passlib``
+**requires:**<br />a
 
 **note:**
 
@@ -16,8 +15,8 @@ it will first prompt for the user's passwd to sudo, and then it will prompt for 
 playbook use:<br />
 &nbsp;&nbsp;\- role: sal<br />
 &nbsp;&nbsp;&nbsp;&nbsp;\#\# optional:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;\-sal\_user:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;\-sal\_group:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;sal\_user:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;sal\_group:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_admins:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_timezone:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_display\_name:<br />
@@ -27,4 +26,3 @@ playbook use:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_hostname:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_db\_admin:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_db\_email:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;sal\_db\_pass:<br />

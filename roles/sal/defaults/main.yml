@@ -1,5 +1,9 @@
 ---
 # defaults/main.yml
+#host system's sal user and group
+sal_user: saluser
+sal_group: salgroup
+#sal settings.py edits
 sal_admins: "( '{{ ansible_user_id }}' , '{{ ansible_user_id }}@{{ ansible_domain }}' )"
 #sal_timezone: "{{ ansible_date_time.tz }}"
 sal_timezone: "America/New_York"
@@ -10,11 +14,6 @@ sal_secret_key: "ppf%ls0f)mzkf#2dl-nbf^8f&=84py=y^u8^z-f559*d36y_@v"
 sal_env_path: /usr/local/sal_env
 sal_hostname: "sal.{{ ansible_domain }}"
 sal_settings_path: "{{ sal_env_path }}/sal/sal"
-
-# host system's sal user and group
-sal_user: saluser
-sal_group: salgroup
-
 # for django's db admin
 sal_db_admin: "{{ ansible_user_id }}"
 sal_db_email: "{{ ansible_user_id }}@{{ ansible_domain }}"

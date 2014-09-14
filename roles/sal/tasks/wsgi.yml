@@ -25,6 +25,6 @@
             mode=0644
   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
-- name: (re)start apache2 for  for non-OS X
+- name: (re)start apache2 for non-OS X
   sudo: True
   service: name=httpd state=reloaded

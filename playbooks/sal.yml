@@ -2,16 +2,10 @@
 - hosts: all
 
   vars_prompt:
-#    - name: sal_db_admin
-#      prompt: "name for sal's db admin / weblogin"
-#      default: sal
-
     - name: "sal_db_passwd"
       prompt: "passwd for sal's db admin / weblogin"
       private: yes
-#      encrypt: "sha256_crypt"
       confirm: yes
-#      salt_size: 7
 
   roles:
 
