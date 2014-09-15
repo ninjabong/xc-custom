@@ -21,9 +21,9 @@ will first prompt for the user's passwd to sudo, and then it will prompt for the
 
 only uses sqlite for db backend at the moment.
 
-sal\_mysql\_user - mysql user's name (defaults to sal\_db\_admin)
-sal\_mysql\_admin - mysql admin's name
-sal\_mysql\_passwd - mysql admin's passwd
+sal\_mysql\_user - mysql user's name (defaults to sal\_db\_admin)<br />
+sal\_mysql\_admin - mysql admin's name<br />
+sal\_mysql\_passwd - mysql admin's passwd<br />
 
 it will disable SELinux.
 
