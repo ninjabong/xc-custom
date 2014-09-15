@@ -8,12 +8,27 @@
 - include: "user.yml"
   when: ansible_system != "Darwin"
 
-# one task to rule all the OSs
+# unified tasks for all OSs
 - include: "pip.yml"
 
+# tweak sal's settings.py
 - include: "settings.yml"
 
+# virtualenv stuff
 - include: "venv.yml"
+
+# if we're using mysql instead of sqlite for the db
+- include: mysql_osx.yml
+  when: sal_use_mysql == True and ansible_system == "Darwin"
+
+- include: "mysql_deb.yml"
+  when: sal_use_mysql == True and (ansible_distribution == "Debian" or ansible_distribution == "Ubuntu")
+
+- include: "mysql_rhel.yml"
+  when: sal_use_mysql == True and (ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS")
+
+- include: "mysql.yml"
+  when: sal_use_mysql == True
 
 # because each needs it's own individual bits
 - include: "wsgi_osx.yml"

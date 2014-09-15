@@ -1,0 +1,27 @@
+---
+# sal/tasks/mysql_osx.yml
+
+- name: homebrew install mysql and some deps on OS X
+  homebrew: name=mysql
+  with_items:
+
+- name: easy_install pip on OS X
+  sudo: True
+  easy_install: name=pip
+
+- name: pip install mysql-python on OS X
+  sudo: True
+  pip: name=MySQL-python
+
+- name: configure launchd to auto start mysql on OS X
+  sudo: True
+  file: src=/usr/local/opt/mysql/homebrew.mxcl.mysql.plist
+        dest=/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+        state=link
+        owner=root
+        group=wheel
+        mode=0644
+
+- name: start mysql server via launchctl on OS X
+  sudo: True
+  command: /bin/launchctl load /Library/LaunchAgents/homebrew.mxcl.mysql.plist

@@ -21,6 +21,10 @@ will first prompt for the user's passwd to sudo, and then it will prompt for the
 
 only uses sqlite for db backend at the moment.
 
+sal\_mysql\_user - mysql user's name (defaults to sal\_db\_admin)
+sal\_mysql\_admin - mysql admin's name
+sal\_mysql\_passwd - mysql admin's passwd
+
 it will disable SELinux.
 
 playbook use:<br />
@@ -37,3 +41,5 @@ playbook use:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_hostname:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_db\_admin:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;sal\_db\_email:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;sal\_use\_mysql: [True/False] | use mysql instead of sqlite for the db backend<br />
+&nbsp;&nbsp;&nbsp;&nbsp;sal\_db\_name: [string] | name of mysql's db<br />

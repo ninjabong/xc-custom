@@ -14,19 +14,6 @@
        virtualenv={{ sal_env_path }}
        virtualenv_site_packages=yes
 
-#- name: do some stuff in virtualenv as saluser
-#  sudo: True
-#  django_manage: command={{ item }}
-#                 app_path={{ sal_env_path }}/sal
-#                 pythonpath={{ sal_env_path }}/bin/python
-#                 virtualenv={{ sal_env_path }}
-#  with_items:
-#    - "syncdb --noinput"
-#    - "createsuperuser --username {{ sal_db_admin }} --email {{ sal_db_email }} --noinput"
-#    - "changepassword {{ sal_db_admin }}"
-#    - "migrate"
-#    - "collectstatic --noinput"
-
 - name: do some stuff in virtualenv
   sudo: True
   command: "{{ sal_env_path }}/exec python {{ sal_env_path }}/sal/manage.py {{ item }}"
@@ -42,14 +29,17 @@
             owner={{ sal_user }}
             group={{ sal_group }}
             mode=0755
+  when: sal_use_mysql == False
 
 - name: run our one-liner to create db superuser and passwd
   sudo: True
   script: "{{ sal_env_path }}/sal_createsuperuser.sh"
+  when: sal_use_mysql == False
 
 - name: remove our one-liner
   sudo: True
   file: path={{ sal_env_path }}/sal_createsuperuser.sh state=absent
+  when: sal_use_mysql == False
 
 - name: ensure permissions of sal_env
   sudo: True

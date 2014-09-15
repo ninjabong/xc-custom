@@ -7,9 +7,21 @@
       private: yes
       confirm: yes
 
+#    - name: "sal_mysql_admin"
+#      prompt: "username for sal's mysql admin"
+#      private: yes
+#      confirm: yes
+#
+#    - name: "sal_mysql_passwd"
+#      prompt: "passwd for sal's mysql admin"
+#      private: yes
+#      confirm: yes
+
+
   roles:
 
   - role: sal
 #    sal_env_path: /Users/Shared/sal_env
     sal_db_admin: sal
     sal_db_email: sal@sal.sal
+    sal_use_mysql: true

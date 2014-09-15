@@ -1,0 +1,18 @@
+---
+# sal/tasks/mysql_deb.yml
+
+- name: apt-get install mysql and some deps on Debian/Ubuntu
+  sudo: True
+  apt: name={{ item }}
+  with_items:
+    - "mysql-server"
+    - "mysql-client"
+    - "build-dep"
+    - "python-mysqldb"
+
+- name: ensure mysql server starts at boot and is running on Debian/Ubuntu
+  sudo: True
+  command: /sbin/systemctl {{ item }} mysqld
+  with_items:
+    - enable
+    - start

@@ -32,3 +32,22 @@
   lineinfile: dest={{ sal_settings_path }}/settings.py
               regexp="^DISPLAY_NAME"
               line="DISPLAY_NAME = '{{ sal_display_name }}'"
+
+- name: change sal's settings.py to use our mysql settings
+  replace: dest={{ sal_settings_path }}/settings.py
+           regexp={{ item.regex }}
+           replace={{ item.new }}
+  with_items:
+    - { regex: "backends.sqlite3"                       , new: "backends.mysql" }
+    - { regex: "os.path.join(PROJECT_DIR, \'sal.db\')," , new: "\'{{ sal_db_name }}\'," }
+    - { regex: "^\'USER\': \'\'"                        , new: "\'USER\': \'{{ sal_mysql_user }}\'" }
+    - { regex: "^\'PASSWORD\': \'\'"                    , new: "\'USER\': \'{{ sal_mysql_passwd }}\'" }
+  when: sal_use_mysql == True
+
+#'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': 'DATABASENAME',                      # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+#        'USER': 'DATABASEUSER',
+#        'PASSWORD': 'PASSWORD',
+#        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+#        'PORT': '',                      # Set to empty string for default.
