@@ -34,14 +34,15 @@
               line="DISPLAY_NAME = '{{ sal_display_name }}'"
 
 - name: change sal's settings.py to use our mysql settings
+  sudo: True
   replace: dest={{ sal_settings_path }}/settings.py
            regexp={{ item.regex }}
            replace={{ item.new }}
   with_items:
-    - { regex: "backends.sqlite3"                       , new: "backends.mysql" }
-    - { regex: "os.path.join(PROJECT_DIR, \'sal.db\')," , new: "\'{{ sal_db_name }}\'," }
-    - { regex: "^\'USER\': \'\'"                        , new: "\'USER\': \'{{ sal_mysql_user }}\'" }
-    - { regex: "^\'PASSWORD\': \'\'"                    , new: "\'USER\': \'{{ sal_mysql_passwd }}\'" }
+    - { regex: "backends.sqlite3"                     , new: "backends.mysql" }
+    - { regex: "os.path.join(PROJECT_DIR, 'sal.db')," , new: "'{{ sal_db_name }}'," }
+    - { regex: "^'USER': ''"                          , new: "        'USER': '{{ sal_mysql_user }}'" }
+    - { regex: "^'PASSWORD': ''"                      , new: "        'PASSWORD': '{{ sal_mysql_passwd }}'" }
   when: sal_use_mysql == True
 
 #'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.

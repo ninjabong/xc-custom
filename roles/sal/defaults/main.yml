@@ -18,9 +18,9 @@ sal_settings_path: "{{ sal_env_path }}/sal/sal"
 sal_db_admin: "{{ ansible_user_id }}"
 sal_db_email: "{{ ansible_user_id }}@{{ ansible_domain }}"
 sal_db_name: sal
-sal_db_user: {{ sal_db_admin }}
+sal_db_user: "{{ sal_db_admin }}"
 # db backend, false = sqlit (default) / true = mysql
 sal_use_mysql: False
-sal_mysql_admin: {{ sal_db_admin }} #root?
+sal_mysql_admin: "{{ sal_db_admin }}" #root?
 ##sal_mysql_user: {{ sal_db_user }}
 #sal_mysql_passwd:

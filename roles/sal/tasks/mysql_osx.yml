@@ -3,7 +3,6 @@
 
 - name: homebrew install mysql and some deps on OS X
   homebrew: name=mysql
-  with_items:
 
 - name: easy_install pip on OS X
   sudo: True
