@@ -1,5 +1,10 @@
 ---
 # sal/tasks/venv.yml
+- name: pip install virtualenv 1.10.1
+  sudo: True
+  pip: name=virtualenv
+       version=1.10.1
+
 - name: copy virtualenv wrapper
   sudo: True
   template: src=venv_exec.j2
@@ -24,8 +29,8 @@
 
 - name: copy our one-liner to create db superuser and passwd
   sudo: True
-  template: src=createsuperuser.j2
-            dest={{ sal_env_path }}/sal_createsuperuser.sh
+  template: src=sqlite_create_superuser_pass.sh.j2
+            dest={{ sal_env_path }}/sqlite_create_superuser_pass.sh
             owner={{ sal_user }}
             group={{ sal_group }}
             mode=0755
@@ -33,12 +38,12 @@
 
 - name: run our one-liner to create db superuser and passwd
   sudo: True
-  script: "{{ sal_env_path }}/sal_createsuperuser.sh"
+  script: "{{ sal_env_path }}/sqlite_create_superuser_pass.sh"
   when: sal_use_mysql == False
 
 - name: remove our one-liner
   sudo: True
-  file: path={{ sal_env_path }}/sal_createsuperuser.sh state=absent
+  file: path={{ sal_env_path }}/sqlite_create_superuser_pass.sh state=absent
   when: sal_use_mysql == False
 
 - name: ensure permissions of sal_env

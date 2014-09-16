@@ -20,7 +20,7 @@
 
 - name: copy vhost template for apache2 for OS X
   sudo: True
-  template: src=sal_vhost.j2
+  template: src=sal_vhost.conf.j2
             dest=/private/etc/apache2/other/sal.conf
             owner=root
             group=wheel

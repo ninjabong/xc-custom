@@ -1,6 +1,5 @@
 ---
 # sal/tasks/mysql_osx.yml
-
 - name: homebrew install mysql and some deps on OS X
   homebrew: name=mysql
 

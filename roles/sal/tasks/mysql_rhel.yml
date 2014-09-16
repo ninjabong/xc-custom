@@ -1,6 +1,5 @@
 ---
 # sal/tasks/mysql_rhel.yml
-
 - name: yum install mysql and some deps on RHEL/CentOS
   sudo: True
   yum: name={{ item }}
