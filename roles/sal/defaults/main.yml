@@ -22,5 +22,5 @@ sal_db_user: "{{ sal_db_admin }}"
 # db backend, false = sqlit (default) / true = mysql
 sal_use_mysql: False
 sal_mysql_admin: "{{ sal_db_admin }}" #root?
-##sal_mysql_user: {{ sal_db_user }}
-#sal_mysql_passwd:
+sal_mysql_user: "{{ sal_db_user }}"
+sal_mysql_passwd: "{{ sal_db_passwd }}"

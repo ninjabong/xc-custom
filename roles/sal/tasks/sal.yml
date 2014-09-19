@@ -19,7 +19,7 @@
 
 - name: copy sal's settings.py template for sqlite installs
   sudo: True
-  template: src=sal_settings_splite.py.j2
+  template: src=sal_settings_sqlite.py.j2
             dest={{ sal_settings_path }}/settings.py
             owner={{ sal_user }}
             group={{ sal_group }}

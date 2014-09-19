@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "make sure Passlib is uninstalled"
-pip uninstall Passlib -y
+#echo "make sure Passlib is uninstalled"
+#pip uninstall Passlib -y
 
 echo "cleaning up /usr/local/bin/"
 rm -f /usr/local/bin/django-admin.py
