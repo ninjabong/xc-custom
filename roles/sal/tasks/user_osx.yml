@@ -11,4 +11,3 @@
     - '-create /Users/{{ sal_user }} UniqueID "303"'
     - '-create /Users/{{ sal_user }} NFSHomeDirectory {{ sal_env_path }}'
     - '-create /Users/{{ sal_user }} PrimaryGroupID "303"'
-  when: ansible_system == "Darwin"

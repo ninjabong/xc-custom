@@ -19,14 +19,14 @@
 
 
 # if we're using mysql instead of sqlite for the db
-- include: mysql_osx.yml
+- include: "mysql_osx.yml"
   when: sal_use_mysql == True and ansible_system == "Darwin"
 
 - include: "mysql_deb.yml"
-  when: sal_use_mysql == True and (ansible_distribution == "Debian" or ansible_distribution == "Ubuntu")
+  when: sal_use_mysql == True and ansible_os_family == "Debian"
 
 - include: "mysql_rhel.yml"
-  when: sal_use_mysql == True and (ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS")
+  when: sal_use_mysql == True and ansible_os_family == "RedHat"
 
 - include: "mysql.yml"
   when: sal_use_mysql == True
@@ -34,10 +34,10 @@
 
 # because each needs it's own special bits for wsgi
 - include: "wsgi_osx.yml"
-  when: ansible_system == "Darwin"
+  when: ansible_os_family == "Darwin"
 
 - include: "wsgi_deb.yml"
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+  when: ansible_os_family == "Debian"
 
 - include: "wsgi_rhel.yml"
-  when: ansible_distribution == "Red Hat Enterprise Linux" or ansible_distribution == "CentOS"
+  when: ansible_os_family == "RedHat"
