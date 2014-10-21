@@ -15,3 +15,7 @@
   with_items:
     - enable
     - start
+
+- name: mysql_rhel - run mysql_secure_installation
+  sudo: True
+  command: /usr/bin/mysql_secure_installation

@@ -1,10 +1,6 @@
 ---
 # sal/tasks/mysql.yml
-- name: run mysql_secure_installation
-  sudo: True
-  command: /usr/bin/mysql_secure_installation
-
-- name: copy our mysql_setup script to create db superuser and passwd
+- name: mysql - copy our mysql_setup script to create db superuser and passwd
   sudo: True
   template: src=mysql_setup.sh.j2
             dest={{ sal_env_path }}/mysql_setup.sh
@@ -12,10 +8,10 @@
             group={{ sal_group }}
             mode=0755
 
-- name: run our mysql_setup script to create db superuser and passwd
+- name: mysql - run our mysql_setup script to create db superuser and passwd
   sudo: True
   script: "{{ sal_env_path }}/mysql_setup.sh"
 
-- name: remove our mysql_setup script to create db superuser and passwd
+- name: mysql - remove our mysql_setup script to create db superuser and passwd
   sudo: True
   file: path={{ sal_env_path }}/mysql_setup.sh state=absent
