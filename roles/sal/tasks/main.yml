@@ -14,10 +14,6 @@
 # down sal and configure settings.py
 - include: "sal.yml"
 
-# virtualenv stuff
-- include: "venv.yml"
-
-
 # if we're using mysql instead of sqlite for the db
 - include: "mysql_osx.yml"
   when: sal_use_mysql == True and ansible_system == "Darwin"
@@ -30,6 +26,9 @@
 
 - include: "mysql.yml"
   when: sal_use_mysql == True
+
+# virtualenv stuff
+- include: "venv.yml"
 
 
 # because each needs it's own special bits for wsgi
