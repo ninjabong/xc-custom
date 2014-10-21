@@ -1,6 +1,6 @@
 ---
 # sal/tasks/wsgi_deb.yml
-- name: ensure apache2 and mod_wsgi are installed on Debian/Ubuntu
+- name: wsgi_deb - ensure apache2 and mod_wsgi are installed on Debian/Ubuntu
   sudo: True
   apt: name={{ item }}
   with_items:
@@ -10,7 +10,7 @@
     - libapache2-mod-wsgi
     - python-selinux
 
-- name: copy vhost template for apache2 on Debian/Ubuntu
+- name: wsgi_deb - copy vhost template for apache2 on Debian/Ubuntu
   sudo: True
   template: src=sal_vhost.conf.j2
             dest="/etc/apache2/sites-available/sal.conf"
@@ -18,20 +18,20 @@
             group=root
             mode=0644
 
-- name: check existence of /etc/selinux/config on Debian/Ubuntu
+- name: wsgi_deb - check existence of /etc/selinux/config on Debian/Ubuntu
   stat: path=/etc/selinux/config
   register: selinux_cfg
 
-- name: disable selinux on Debian/Ubuntu
+- name: wsgi_deb - disable selinux on Debian/Ubuntu
   selinux: state=disabled
   when: selinux_cfg.stat.exists == True
 
-- name: disable 000-default.conf for apache2 on Debian/Ubuntu
+- name: wsgi_deb - disable 000-default.conf for apache2 on Debian/Ubuntu
   sudo: True
   file: path=/etc/apache2/sites-enabled/000-default.conf
         state=absent
 
-- name: enable sal.conf for apache2 on Debian/Ubuntu
+- name: wsgi_deb - enable sal.conf for apache2 on Debian/Ubuntu
   sudo: True
   file: src=/etc/apache2/sites-available/sal.conf
         dest=/etc/apache2/sites-enabled/sal.conf
@@ -39,6 +39,6 @@
         owner=root
         group=root
 
-- name: (re)start apache2 for Debian/Ubuntu
+- name: wsgi_deb - (re)start apache2 for Debian/Ubuntu
   sudo: True
   service: name=apache2 state=reloaded

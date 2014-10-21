@@ -1,18 +1,9 @@
 ---
 # sal/tasks/mysql_osx.yml
-- name: homebrew install mysql and some deps on OS X
+- name: mysql_osx - homebrew install mysql and some deps on OS X
   homebrew: name=mysql
 
-- name: easy_install pip on OS X
-  sudo: True
-  easy_install: name=pip
-
-- name: pip install MySQL-python in virtualenv if needed on OS X
-  sudo: True
-  pip: name=MySQL-python
-       virtualenv={{ sal_env_path }}
-
-- name: configure launchd to auto start mysql on OS X
+- name: mysql_osx - configure launchd to auto start mysql on OS X
   sudo: True
   file: src=/usr/local/opt/mysql/homebrew.mxcl.mysql.plist
         dest=/Library/LaunchAgents/homebrew.mxcl.mysql.plist
@@ -21,7 +12,7 @@
         group=wheel
         mode=0644
 
-- name: ensure permissions of sal_env
+- name: mysql_osx - ensure permissions of sal_env
   sudo: True
   file: path={{ sal_env_path }}
         owner={{ sal_user }}
@@ -29,6 +20,6 @@
         state=directory
         recurse=yes
 
-- name: start mysql server via launchctl on OS X
+- name: mysql_osx - start mysql server via launchctl on OS X
   sudo: True
   command: /bin/launchctl load /Library/LaunchAgents/homebrew.mxcl.mysql.plist

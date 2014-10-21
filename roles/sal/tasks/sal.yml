@@ -1,23 +1,23 @@
 ---
 # sal/tasks/sal.yml
-- name: git clone sal
+- name: sal - git clone sal
   sudo: True
   git: repo=https://github.com/grahamgilbert/sal.git
        dest={{ sal_env_path }}/sal
 
-- name: configure sal.wsgi if not installing to /usr/local/sal_env
+- name: sal - configure sal.wsgi if not installing to /usr/local/sal_env
   sudo: True
   lineinfile: dest={{ sal_env_path }}/sal/sal.wsgi
               regexp="^SAL_ENV_DIR"
               line="SAL_ENV_DIR = '{{ sal_env_path }}'"
   when: sal_env_path != '/usr/local/sal_env'
 
-- name: copy example_settings.py
+- name: sal - copy example_settings.py
   sudo: True
   copy: src={{ sal_settings_path }}/example_settings.py
         dest={{ sal_settings_path }}/settings.py
 
-- name: copy sal's settings.py template for sqlite installs
+- name: sal - copy sal's settings.py template for sqlite installs
   sudo: True
   template: src=sal_settings_sqlite.py.j2
             dest={{ sal_settings_path }}/settings.py
@@ -26,7 +26,7 @@
             mode=0644
   when: sal_use_mysql == False
 
-- name: copy sal's settings.py template for mysql installs
+- name: sal - copy sal's settings.py template for mysql installs
   sudo: True
   template: src=sal_settings_mysql.py.j2
             dest={{ sal_settings_path }}/settings.py

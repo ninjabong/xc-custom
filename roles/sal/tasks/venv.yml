@@ -1,11 +1,15 @@
 ---
 # sal/tasks/venv.yml
-- name: pip install virtualenv 1.10.1
+- name: venv - easy_install pip
+  sudo: True
+  easy_install: name=pip
+
+- name: venv - pip install virtualenv 1.10.1
   sudo: True
   pip: name=virtualenv
        version=1.10.1
 
-- name: copy virtualenv wrapper
+- name: venv - copy virtualenv wrapper
   sudo: True
   template: src=venv_exec.j2
             dest={{ sal_env_path }}/exec
@@ -13,13 +17,19 @@
             group={{ sal_group }}
             mode=0755
 
-- name: pip install sal dependencies
+- name: venv - pip install sal dependencies
   sudo: True
   pip: requirements={{ sal_env_path }}/sal/setup/requirements.txt
        virtualenv={{ sal_env_path }}
        virtualenv_site_packages=yes
 
-- name: do some stuff in virtualenv
+- name: venv - pip install MySQL-python in virtualenv if needed
+  sudo: True
+  pip: name=MySQL-python
+       virtualenv={{ sal_env_path }}
+  when: sal_use_mysql == True
+
+- name: venv - do some stuff in virtualenv
   sudo: True
   command: "{{ sal_env_path }}/exec python {{ sal_env_path }}/sal/manage.py {{ item }}"
   with_items:
@@ -27,7 +37,7 @@
     - "migrate"
     - "collectstatic --noinput"
 
-- name: copy our one-liner to create db superuser and passwd
+- name: venv - copy our one-liner to create db superuser and passwd
   sudo: True
   template: src=sqlite_create_superuser_pass.sh.j2
             dest={{ sal_env_path }}/sqlite_create_superuser_pass.sh
@@ -36,17 +46,17 @@
             mode=0755
   when: sal_use_mysql == False
 
-- name: run our one-liner to create db superuser and passwd
+- name: venv - run our one-liner to create db superuser and passwd
   sudo: True
   script: "{{ sal_env_path }}/sqlite_create_superuser_pass.sh"
   when: sal_use_mysql == False
 
-- name: remove our one-liner
+- name: venv - remove our one-liner
   sudo: True
   file: path={{ sal_env_path }}/sqlite_create_superuser_pass.sh state=absent
   when: sal_use_mysql == False
 
-- name: ensure permissions of sal_env
+- name: venv - ensure permissions of sal_env
   sudo: True
   file: path={{ sal_env_path }}
         owner={{ sal_user }}

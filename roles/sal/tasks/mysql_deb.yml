@@ -1,6 +1,6 @@
 ---
 # sal/tasks/mysql_deb.yml
-- name: apt-get install mysql and some deps on Debian/Ubuntu
+- name: mysql_deb - apt-get install mysql and some deps on Debian/Ubuntu
   sudo: True
   apt: name={{ item }}
   with_items:
@@ -9,10 +9,10 @@
     - "build-dep"
     - "python-mysqldb"
 
-- name: ensure mysql server starts at boot and is running on Debian/Ubuntu
+- name: mysql_deb - ensure mysql server starts at boot and is running on Debian/Ubuntu
   sudo: True
   command: /usr/sbin/update-rc.d mysql defaults
 
-- name: (re)start mysql server for Debian/Ubuntu
+- name: mysql_deb - (re)start mysql server for Debian/Ubuntu
   sudo: True
   service: name=mysql state=reloaded

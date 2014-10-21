@@ -1,6 +1,6 @@
 ---
 # sal/tasks/wsgi_rhel.yml
-- name: ensure apache2 and mod_wsgi are installed on RHEL/CentOS
+- name: wsgi_rhel - ensure apache2 and mod_wsgi are installed on RHEL/CentOS
   sudo: True
   yum: name={{ item }}
   with_items:
@@ -10,7 +10,7 @@
     - mod_wsgi
     - libselinux-python
 
-- name: copy vhost template for apache2 on RedHat/CentOS
+- name: wsgi_rhel - copy vhost template for apache2 on RedHat/CentOS
   sudo: True
   template: src=sal_vhost.conf.j2
             dest=/etc/httpd/conf.d/sal.conf
@@ -21,23 +21,23 @@
 # comment out <Directory /> lines in:
 # rhel/centos = /etc/httpd/conf/httpd.conf
 
-- name: check existence of /etc/selinux/config on RedHat/CentOS
+- name: wsgi_rhel - check existence of /etc/selinux/config on RedHat/CentOS
   stat: path=/etc/selinux/config
   register: selinux_cfg
 
-- name: disable selinux on RedHat/CentOS
+- name: wsgi_rhel - disable selinux on RedHat/CentOS
   selinux: state=disabled
   when: selinux_cfg.stat.exists == True
 
-- name: enable port 80/tcp in firewall on RedHat/CentOS
+- name: wsgi_rhel - enable port 80/tcp in firewall on RedHat/CentOS
   sudo: True
   firewalld: zone=public port=80/tcp state=enabled permanent=true
 
-- name: force firewalld --reload on RedHat/CentOS
+- name: wsgi_rhel - force firewalld --reload on RedHat/CentOS
   sudo: True
   command: /usr/bin/firewall-cmd --reload
 
-- name: enable and start apache2 on RedHat/CentOS
+- name: wsgi_rhel - enable and start apache2 on RedHat/CentOS
   sudo: True
   command: systemctl {{ item }} httpd
   with_items:

@@ -1,6 +1,6 @@
 ---
 # sal/tasks/mysql_rhel.yml
-- name: yum install mysql and some deps on RHEL/CentOS
+- name: mysql_rhel - yum install mysql and some deps on RHEL/CentOS
   sudo: True
   yum: name={{ item }}
   with_items:
@@ -9,7 +9,7 @@
     - "mysql-devel"
     - "MySQL-python"
 
-- name: ensure mysql server starts at boot and is running on RHEL/CentOS
+- name: mysql_rhel - ensure mysql server starts at boot and is running on RHEL/CentOS
   sudo: True
   command: /sbin/systemctl {{ item }} mysqld
   with_items:

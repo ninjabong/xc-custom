@@ -1,6 +1,6 @@
 ---
-# sal/tasks/user.yml
-- name: create sal user and group for OS X
+# sal/tasks/user_osx.yml
+- name: user_osx - create sal user and group for OS X
   sudo: True
   command: /usr/bin/dscl . {{ item }}
   with_items:
