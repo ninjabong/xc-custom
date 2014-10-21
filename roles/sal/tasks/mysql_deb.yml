@@ -16,7 +16,3 @@
 - name: mysql_deb - (re)start mysql server for Debian/Ubuntu
   sudo: True
   service: name=mysql state=reloaded
-
-- name: mysql_deb - run mysql_secure_installation
-  sudo: True
-  command: /usr/bin/mysql_secure_installation

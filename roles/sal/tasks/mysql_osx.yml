@@ -22,7 +22,3 @@
 - name: mysql_osx - start mysql server via launchctl on OS X
   sudo: True
   command: /bin/launchctl load /Library/LaunchAgents/homebrew.mxcl.mysql.plist
-
-- name: mysql_osx - run mysql_secure_installation
-  sudo: True
-  command: /usr/local/bin/mysql_secure_installation

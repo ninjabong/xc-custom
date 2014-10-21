@@ -15,3 +15,20 @@
 - name: mysql - remove our mysql_setup script to create db superuser and passwd
   sudo: True
   file: path={{ sal_env_path }}/mysql_setup.sh state=absent
+
+- name: mysql - copy our mysql_secure_installation template
+  sudo: True
+  template: src=mysql_secure_installation.sh.j2
+            dest=/tmp/mysql_secure_installation.sh
+            owner={{ sal_user }}
+            group={{ sal_group }}
+            mode=0644
+
+- name: mysql - run our mysql_secure_installation templated script
+  sudo: True
+  script: /tmp/mysql_secure_installation.sh
+
+- name: mysql - remove our mysql_secure_installation templated script
+  sudo: True
+  file: path=/tmp/mysql_secure_installation.sh
+        state=absent
