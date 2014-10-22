@@ -26,6 +26,26 @@
             group=wheel
             mode=0644
 
+- name: wsgi_osx - check for OS X Server
+  stat: path=/Library/Server/Web/Data/Sites/Default
+  register: is_osx_server
+
+- name: wsgi_osx - symlink {{ repo_path }} to apache2s default DocumentRoot for OS X Client
+  sudo: True
+  file: src={{ repo_path }}
+        dest=/Library/Webserver/Documents/{{ repo_path | basename }}
+        owner=root group=wheel
+        state=link
+  when: is_osx_server.stat.exists == false
+
+- name: wsgi_osx - symlink {{ repo_path }} to apache2s default DocumentRoot for OS X Server
+  sudo: True
+  file: src={{ repo_path }}
+        dest=/Library/Server/Web/Data/Sites/Default/{{ repo_path | basename }}
+        owner=root group=wheel
+        state=link
+  when: is_osx_server.stat.exists == true
+
 - name: wsgi_osx - (re)start apache2 for OS X
   sudo: True
   command: /usr/sbin/apachectl restart
