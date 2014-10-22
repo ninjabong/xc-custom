@@ -1,36 +1,49 @@
 ---
 # sal/tasks/wsgi_osx.yml
-- name: wsgi_osx - pip install mod_wsgi for OS X
+- name: wsgi_osx - check if OS X Client or Server
+  stat: path=/Library/Server/Web/Data/Sites/Default
+  register: is_osx_server
+
+- name: wsgi_osx - pip install mod_wsgi on OS X Client
   sudo: True
   pip: name=mod_wsgi
+  when: is_osx_server.stat.exists == false
 
-- name: wsgi_osx - copy mod_wsgi to apache2 module's dir for OS X
+- name: wsgi_osx - copy mod_wsgi to apache2 module's dir on OS X Client
   sudo: True
   copy: src=/Library/Python/2.7/site-packages/mod_wsgi/server/mod_wsgi-py27.so
         dest=/usr/libexec/apache2/mod_wsgi.so
         owner=root
         group=wheel
         mode=0755
+  when: is_osx_server.stat.exists == false
 
-- name: wsgi_osx - enable mod_wsgi module for OS X
+- name: wsgi_osx - enable mod_wsgi module on OS X Client
   sudo: True
   lineinfile: dest=/private/etc/apache2/httpd.conf
               insertafter='LoadModule hfs_apple_module'
               line='LoadModule wsgi_module libexec/apache2/mod_wsgi.so'
+  when: is_osx_server.stat.exists == false
 
-- name: wsgi_osx - copy vhost template for apache2 for OS X
+- name: wsgi_osx - copy vhost template for apache2 on OS X Client
   sudo: True
-  template: src=sal_vhost.conf.j2
+  template: src=sal_vhost.conf.client.j2
             dest=/private/etc/apache2/other/sal.conf
             owner=root
             group=wheel
             mode=0644
+  when: is_osx_server.stat.exists == false
 
-- name: wsgi_osx - check for OS X Server
-  stat: path=/Library/Server/Web/Data/Sites/Default
-  register: is_osx_server
+- name: wsgi_osx - copy vhost template for apache2 on OS X Server
+  sudo: True
+  template: src=sal_vhost.conf.server.j2
+            dest=/Library/Server/Web/Config/apache2/other
+            owner=root
+            group=wheel
+            mode=0644
+  when: is_osx_server.stat.exists == true
 
-- name: wsgi_osx - symlink {{ repo_path }} to apache2s default DocumentRoot for OS X Client
+- name: wsgi_osx - symlink {{ repo_path }} to apache2s default DocumentRoot on OS X Client
   sudo: True
   file: src={{ repo_path }}
         dest=/Library/Webserver/Documents/{{ repo_path | basename }}
@@ -38,7 +51,7 @@
         state=link
   when: is_osx_server.stat.exists == false
 
-- name: wsgi_osx - symlink {{ repo_path }} to apache2s default DocumentRoot for OS X Server
+- name: wsgi_osx - symlink {{ repo_path }} to apache2s default DocumentRoot on OS X Server
   sudo: True
   file: src={{ repo_path }}
         dest=/Library/Server/Web/Data/Sites/Default/{{ repo_path | basename }}
@@ -46,6 +59,6 @@
         state=link
   when: is_osx_server.stat.exists == true
 
-- name: wsgi_osx - (re)start apache2 for OS X
+- name: wsgi_osx - (re)start apache2 on OS X
   sudo: True
   command: /usr/sbin/apachectl restart
