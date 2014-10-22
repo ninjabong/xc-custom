@@ -25,6 +25,6 @@ sal_mysql_admin: "{{ sal_db_admin }}" #root?
 sal_mysql_user: "{{ sal_db_user }}"
 sal_mysql_passwd: "{{ sal_db_passwd }}"
 sal_mysql_secure_cmd: 'mysql -u root -p"{{ sal_mysql_passwd }}"'
-sal_mysql_setup_cmd: "mysql -u {{ sal_mysql_admin }} -p'{{ sal_mysql_passwd }}' -h127.0.0.1"
+sal_mysql_setup_cmd: "mysql -u {{ sal_mysql_admin }} -p'{{ sal_mysql_passwd }}'"
 # for mysql_osx
 sal_launchagent_path: "~{{ ansible_user_id }}/Library/LaunchAgents/homebrew.percona-server.plist"
