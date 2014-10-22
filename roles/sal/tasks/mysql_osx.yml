@@ -21,5 +21,4 @@
         recurse=yes
 
 - name: mysql_osx - start mysql server via launchctl on OS X
-  sudo: True
   command: /bin/launchctl load {{ sal_launchagent_path }}
