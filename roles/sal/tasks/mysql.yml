@@ -21,7 +21,7 @@
             dest={{ sal_env_path }}/mysql_setup.sh
             owner={{ sal_user }}
             group={{ sal_group }}
-            mode=0755
+            mode=0644
 
 - name: mysql - run our mysql_setup script to create db superuser and passwd
   sudo: True

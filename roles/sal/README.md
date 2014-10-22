@@ -19,7 +19,7 @@ some pointers later found [here](https://gist.github.com/mikaellofgren/a5fe3351c
 
 will first prompt for the user's passwd to sudo, and then it will prompt for the sal db admin's password at the start of playbook run.  the latter is the superuser password for the db used by the sal\_db\_admin locally and for logging into the web interface.
 
-only uses sqlite for db backend at the moment.
+will use sqlite for db backend as default.
 
 sal\_mysql\_user - mysql user's name (defaults to sal\_db\_admin)<br />
 sal\_mysql\_admin - mysql admin's name<br />
