@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-mysqladmin -u root password {{ sal_mysql_passwd }}
-echo "UPDATE mysql.user SET Password=PASSWORD('{{ sal_mysql_passwd }}') WHERE User='root'" | {{ sal_mysql_cmd }}
-echo "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')" | {{ sal_mysql_cmd }}
-echo "DELETE FROM mysql.user WHERE User=''" | {{ sal_mysql_cmd }}
-echo "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'" | {{ sal_mysql_cmd }}
-echo "FLUSH PRIVILEGES" | {{ sal_mysql_cmd }}
+mysqladmin -h127.0.0.1 -u root password {{ sal_mysql_passwd }}
+echo "UPDATE mysql.user SET Password=PASSWORD('{{ sal_mysql_passwd }}') WHERE User='root'" | {{ sal_mysql_secure_cmd }}
+echo "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')" | {{ sal_mysql_secure_cmd }}
+echo "DELETE FROM mysql.user WHERE User=''" | {{ sal_mysql_secure_cmd }}
+echo "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'" | {{ sal_mysql_secure_cmd }}
+echo "FLUSH PRIVILEGES" | {{ sal_mysql_secure_cmd }}

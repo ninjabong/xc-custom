@@ -4,8 +4,6 @@
   sudo: True
   template: src=mysql_secure_installation.sh.j2
             dest=/tmp/mysql_secure_installation.sh
-            owner={{ sal_user }}
-            group={{ sal_group }}
             mode=0644
 
 - name: mysql - run our mysql_secure_installation templated script

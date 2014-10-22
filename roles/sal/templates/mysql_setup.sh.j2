@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "CREATE DATABASE {{ sal_db_name }};" | mysql -u {{ sal_mysql_admin }} -p '{{ sal_mysql_passwd }}'
-echo "CREATE USER '{{ sal_db_user }}'@'localhost' IDENTIFIED BY '{{ sal_db_passwd }}';" | mysql -u {{ sal_mysql_admin }} -p '{{ sal_mysql_passwd }}'
-echo "GRANT ALL PRIVILEGES ON {{ sal_db_name }}.* TO '{{ sal_db_user }}'@'localhost';" | mysql -u {{ sal_mysql_admin }} -p '{{ sal_mysql_passwd }}'
-echo "FLUSH PRIVILEGES;" | mysql -u {{ sal_mysql_admin }} -p '{{ sal_mysql_passwd }}'
+echo "CREATE DATABASE {{ sal_db_name }};" | {{ sal_mysql_setup_cmd }}
+echo "CREATE USER '{{ sal_db_user }}'@'localhost' IDENTIFIED BY '{{ sal_db_passwd }}';" | {{ sal_mysql_setup_cmd }}
+echo "GRANT ALL PRIVILEGES ON {{ sal_db_name }}.* TO '{{ sal_db_user }}'@'localhost';" | {{ sal_mysql_setup_cmd }}
+echo "FLUSH PRIVILEGES;" | {{ sal_mysql_setup_cmd }}
