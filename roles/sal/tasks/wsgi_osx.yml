@@ -43,22 +43,33 @@
             mode=0644
   when: is_osx_server.stat.exists == true
 
-- name: wsgi_osx - symlink {{ repo_path }} to apache2s default DocumentRoot on OS X Client
+- name: wsgi_osx - symlink {{ sal_env_path }} to apache2s default DocumentRoot on OS X Client
   sudo: True
-  file: src={{ repo_path }}
-        dest=/Library/Webserver/Documents/{{ repo_path | basename }}
+  file: src={{ sal_env_path }}
+        dest=/Library/Webserver/Documents/{{ sal_env_path | basename }}
         owner=root group=wheel
         state=link
   when: is_osx_server.stat.exists == false
 
-- name: wsgi_osx - symlink {{ repo_path }} to apache2s default DocumentRoot on OS X Server
+- name: wsgi_osx - symlink {{ sal_env_path }} to apache2s default DocumentRoot on OS X Server
   sudo: True
-  file: src={{ repo_path }}
-        dest=/Library/Server/Web/Data/Sites/Default/{{ repo_path | basename }}
+  file: src={{ sal_env_path }}
+        dest=/Library/Server/Web/Data/Sites/Default/{{ sal_env_path | basename }}
         owner=root group=wheel
         state=link
   when: is_osx_server.stat.exists == true
 
-- name: wsgi_osx - (re)start apache2 on OS X
+- name: wsgi_osx - (re)start apache2 on OS X Client
   sudo: True
   command: /usr/sbin/apachectl restart
+  when: is_osx_server.stat.exists == false
+
+- name: wsgi_osx - stop apache2 on OS X Server
+  sudo: True
+  command: /Applications/Server.app/Contents/ServerRoot/usr/sbin/serveradmin stop web
+  when: is_osx_server.stat.exists == true
+
+- name: wsgi_osx - start apache2 on OS X Server
+  sudo: True
+  command: /Applications/Server.app/Contents/ServerRoot/usr/sbin/serveradmin start web
+  when: is_osx_server.stat.exists == true
