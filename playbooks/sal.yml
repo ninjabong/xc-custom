@@ -2,11 +2,6 @@
 - hosts: all
 
   vars_prompt:
-    - name: "sal_db_passwd"
-      prompt: "passwd for sal's db admin / weblogin"
-      private: yes
-      confirm: yes
-
 #    - name: "sal_mysql_admin"
 #      prompt: "username for sal's mysql admin"
 #      private: yes
@@ -17,11 +12,15 @@
 #      private: yes
 #      confirm: yes
 
+    - name: "sal_db_passwd"
+      prompt: "passwd for sal's db admin / weblogin"
+      private: yes
+      confirm: yes
 
   roles:
 
   - role: sal
-#    sal_env_path: /Users/Shared/sal_env
+    sal_env_path: /Users/Shared/sal_env
     sal_db_admin: sal
     sal_db_email: sal@sal.sal
     sal_use_mysql: true

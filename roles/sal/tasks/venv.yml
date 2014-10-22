@@ -63,4 +63,3 @@
         group={{ sal_group }}
         state=directory
         recurse=yes
-  when: sal_use_mysql == False
