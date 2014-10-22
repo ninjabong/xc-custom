@@ -6,9 +6,9 @@
 - name: mysql_osx - configure launchd to auto start mysql on OS X
   sudo: True
   copy: src=/usr/local/opt/mysql/homebrew.mxcl.mysql.plist
-        dest=/Library/LaunchAgents/homebrew.mxcl.mysql.plist
-        owner=root
-        group=wheel
+        dest={{ sal_launchagent_path }}
+        owner={{ ansible_user_id }}
+        group=staff
         mode=0644
 
 - name: mysql_osx - ensure permissions of sal_env
@@ -21,4 +21,4 @@
 
 - name: mysql_osx - start mysql server via launchctl on OS X
   sudo: True
-  command: /bin/launchctl load /Library/LaunchAgents/homebrew.mxcl.mysql.plist
+  command: /bin/launchctl load {{ sal_launchagent_path }}
