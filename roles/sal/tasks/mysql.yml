@@ -1,5 +1,12 @@
 ---
 # sal/tasks/mysql.yml
+- name: mysql - copy our my.cnf template
+  template: src=my.cnf
+            dest=~{{ ansible_user_id }}/.my.cnf
+            owner={{ ansible_user_id }}
+            group=staff
+            mode=0644
+
 - name: mysql - copy our mysql_secure_installation template
   sudo: True
   template: src=mysql_secure_installation.sh.j2

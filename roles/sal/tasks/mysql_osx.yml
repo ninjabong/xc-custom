@@ -1,25 +1,13 @@
 ---
 # sal/tasks/mysql_osx.yml
-- name: mysql_osx - homebrew install mysql and some deps on OS X
-#  homebrew: name=mysql
-# mysql is a mess of permissions?
+# mysql is a permissions mess, percona "just works"
+- name: mysql_osx - homebrew install percona mysql server and some deps on OS X
   homebrew: name=percona-server
-
-#- name: mysql_osx - fix permissions for mysql dir
-#  sudo: True
-#  file: path=/usr/local/var/mysql
-#        owner=mysql
-#        group=staff
-#        state=directory
-#        mode=0775
-#        recurse=yes
 
 - name: mysql_osx - configure launchd to auto start mysql on OS X
   sudo: True
-#  copy: src=/usr/local/opt/mysql/homebrew.mxcl.mysql.plist
   copy: src=/usr/local/opt/percona-server/homebrew.mxcl.percona-server.plist
         dest={{ sal_launchagent_path }}
-        state=link
         owner={{ ansible_user_id }}
         group=staff
         mode=0755
