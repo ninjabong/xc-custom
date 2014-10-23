@@ -8,12 +8,8 @@
 - include: "user.yml"
   when: ansible_system != "Darwin"
 
-
-# unified tasks for all OSs
-
 # down sal and configure settings.py
 - include: "sal.yml"
-
 
 # if we're using mysql instead of sqlite for the db
 - include: "mysql_osx.yml"

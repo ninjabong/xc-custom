@@ -37,19 +37,17 @@
     - "migrate"
     - "collectstatic --noinput"
 
-- name: venv - copy our one-liner to create db superuser and passwd
+- name: venv - copy our one-liner to create sqlite db superuser and passwd
   sudo: True
-  template: src=sqlite_create_superuser_pass.sh.j2
-            dest={{ sal_env_path }}/sqlite_create_superuser_pass.sh
+  template: src=django_create_superuser_pass.sh.j2
+            dest={{ sal_env_path }}/django_create_superuser_pass.sh
             owner={{ sal_user }}
             group={{ sal_group }}
             mode=0755
-  when: sal_use_mysql == False
 
 - name: venv - run our one-liner to create db superuser and passwd
   sudo: True
-  script: "{{ sal_env_path }}/sqlite_create_superuser_pass.sh"
-  when: sal_use_mysql == False
+  script: "{{ sal_env_path }}/django_create_superuser_pass.sh"
 
 - name: venv - remove our one-liner
   sudo: True

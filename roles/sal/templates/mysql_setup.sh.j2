@@ -5,5 +5,4 @@
 {{ sal_mysql_setup_cmd }} -e "CREATE USER '{{ sal_db_user }}'@'localhost' IDENTIFIED BY '{{ sal_db_passwd }}';"
 {{ sal_mysql_setup_cmd }} -e "GRANT ALL PRIVILEGES ON {{ sal_db_name }}.* TO '{{ sal_db_user }}'@'localhost';"
 {{ sal_mysql_setup_cmd }} -e "FLUSH PRIVILEGES;"
-{{ sal_mysql_setup_cmd }} -e "USE sal;"
-{{ sal_mysql_setup_cmd }} -e "INSERT INTO auth_user (username, email, password, is_superuser, is_staff, is_active) VALUES ('sal','sal@sal.sal',SHA2('{{ sal_db_passwd }}', 256), 1, 1, 1);"
+
