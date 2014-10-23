@@ -37,7 +37,7 @@
 - name: wsgi_osx - copy vhost template for apache2 on OS X Server
   sudo: True
   template: src=sal_vhost.conf.server.j2
-            dest=/Library/Server/Web/Config/apache2/other
+            dest=/Library/Server/Web/Config/apache2/other/sal.conf
             owner=root
             group=wheel
             mode=0644
