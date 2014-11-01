@@ -4,6 +4,13 @@
 - name: mysql_osx - homebrew install percona mysql server and some deps on OS X
   homebrew: name=percona-server
 
+- name: mysql_osx - ensure ~/Library/LaunchAgents exists
+  file: path=~/Library/LaunchAgents
+        owner={{ ansible_user_id }}
+        group=staff
+        mode=0755
+        state=directory
+
 - name: mysql_osx - configure launchd to auto start mysql on OS X
   sudo: True
   copy: src=/usr/local/opt/percona-server/homebrew.mxcl.percona-server.plist

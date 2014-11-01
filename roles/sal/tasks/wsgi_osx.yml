@@ -25,23 +25,28 @@
               line='LoadModule wsgi_module libexec/apache2/mod_wsgi.so'
   when: is_osx_server.stat.exists == false
 
-- name: wsgi_osx - copy vhost template for apache2 on OS X Client
+- name: wsgi_osx - copy vhost template for apache2 on OS X
   sudo: True
-  template: src=sal_vhost.conf.client.j2
+  template: src=sal_vhost.conf.j2
             dest=/private/etc/apache2/other/sal.conf
             owner=root
             group=wheel
             mode=0644
   when: is_osx_server.stat.exists == false
 
-- name: wsgi_osx - copy vhost template for apache2 on OS X Server
+- name: wsgi_osx - fix vhost template for apache2 on OS X Client pre 10.10
   sudo: True
-  template: src=sal_vhost.conf.server.j2
-            dest=/Library/Server/Web/Config/apache2/other/sal.conf
-            owner=root
-            group=wheel
-            mode=0644
-  when: is_osx_server.stat.exists == true
+  lineinfile: dest=/etc/apache2/other/sal.conf
+              state=absent
+              regexp='^       Require all granted'
+  when: "is_osx_server.stat.exists == false and ansible_distribution_version | search('10.[8|9]')"
+
+- name: wsgi_osx - fix vhost template for apache2 on OS X Server pre 10.10
+  sudo: True
+  lineinfile: dest=/Library/Server/Web/Config/apache2/other/sal.conf
+              state=absent
+              regexp='^       Require all granted'
+  when: "is_osx_server.stat.exists == false and ansible_distribution_version | search('10.[8|9]')"
 
 - name: wsgi_osx - symlink {{ sal_env_path }} to apache2s default DocumentRoot on OS X Client
   sudo: True
