@@ -1,0 +1,24 @@
+---
+# figlet_append/tasks/main.yml
+
+- name: ensure figlet is installed on Debian
+  apt: name=figlet state=latest
+  when: ansible_os_family == "Debian"
+
+- name: ensure figlet is installed on RedHat
+  yum: name=figlet state=latest
+  when: ansible_os_family == "RedHat"
+
+- name: ensure figlet is installed on OS X
+  homebrew: name=figlet state=latest
+  when: ansible_system == "Darwin"
+
+- name: append figlet'd hostname to {{ figlet_outputfile }}
+  sudo: True
+  command: "figlet -w {{ figlet_width }} -f {{ figlet_font }} {{ figlet_string }} >> {{ figlet_outputfile }}"
+  when: figlet_center == False
+
+- name: append figlet'd hostname to {{ figlet_outputfil }}
+  sudo: True
+  command: "figlet -c -w {{ figlet_width }} -f {{ figlet_font }} {{ figlet_string }} >> {{ figlet_outputfile }}"
+  when: figlet_center == True

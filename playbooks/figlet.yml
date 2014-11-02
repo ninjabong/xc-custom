@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+
+  roles:
+  - role: figlet_motd
+    figlet_center: "False"
+    figlet_font: "slant"
+	figlet_outputfile: "/etc/motd"
+    figlet_string: "{{ ansible_hostname }}"
+    figlet_width: "80"
+
