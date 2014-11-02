@@ -2,10 +2,11 @@
 - hosts: all
   roles:
 
-  - role: googlefonts
-    fonts:
-      - inconsolata
-      - sourcecodepro
+  - role: cask_package
+    tap: caskroom/fonts
+    packages:
+      - font-inconsolata
+      - font-source-code-pro
 
   # install some Terminal.app prefs
   - role: terminal_prefs
