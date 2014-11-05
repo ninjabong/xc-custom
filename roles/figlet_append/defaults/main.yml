@@ -1,7 +1,7 @@
 ---
 # figlet_append/defaults/main.yml
 figlet_center: "False"
-figlet_font: "slant"
+figlet_font: "smslant"
 figlet_outputfile: "/etc/motd"
 figlet_string: "{{ ansible_hostname }}"
 figlet_width: "80"

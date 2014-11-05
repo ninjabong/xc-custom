@@ -27,7 +27,7 @@ simply appends figlet'd output to a file
   - role: figlet_motd
     ## optional
     figlet_center: [boolean]           # centered text, default is false
-    figlet_font: [figlet font]         # figlet font, default is slant
+    figlet_font: [figlet font]         # figlet font, default is smslant
     figlet_outputfile: [/path/to/file] # file to append output, default is /etc/motd
     figlet_string: [foo]               # string to figlet, default is ansible_hostname
     figlet_width: [##]                 # output width of figlet, default is 80

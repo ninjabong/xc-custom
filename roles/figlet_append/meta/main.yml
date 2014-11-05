@@ -2,3 +2,4 @@
 # figlet_append/meta/main.yml
 dependencies:
   - role: homebrew
+    when: ansible_system == "Darwin"
