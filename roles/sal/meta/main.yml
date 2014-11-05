@@ -1,3 +1,4 @@
 ---
 dependencies:
   - role: homebrew
+    when: ansible_system == "Darwin"

@@ -12,11 +12,6 @@
               line="SAL_ENV_DIR = '{{ sal_env_path }}'"
   when: sal_env_path != '/usr/local/sal_env'
 
-- name: sal - copy example_settings.py
-  sudo: True
-  copy: src={{ sal_settings_path }}/example_settings.py
-        dest={{ sal_settings_path }}/settings.py
-
 - name: sal - copy sal's settings.py template for sqlite installs
   sudo: True
   template: src=sal_settings_sqlite.py.j2
