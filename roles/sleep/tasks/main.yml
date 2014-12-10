@@ -37,4 +37,6 @@
     - { pmset: 'acwake {{ wake_on_ac }}' }
 # slightly turn down display brightness when switching to this power source (value = 0/1)
     - { pmset: 'lessbright {{ lower_brightness }}' }
+# disable caching filevault key in RAM during sleep (value = 0/1)
+    - { pmset: 'destroyfvkeyonstandby {{ destroy_fv_key }}' }
   when: "ansible_model | search('Book')"

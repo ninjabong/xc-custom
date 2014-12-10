@@ -25,3 +25,4 @@ playbook use:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;wake\_on\_lid: \[0|1\]<br />
 &nbsp;&nbsp;&nbsp;&nbsp;wake\_on\_ac: \[0|1\]<br />
 &nbsp;&nbsp;&nbsp;&nbsp;lower\_brightness: \[0|1\]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;destroy\_fv\_key: \[0|1\]<br />
