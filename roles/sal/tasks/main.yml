@@ -1,38 +1,40 @@
 ---
 # sal/tasks/main.yml
+- hosts: all
+  gather_facts: True
+  tasks:
+  - name: Group hosts dynamically by OS
+    group_by: key={{ ansible_os_family }}
 
-# because user module doesn't work on osx
-- include: "user_osx.yml"
-  when: ansible_system == "Darwin"
+- hosts: Darwin
+  gather_facts: False
+  - include: "user_osx.yml"
+  - include: "sal.yml"
+  - include: "mysql_osx.yml"
+    when: sal_use_mysql == True
+  - include: "mysql.yml"
+    when: sal_use_mysql == True
+  - include: "venv.yml"
+  - include: "wsgi_osx.yml"
 
-- include: "user.yml"
-  when: ansible_system != "Darwin"
+- hosts: Debian
+  gather_facts: False
+  - include: "user.yml"
+  - include: "sal.yml"
+  - include: "mysql_deb.yml"
+    when: sal_use_mysql == True
+  - include: "mysql.yml"
+    when: sal_use_mysql == True
+  - include: "venv.yml"
+  - include: "wsgi_deb.yml"
 
-# down sal and configure settings.py
-- include: "sal.yml"
-
-# if we're using mysql instead of sqlite for the db
-- include: "mysql_osx.yml"
-  when: sal_use_mysql == True and ansible_system == "Darwin"
-
-- include: "mysql_deb.yml"
-  when: sal_use_mysql == True and ansible_os_family == "Debian"
-
-- include: "mysql_rhel.yml"
-  when: sal_use_mysql == True and ansible_os_family == "RedHat"
-
-- include: "mysql.yml"
-  when: sal_use_mysql == True
-
-# virtualenv stuff
-- include: "venv.yml"
-
-# because each needs it's own special bits for wsgi
-- include: "wsgi_osx.yml"
-  when: ansible_os_family == "Darwin"
-
-- include: "wsgi_deb.yml"
-  when: ansible_os_family == "Debian"
-
-- include: "wsgi_rhel.yml"
-  when: ansible_os_family == "RedHat"
+- hosts: RedHat
+  gather_facts: False
+  - include: "user.yml"
+  - include: "sal.yml"
+  - include: "mysql_rhel.yml"
+    when: sal_use_mysql == True
+  - include: "mysql.yml"
+    when: sal_use_mysql == True
+  - include: "venv.yml"
+  - include: "wsgi_rhel.yml"

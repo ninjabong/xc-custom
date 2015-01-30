@@ -1,0 +1,15 @@
+---
+# sal/tasks/prereqs_deb.yml
+
+- name: update apt if cache > 1hr and upgrade everything
+  sudo: True
+  apt: update_cache=yes cache_valid_time=3600 upgrade=yes
+  when: ansible_os_family == "Debian"
+
+- name: install libffi-dev and python-setuptools
+  sudo: True
+  apt: "name={{ item }}"
+  with_items:
+    - libffi-devel
+    - python-setuptools
+  when: ansible_os_family == "Debian"

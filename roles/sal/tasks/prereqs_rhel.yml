@@ -1,0 +1,15 @@
+---
+# sal/tasks/prereqs_rhel.yml
+
+- name: install the 'Development tools' package group
+  sudo: True
+  yum: name="@Development tools"
+  when: ansible_os_family == "RedHat"
+
+- name: install libffi and openssl development libraries
+  sudo: True
+  yum: "name={{ item }} "
+  with_items:
+    - libffi-devel
+    - openssl-devel
+  when: ansible_os_family == "RedHat"
