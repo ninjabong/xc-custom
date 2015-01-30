@@ -16,6 +16,8 @@
     - { pref: 'setallowpowerbuttontosleepcomputer {{ button_sleep }}' }
 # Should we listen for WoL
     - { pref: 'setwakeonnetworkaccess {{ wake_on_lan }}' }
+# disable caching filevault key in RAM during sleep (value = 0/1)
+    - { pmset: 'destroyfvkeyonstandby {{ destroy_fv_key }}' }
 
 # test if we're actually a laptop by the presence of "Book" in ansible_model (Model Identifier)
 - name: set various sleep options on battery power
