@@ -20,6 +20,7 @@
 - hosts: Debian
   gather_facts: False
   - include: "user.yml"
+  - include: prereqs_deb.yml
   - include: "sal.yml"
   - include: "mysql_deb.yml"
     when: sal_use_mysql == True
@@ -31,6 +32,7 @@
 - hosts: RedHat
   gather_facts: False
   - include: "user.yml"
+  - include: prereqs_rhel.yml
   - include: "sal.yml"
   - include: "mysql_rhel.yml"
     when: sal_use_mysql == True
